@@ -50,13 +50,20 @@ class LocationController extends Controller
     public function show(Location $location)
     {
         $character = Character::find(session('char_id'));
-        $location = Location::find($character->location_id);
-        $name = Name::where('location_id', $location->id)->where('owner_id', $character->id)->first();
-        if($name)
-            $priv_name = $name->title;
-        else
-            $priv_name = "unknown";
-        return view('location.show')->with(["location" => $location, "title" => $priv_name]);
+        if($character->progress_id == null)
+        {
+            $location = Location::find($character->location_id);
+            $name = Name::where('location_id', $location->id)->where('owner_id', $character->id)->first();
+            if($name)
+                $priv_name = $name->title;
+            else
+                $priv_name = "unknown";
+            return view('location.show')->with(["location" => $location, "title" => $priv_name]);
+        }
+        elseif($character->progress->type == 'travel')
+        {
+            return redirect()->route('navigation.travel');
+        }
     }
 
     /**

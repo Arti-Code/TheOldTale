@@ -32,6 +32,11 @@ class RouteController extends Controller
             $location = Location::find($character->location_id);
             $results = Route::where('location_id', $location->id)->get();
             $start_name = Name::where('location_id', $location->id)->where('owner_id', $character->id)->first();
+            if(!$start_name)
+            {
+                $start_name = new Name;
+                $start_name->title = "land with no name";
+            }
             $i = 0;
             foreach ($results as $result)
             {
@@ -39,6 +44,11 @@ class RouteController extends Controller
                 $routes[$i]['start_id'] = $result->location_id;
                 $routes[$i]['finish_id'] = $result->finish_id;
                 $finish_name = Name::where('owner_id', $character->id)->where('location_id', $result->finish_id)->first();
+                if(!$finish_name)
+                {
+                    $finish_name = new Name;
+                    $finish_name->title = "land with no name";
+                }
                 $finish_loc = Location::where('id', $result->finish_id)->first();
                 $routes[$i]['finish'] = $finish_name->title;
                 $routes[$i]['type'] = $finish_loc->type;
@@ -54,24 +64,7 @@ class RouteController extends Controller
         {
             if($progress->type == 'travel')
             {
-                $route = Route::find($progress->target_id);
-                $start_name = Name::where('location_id', $route->location_id)->where('owner_id', $character->id)->first();
-                $finish_name = Name::where('location_id', $route->finish_id)->where('owner_id', $character->id)->first();
-                if(!$start_name)
-                {
-                    $start_name = new Name;
-                    $start_name->title = 'land with no name';
-                    $start_name->location_id = $route->location_id;
-                }
-                if(!$finish_name)
-                {
-                    $finish_name = new Name;
-                    $finish_name->title = 'land with no name';
-                    $finish_name->location_id = $route->finish_id;
-                }
-                $percent = round(($progress->act / $progress->max) * 100);
-                $travel = ['start_id' => $start_name->location_id, 'start_name' => $start_name->title, 'finish_id' => $finish_name->location_id, 'finish_name' => $finish_name->title, 'progress' => $percent];
-                return view('navigation.travel')->with($travel);
+                return redirect()->route('navigation.travel');
             }
         }
     }
@@ -164,7 +157,35 @@ class RouteController extends Controller
         $progress->save();
         $character->progress_id = $progress->id;
         $character->save();
-        return view('navigation.travel');
+        return redirect()->route('navigation.travel');
+    }
+
+    public function travel()
+    {
+        if(!Auth::check())
+            return redirect()->route('home')->with('danger', 'Authentication error. You must login.');
+        if(!session('char_id'))
+            return redirect()->route('character.index')->with('warning', 'Character is not selected.');
+        $character = Character::find(session('char_id'));
+        $progress = Progress::find($character->progress_id);
+        $route = Route::find($progress->target_id);
+        $start_name = Name::where('location_id', $route->location_id)->where('owner_id', $character->id)->first();
+        $finish_name = Name::where('location_id', $route->finish_id)->where('owner_id', $character->id)->first();
+        if(!$start_name)
+        {
+            $start_name = new Name;
+            $start_name->title = 'land with no name';
+            $start_name->location_id = $route->location_id;
+        }
+        if(!$finish_name)
+        {
+            $finish_name = new Name;
+            $finish_name->title = 'land with no name';
+            $finish_name->location_id = $route->finish_id;
+        }
+        $percent = round(($progress->act / $progress->max) * 100);
+        $travel = ['start_id' => $start_name->location_id, 'start_name' => $start_name->title, 'finish_id' => $finish_name->location_id, 'finish_name' => $finish_name->title, 'progress' => $percent];
+        return view('navigation.travel')->with($travel);
     }
 
 }

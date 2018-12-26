@@ -11,7 +11,7 @@
             <div class="col-3 text-center">
                 {{ $start_name }}
             </div>
-            <div class="progress col-6 my-auto">
+            <div class="progress col-6 my-auto px-0">
                 <div class="progress-bar bg-success" role="progressbar" style="width: {{ $progress }}%"></div>
             </div>
             <div class="col-3 text-center">

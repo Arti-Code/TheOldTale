@@ -22,7 +22,7 @@
                         <td>{{ $universum->name }}</td>
                         <td>{{ $universum->turn }}</td>
                         <td class="text-center"><a href=""><i class="fas fa-trash-alt"></i></a></td>
-                        <td class="text-center"><a href=""><i class="fas fa-calculator"></i></a></td>
+                        <td class="text-center"><a href="{{ route('admin.universum.nextturn', $universum->id) }}"><i class="fas fa-calculator"></i></a></td>
                     </tr>
                 @endforeach
             </tbody>

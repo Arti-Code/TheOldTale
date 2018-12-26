@@ -15,17 +15,17 @@ v0.1:
         ✔ Selecting route @done(18-12-26 02:23)
         ☐ Turning back
         ✔ Showing travel progress @done(18-12-26 17:24)
-        ☐ Reaching new location
+        ✔ Reaching new location @done(18-12-26 19:14)
     Talk:
         ☐ Showing local messages in order
         ☐ Speaking public
     Next Turn:
-        ☐ Calc travel via routes
+        ✔ Calc travel via routes @done(18-12-26 19:14)
         ☐ Calc hunger
         ☐ Calc health
         ☐ Calc next day
     MISC:
         ✔ Displaying messages @done(18-12-25 21:17)
     Bugs:
-        ☐ Wrong roues index on navigation/index
+        ✔ Wrong roues index on navigation/index @done(18-12-26 19:14)
 

@@ -9,7 +9,7 @@
     <div class="card-body">
     <div class="container">
         <div class="row">
-            <div class="col card-title">location: {{ $location['title'] }}   <a href="{{ route('name.edit', $location['id']) }}"><i class="far fa-edit"></i></a></div>
+            <div class="col card-title">{{ $status }}</div>
         </div>
         <div class="row">
             <div class="col-2">

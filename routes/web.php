@@ -30,8 +30,10 @@ Route::get('/location/edit/{id}', 'NameController@edit')->name('name.edit');
 Route::post('/location/store', 'NameController@store')->name('name.store');
 
 Route::get('/admin/universum/index', 'UniversumController@index')->name('admin.universum.index');
+Route::get('/admin/universum/nextturn/{id}', 'UniversumController@nextturn')->name('admin.universum.nextturn');
 
 Route::get('/location/show', 'LocationController@show')->name('location.show');
 
 Route::get('/navigation/index', 'RouteController@index')->name('navigation.index');
 Route::get('/navigation/select/{id}', 'RouteController@select')->name('navigation.select');
+Route::get('/navigation/travel', 'RouteController@travel')->name('navigation.travel');

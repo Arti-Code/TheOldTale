@@ -121,13 +121,20 @@ class CharacterController extends Controller
             $character = Character::find(session('char_id'));
             if($character->user_id == Auth::id())
             {
-                $loc = Location::find($character->location_id);
-                $name = Name::where('location_id', $loc->id)->where('owner_id', $character->id)->first();
-                if($name)
-                    $location = ["id" => $loc->id, "type" => $loc->type, "title" => $name->title];
-                else
-                    $location = ["id" => $loc->id, "type" => $loc->type, "title" => 'unknown'];
-                return view('character.myself')->with(["character" => $character, "location" => $location]);
+                if($character->progress_id == null)
+                {
+                    $loc = Location::find($character->location_id);
+                    $name = Name::where('location_id', $loc->id)->where('owner_id', $character->id)->first();
+                    if($name)
+                        $status = "location: " . $name->title;
+                    else
+                        $status = "location: land with no name";
+                }
+                elseif($character->progress->type == 'travel')
+                {
+                    $status = "traveling...";
+                }
+                return view('character.myself')->with(["character" => $character, "status" => $status]);
             }
         }
     }
