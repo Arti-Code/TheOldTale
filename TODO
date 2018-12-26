@@ -1,0 +1,30 @@
+
+v0.1:
+    Character:
+        ☐ Creating simple things
+        ☐ Pick up things
+        ☐ Drop off things
+        ☐ Eating
+        ☐ Showing inventory
+        ☐ Inspecting characters
+    Location:
+        ☐ Showing local resources
+        ☐ Collecting resources
+    Routes:
+        ✔ Showing routes list @done(18-12-26 01:00)
+        ✔ Selecting route @done(18-12-26 02:23)
+        ☐ Turning back
+        ☐ Showing travel progress
+        ☐ Reaching new location
+    Talk:
+        ☐ Showing local messages in order
+        ☐ Speaking public
+    Next Turn:
+        ☐ Calc travel via routes
+        ☐ Calc hunger
+        ☐ Calc health
+    MISC:
+        ✔ Displaying messages @done(18-12-25 21:17)
+    Bugs:
+        ☐ Wrong roues index on navigation/index
+
