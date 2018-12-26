@@ -37,3 +37,4 @@ Route::get('/location/show', 'LocationController@show')->name('location.show');
 Route::get('/navigation/index', 'RouteController@index')->name('navigation.index');
 Route::get('/navigation/select/{id}', 'RouteController@select')->name('navigation.select');
 Route::get('/navigation/travel', 'RouteController@travel')->name('navigation.travel');
+Route::get('/navigation/back', 'RouteController@back')->name('navigation.back');

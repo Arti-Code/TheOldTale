@@ -188,4 +188,28 @@ class RouteController extends Controller
         return view('navigation.travel')->with($travel);
     }
 
+    public function back()
+    {
+        if(!Auth::check())
+            return redirect()->route('welcome')->with('danger', 'Authentication error. You must login.');
+        if(!session('char_id'))
+            return redirect()->route('character.index')->with('warning', 'Character is not selected.');
+        $character = Character::find(session('char_id'));
+        $progress = Progress::find($character->progress_id);
+        $route = Route::find($progress->target_id);
+        $new_route = Route::where('location_id', $route->finish_id)->where('finish_id', $route->location_id)->first();
+        if($new_route)
+        {
+            $progress->target_id = $new_route->id;
+            $progress->act = $new_route->distance - $progress->act;
+            $progress->max = $new_route->distance;
+            $progress->save();
+            return redirect()->route('navigation.travel')->with('warning', 'Zawracasz tam skąd przyszedłeś');
+        }
+        else
+        {
+            return redirect()->route('navigation.travel')->with('danger', 'Nie znajdujesz drogi powrotnej');
+        }
+    }
+
 }

@@ -13,17 +13,21 @@ v0.1:
     Routes:
         ✔ Showing routes list @done(18-12-26 01:00)
         ✔ Selecting route @done(18-12-26 02:23)
-        ☐ Turning back
+        ✔ Turning back @done(18-12-26 20:36)
         ✔ Showing travel progress @done(18-12-26 17:24)
         ✔ Reaching new location @done(18-12-26 19:14)
     Talk:
         ☐ Showing local messages in order
-        ☐ Speaking public
+        ☐ Showing local informations
+        ☐ Speaking to everyone
     Next Turn:
         ✔ Calc travel via routes @done(18-12-26 19:14)
         ☐ Calc hunger
         ☐ Calc health
-        ☐ Calc next day
+        ✔ Calc next day @done(18-12-26 20:36)
+    Options:
+        ☐ Changing character
+        ☐ Creating new character
     MISC:
         ✔ Displaying messages @done(18-12-25 21:17)
     Bugs:
