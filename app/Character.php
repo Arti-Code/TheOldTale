@@ -28,4 +28,9 @@ class Character extends Model
     {
         return $this->hasMany('App\Name');
     }
+
+    public function progress()
+    {
+        return $this->hasOne('App\Progress');
+    }
 }

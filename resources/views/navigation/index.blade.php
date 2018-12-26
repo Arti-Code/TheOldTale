@@ -15,7 +15,7 @@
                         <td>{{ $route['type'] }}</td>
                         <td>{{ $route['distance'] }}</td>
                         <td>
-                            <a href="{{ route('navigation.select', $route['finish_id']) }}"><i class="fas fa-hiking"></i></a>
+                            <a href="{{ route('navigation.select', $route['id']) }}"><i class="fas fa-hiking"></i></a>
                         </td>
                     </tr>
                 @endforeach

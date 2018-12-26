@@ -14,7 +14,7 @@ v0.1:
         ✔ Showing routes list @done(18-12-26 01:00)
         ✔ Selecting route @done(18-12-26 02:23)
         ☐ Turning back
-        ☐ Showing travel progress
+        ✔ Showing travel progress @done(18-12-26 17:24)
         ☐ Reaching new location
     Talk:
         ☐ Showing local messages in order
@@ -23,6 +23,7 @@ v0.1:
         ☐ Calc travel via routes
         ☐ Calc hunger
         ☐ Calc health
+        ☐ Calc next day
     MISC:
         ✔ Displaying messages @done(18-12-25 21:17)
     Bugs:
