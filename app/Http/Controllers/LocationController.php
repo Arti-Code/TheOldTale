@@ -6,6 +6,7 @@ use App\Location;
 use App\Character;
 use App\Universum;
 use App\Name;
+use App\Resource;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
@@ -59,7 +60,8 @@ class LocationController extends Controller
             else
                 $priv_name = "unknown";
             $people = Character::where('location_id', $location->id)->where('id', '<>', $character->id)->get();
-            return view('location.show')->with(["location" => $location, "title" => $priv_name, 'people' => $people]);
+            $res = Resource::where('location_id', $location->id)->get();
+            return view('location.show')->with(["location" => $location, "title" => $priv_name, 'people' => $people, 'res' => $res]);
         }
         elseif($character->progress->type == 'travel')
         {
