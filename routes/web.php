@@ -17,24 +17,30 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/welcome', 'HomeController@welcome')->name('welcome');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
-Route::get('/character/index', 'CharacterController@index')->name('character.index');
-Route::get('/character/myself', 'CharacterController@myself')->name('character.myself');
-Route::get('/character/create', 'CharacterController@create')->name('character.create');
-Route::post('/character/store', 'CharacterController@store')->name('character.store');
-Route::get('/character/destroy/{id}', 'CharacterController@destroy')->name('character.destroy');
-Route::get('/character/select/{id}', 'CharacterController@select')->name('character.select');
+Route::get('/character/index', 'CharacterController@index')->name('character.index')->middleware('auth');
+Route::get('/character/myself', 'CharacterController@myself')->name('character.myself')->middleware('auth');
+Route::get('/character/create', 'CharacterController@create')->name('character.create')->middleware('auth');
+Route::post('/character/store', 'CharacterController@store')->name('character.store')->middleware('auth');
+Route::get('/character/destroy/{id}', 'CharacterController@destroy')->name('character.destroy')->middleware('auth');
+Route::get('/character/select/{id}', 'CharacterController@select')->name('character.select')->middleware('auth');
 
-Route::get('/location/edit/{id}', 'NameController@edit')->name('name.edit');
-Route::post('/location/store', 'NameController@store')->name('name.store');
+Route::get('/location/edit/{id}', 'NameController@edit')->name('name.edit')->middleware('auth');
+Route::post('/location/store', 'NameController@store')->name('name.store')->middleware('auth');
 
-Route::get('/admin/universum/index', 'UniversumController@index')->name('admin.universum.index');
-Route::get('/admin/universum/nextturn/{id}', 'UniversumController@nextturn')->name('admin.universum.nextturn');
+Route::get('/admin/universum/index', 'UniversumController@index')->name('admin.universum.index')->middleware('auth');
+Route::get('/admin/universum/nextturn/{id}', 'UniversumController@nextturn')->name('admin.universum.nextturn')->middleware('auth');
 
-Route::get('/location/show', 'LocationController@show')->name('location.show');
+Route::get('/location/show', 'LocationController@show')->name('location.show')->middleware('auth');
 
-Route::get('/navigation/index', 'RouteController@index')->name('navigation.index');
-Route::get('/navigation/select/{id}', 'RouteController@select')->name('navigation.select');
-Route::get('/navigation/travel', 'RouteController@travel')->name('navigation.travel');
-Route::get('/navigation/back', 'RouteController@back')->name('navigation.back');
+Route::get('/navigation/index', 'RouteController@index')->name('navigation.index')->middleware('auth');
+Route::get('/navigation/select/{id}', 'RouteController@select')->name('navigation.select')->middleware('auth');
+Route::get('/navigation/travel', 'RouteController@travel')->name('navigation.travel')->middleware('auth');
+Route::get('/navigation/back', 'RouteController@back')->name('navigation.back')->middleware('auth');
+
+Route::get('/message/index', 'MessageController@index')->name('message.index')->middleware('auth');
+Route::post('/message/store', 'MessageController@store')->name('message.store')->middleware('auth');
+
+Route::get('/options/index', 'HomeController@options')->name('options.index')->middleware('auth');

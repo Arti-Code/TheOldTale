@@ -62,15 +62,14 @@
                                     <li class="nav-item"><a class="nav-link" href="{{ route('character.myself') }}"><i class="far fa-user"></i></a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('location.show') }}"><i class="fas fa-map-marker-alt"></i></a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('navigation.index') }}"><i class="fas fa-globe"></i></a></li>
-                                    <li class="nav-item"><a class="nav-link" href=""><i class="far fa-comments"></i></a></li>
-                                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-cog"></i></a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('message.index') }}"><i class="far fa-comments"></i></a></li>
                                 @else
                                     <li class="nav-item"><a class="nav-link" href="#">{{ Auth::user()->name }}</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('character.index') }}"><i class="fas fa-users"></i></a></li>
                                 @endif
                                 @if(session("is_admin"))
                                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.universum.index') }}"><i class="fas fa-tools text-warning"></i></a></li>
                                 @endif
+                                <li class="nav-item"><a class="nav-link" href="{{ route('options.index') }}"><i class="fas fa-cog"></i></a></li>
                             <li class="nav-item">
                                 <div>
                                     <a class="nav-link" href="{{ route('logout') }}"

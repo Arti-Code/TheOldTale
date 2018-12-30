@@ -28,4 +28,9 @@ class Location extends Model
     {
         return $this->hasMany('App\Route');
     }
+
+    public function message()
+    {
+        return $this->hasMany('App\Message');
+    }
 }

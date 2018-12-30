@@ -47,8 +47,10 @@ class CharacterController extends Controller
     {
         $character = new Character;
         $character->name = $request['name'];
+        $character->sex = $request['sex'];
         $character->universum_id = $request['universum_id'];
         $character->user_id = Auth::id();
+        $character->location_id = 1;
         $character->save();
         return redirect()->route('character.index');
     }
@@ -126,15 +128,15 @@ class CharacterController extends Controller
                     $loc = Location::find($character->location_id);
                     $name = Name::where('location_id', $loc->id)->where('owner_id', $character->id)->first();
                     if($name)
-                        $status = "location: " . $name->title;
+                        $location = $name->title;
                     else
-                        $status = "location: land with no name";
+                        $location = "land with no name";
                 }
                 elseif($character->progress->type == 'travel')
                 {
-                    $status = "traveling...";
+                    $location = "traveling...";
                 }
-                return view('character.myself')->with(["character" => $character, "status" => $status]);
+                return view('character.myself')->with(["character" => $character, "location" => $location]);
             }
         }
     }

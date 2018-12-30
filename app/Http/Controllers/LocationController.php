@@ -58,7 +58,8 @@ class LocationController extends Controller
                 $priv_name = $name->title;
             else
                 $priv_name = "unknown";
-            return view('location.show')->with(["location" => $location, "title" => $priv_name]);
+            $people = Character::where('location_id', $location->id)->where('id', '<>', $character->id)->get();
+            return view('location.show')->with(["location" => $location, "title" => $priv_name, 'people' => $people]);
         }
         elseif($character->progress->type == 'travel')
         {

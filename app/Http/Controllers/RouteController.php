@@ -7,6 +7,7 @@ use App\Character;
 use App\Location;
 use App\Name;
 use App\Progress;
+use App\Message;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -157,6 +158,11 @@ class RouteController extends Controller
         $progress->save();
         $character->progress_id = $progress->id;
         $character->save();
+        $msg = new Message;
+        $msg->location_id = $character->location_id;
+        $msg->type = 'SYS_PUB';
+        $msg->text = $character->name . ' wyrusza w drogę';
+        $msg->save();
         return redirect()->route('navigation.travel');
     }
 

@@ -7,6 +7,7 @@ use App\Character;
 use App\Progress;
 use App\Route;
 use App\Location;
+use App\Message;
 use Illuminate\Http\Request;
 
 class UniversumController extends Controller
@@ -33,6 +34,7 @@ class UniversumController extends Controller
             if($universum)
             {
                 $i = 0;
+                $msg = new Message;
                 $log[$i] = "Universum: " . $universum->name . " end of turn: " . $universum->turn;
                 $characters = Character::where('universum_id', $universum->id)->get();
                 foreach($characters as $character)
@@ -57,6 +59,10 @@ class UniversumController extends Controller
                                 $character->save();
                                 $i++;
                                 $log[$i] = $character->name . " reached to a new location...";
+                                $msg->location_id = $character->location_id;
+                                $msg->type = 'SYS_PUB';
+                                $msg->text = $character->name . ' przybywa tutaj';
+                                $msg->save();
                             }
                         }
                     }

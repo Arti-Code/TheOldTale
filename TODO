@@ -7,9 +7,13 @@ v0.1:
         ☐ Eating
         ☐ Showing inventory
         ☐ Inspecting characters
+        ✔ Showing avatar @done(18-12-30 20:30)
+        ✔ Showing sex @done(18-12-30 20:30)
+        ☐ Showing skills
     Location:
         ☐ Showing local resources
         ☐ Collecting resources
+        ✔ Showing other characters @done(18-12-30 19:49)
     Routes:
         ✔ Showing routes list @done(18-12-26 01:00)
         ✔ Selecting route @done(18-12-26 02:23)
@@ -26,8 +30,9 @@ v0.1:
         ☐ Calc health
         ✔ Calc next day @done(18-12-26 20:36)
     Options:
-        ☐ Changing character
-        ☐ Creating new character
+        ✔ Changing character @done(18-12-30 19:36)
+        ✔ Creating new character @done(18-12-30 20:30)
+        ✔ Male/Female option @done(18-12-30 20:30)
     MISC:
         ✔ Displaying messages @done(18-12-25 21:17)
     Bugs:

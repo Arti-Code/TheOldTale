@@ -29,4 +29,14 @@ class HomeController extends Controller
         session(["is_admin" => $user->is_admin]);
         return view('home');
     }
+
+    public function welcome()
+    {
+        return view('welcome');
+    }
+
+    public function options()
+    {
+        return view('options.index');
+    }
 }
