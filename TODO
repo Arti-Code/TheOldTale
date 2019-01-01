@@ -3,16 +3,16 @@ v0.1:
     Character:
         ☐ Creating simple things
         ☐ Pick up things
-        ☐ Drop off things
+        ✔ Drop off things @done(19-01-01 23:11)
         ☐ Eating
-        ☐ Showing inventory
+        ✔ Showing inventory @done(19-01-01 20:03)
         ☐ Inspecting characters
         ✔ Showing avatar @done(18-12-30 20:30)
         ✔ Showing sex @done(18-12-30 20:30)
         ☐ Showing skills
     Location:
-        ☐ Showing local resources
-        ☐ Collecting resources
+        ✔ Showing local resources @done(18-12-30 23:43)
+        ✔ Collecting resources @done(18-12-31 19:31)
         ✔ Showing other characters @done(18-12-30 19:49)
     Routes:
         ✔ Showing routes list @done(18-12-26 01:00)
@@ -21,9 +21,9 @@ v0.1:
         ✔ Showing travel progress @done(18-12-26 17:24)
         ✔ Reaching new location @done(18-12-26 19:14)
     Talk:
-        ☐ Showing local messages in order
-        ☐ Showing local informations
-        ☐ Speaking to everyone
+        ✔ Showing local messages in order @done(18-12-30 23:43)
+        ✔ Showing local informations @done(18-12-30 23:43)
+        ✔ Speaking to everyone @done(18-12-30 23:43)
     Next Turn:
         ✔ Calc travel via routes @done(18-12-26 19:14)
         ☐ Calc hunger

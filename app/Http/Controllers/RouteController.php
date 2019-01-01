@@ -67,6 +67,10 @@ class RouteController extends Controller
             {
                 return redirect()->route('navigation.travel');
             }
+            if($progress->type == 'collect')
+            {
+                return redirect()->route('location.show')->with('warning', 'Sorrry, but you\'re busy... ');
+            }
         }
     }
 
@@ -202,20 +206,36 @@ class RouteController extends Controller
             return redirect()->route('character.index')->with('warning', 'Character is not selected.');
         $character = Character::find(session('char_id'));
         $progress = Progress::find($character->progress_id);
-        $route = Route::find($progress->target_id);
-        $new_route = Route::where('location_id', $route->finish_id)->where('finish_id', $route->location_id)->first();
-        if($new_route)
+        if($progress->act == 0)
         {
-            $progress->target_id = $new_route->id;
-            $progress->act = $new_route->distance - $progress->act;
-            $progress->max = $new_route->distance;
-            $progress->save();
-            return redirect()->route('navigation.travel')->with('warning', 'Zawracasz tam skąd przyszedłeś');
+            $route = Route::find($progress->target_id);
+            $character->location_id = $route->location_id;
+            $character->progress_id = null;
+            $msg = new Message;
+            $msg->location_id = $character->location_id;
+            $msg->type = 'SYS_PUB';
+            $msg->text = $character->name . ' powraca';
+            $msg->save();
+            $character->save();
+            $progress->delete();
+            return redirect()->route('location.show')->with('info', 'Wracasz tam skąd przyszedłeś');
         }
         else
         {
-            return redirect()->route('navigation.travel')->with('danger', 'Nie znajdujesz drogi powrotnej');
+            $route = Route::find($progress->target_id);
+            $new_route = Route::where('location_id', $route->finish_id)->where('finish_id', $route->location_id)->first();
+            if($new_route)
+            {
+                $progress->target_id = $new_route->id;
+                $progress->act = $new_route->distance - $progress->act;
+                $progress->max = $new_route->distance;
+                $progress->save();
+                return redirect()->route('navigation.travel')->with('warning', 'Zawracasz tam skąd przyszedłeś');
+            }
+            else
+            {
+                return redirect()->route('navigation.travel')->with('danger', 'Nie znajdujesz drogi powrotnej');
+            }
         }
     }
-
 }

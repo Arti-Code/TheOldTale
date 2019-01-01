@@ -33,4 +33,9 @@ class Character extends Model
     {
         return $this->hasOne('App\Progress');
     }
+
+    public function item()
+    {
+        return $this->hasMany('App\Item');
+    }
 }

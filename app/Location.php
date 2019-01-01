@@ -33,4 +33,9 @@ class Location extends Model
     {
         return $this->hasMany('App\Message');
     }
+
+    public function item()
+    {
+        return $this->hasMany('App\Item');
+    }
 }

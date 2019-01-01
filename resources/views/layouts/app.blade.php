@@ -60,9 +60,7 @@
                                 @if (session('char_name') != null)
                                     <li class="nav-item"><a class="nav-link" href="#">{{ Auth::user()->name }} ({{ session('char_name') }})</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('character.myself') }}"><i class="far fa-user"></i></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('location.show') }}"><i class="fas fa-map-marker-alt"></i></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('navigation.index') }}"><i class="fas fa-globe"></i></a></li>
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('message.index') }}"><i class="far fa-comments"></i></a></li>
+                                    <li class="nav-item"><a class="nav-link" href="{{ route('location.show') }}"><i class="fas fa-map-marker-alt"></i></a></li>                                    <li class="nav-item"><a class="nav-link" href="{{ route('message.index') }}"><i class="far fa-comments"></i></a></li>
                                 @else
                                     <li class="nav-item"><a class="nav-link" href="#">{{ Auth::user()->name }}</a></li>
                                 @endif

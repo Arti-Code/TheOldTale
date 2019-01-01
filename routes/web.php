@@ -44,3 +44,11 @@ Route::get('/message/index', 'MessageController@index')->name('message.index')->
 Route::post('/message/store', 'MessageController@store')->name('message.store')->middleware('auth');
 
 Route::get('/options/index', 'HomeController@options')->name('options.index')->middleware('auth');
+
+Route::get('/resource/select/{id}', 'ResourceController@select')->name('resource.select')->middleware('auth');
+
+Route::get('/progress/destroy/{id}', 'ProgressController@destroy')->name('progress.destroy')->middleware('auth');
+
+Route::get('/item/index', 'ItemController@index')->name('item.index')->middleware('auth');
+Route::get('/item/show/{id}', 'ItemController@show')->name('item.show')->middleware('auth');
+Route::post('/item/dropoff', 'ItemController@dropoff')->name('item.dropoff')->middleware('auth');

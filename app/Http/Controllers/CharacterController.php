@@ -6,6 +6,7 @@ use App\Character;
 use App\Universum;
 use App\Location;
 use App\Name;
+use App\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -135,6 +136,10 @@ class CharacterController extends Controller
                 elseif($character->progress->type == 'travel')
                 {
                     $location = "traveling...";
+                }
+                elseif($character->progress->type == 'collect')
+                {
+                    $location = "collecting resources...";
                 }
                 return view('character.myself')->with(["character" => $character, "location" => $location]);
             }

@@ -80,8 +80,27 @@ class ProgressController extends Controller
      * @param  \App\Progress  $progress
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Progress $progress)
+    public function destroy($id)
     {
-        //
+        $char = Character::find(session('char_id'));
+        $p = Progress::find($id);
+        if($p)
+        {
+            if($char->id == $p->character_id)
+            {
+                $p->delete();
+                $char->progress_id = null;
+                $char->save();
+                return redirect()->route('location.show')->with('info', 'You have cancelled your works...');
+            }
+            else
+            {
+                return redirect()->route('location.show')->with('danger', 'Specified progress isn\'t your own');
+            }
+        }
+        else
+        {
+            return redirect()->route('location.show')->with('danger', 'Specified progress doesn\'t exist');
+        }
     }
 }
