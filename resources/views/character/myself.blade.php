@@ -29,7 +29,7 @@
                         <i class="fas fa-utensils text-warning"></i>
                     </div>
                     <div class="col-8 progress my-auto  px-0" style="height: 4px;">
-                        <div class="progress-bar bg-warning" role="progressbar" style="width: 75%;"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $character->satiety }}%;"></div>
                     </div>
                 </div>
                 <div class="row">

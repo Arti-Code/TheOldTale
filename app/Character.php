@@ -9,6 +9,8 @@ class Character extends Model
     public $timestamps = false;
     protected $guarded=[];
 
+    const HUNGER_MOD = 20;
+
     public function user()
     {
         return $this->belongsTo('App\User');

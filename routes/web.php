@@ -25,6 +25,7 @@ Route::get('/character/myself', 'CharacterController@myself')->name('character.m
 Route::get('/character/create', 'CharacterController@create')->name('character.create')->middleware('auth');
 Route::post('/character/store', 'CharacterController@store')->name('character.store')->middleware('auth');
 Route::get('/character/destroy/{id}', 'CharacterController@destroy')->name('character.destroy')->middleware('auth');
+Route::get('/character/eat/{id}', 'CharacterController@eat')->name('character.eat')->middleware('auth');
 Route::get('/character/select/{id}', 'CharacterController@select')->name('character.select')->middleware('auth');
 
 Route::get('/location/edit/{id}', 'NameController@edit')->name('name.edit')->middleware('auth');
@@ -51,4 +52,5 @@ Route::get('/progress/destroy/{id}', 'ProgressController@destroy')->name('progre
 
 Route::get('/item/index', 'ItemController@index')->name('item.index')->middleware('auth');
 Route::get('/item/show/{id}', 'ItemController@show')->name('item.show')->middleware('auth');
-Route::post('/item/dropoff', 'ItemController@dropoff')->name('item.dropoff')->middleware('auth');
+Route::post('/item/update', 'ItemController@update')->name('item.update')->middleware('auth');
+Route::get('/item/location', 'ItemController@location')->name('item.location')->middleware('auth');

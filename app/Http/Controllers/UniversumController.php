@@ -41,6 +41,7 @@ class UniversumController extends Controller
                 $characters = Character::where('universum_id', $universum->id)->get();
                 foreach($characters as $character)
                 {
+                    $this->calcHunger($character);
                     if($character->progress_id != null)
                     {
                         if($character->progress->type == 'travel')
@@ -52,6 +53,7 @@ class UniversumController extends Controller
                             $this->calcCollect($character);
                         }
                     }
+
                 }
                 $universum->turn++;
                 $universum->save();
@@ -203,5 +205,12 @@ class UniversumController extends Controller
                 $msg->save();*/
             }
         }
+    }
+
+    public function calcHunger(Character $character)
+    {
+        $character->satiety = $character->satiety - Character::HUNGER_MOD;
+        if($character->satiety < 0)     $character->satiety = 0;
+        $character->save();
     }
 }

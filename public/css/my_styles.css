@@ -20,7 +20,12 @@
 
 .green
 {
-    color: green;
+    color: rgb(5, 177, 5);
+}
+
+.blue
+{
+    color: #0352b9;
 }
 
 .yellow

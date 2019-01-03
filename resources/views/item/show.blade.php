@@ -3,44 +3,49 @@
 @section('content')
 
 <div class="card">
-    <div class="card-header">
-        <h6>{{$item->type}}</h6>
+    <div class="card-header text-center">
+        <h5>{{$charItem->type}}</h5>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ route('item.dropoff') }}">
+        <form method="POST" action="{{ route('item.update') }}">
             @csrf
-            <div class="row">
-                <div class="col-4">
-                    <input type="hidden" name="item_id" id="item_id" value="{{$item->id}}">
+            <div class="row mt-2">
+                <div class="col-3 text-center">
+                    <input type="hidden" name="char_item_id" id="char_item_id" value="{{$charItem->id}}">
+                    <input type="hidden" name="char_item_val" id="char_item_val" value="{{$charItem->amount}}">
+                    <span>character</span>
                 </div>
-                <div class="col-4 text-center">
+                <div class="col-6 text-center">
                     <label id="label"></label>
+                    <input type="hidden" name="item_type" id="item_type" value="{{$charItem->type}}">
                 </div>
-                <div class="col-4">
-
+                <div class="col-3 text-center">
+                    <input type="hidden" name="loc_item_id" id="loc_item_id" value="{{$locItem->id}}">
+                    <input type="hidden" name="loc_item_val" id="loc_item_val" value="{{$locItem->amount}}">
+                    <span>ground</span>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-2 text-center">
-                    min: 0
+            <div class="row mt-4">
+                <div class="col-2 text-right">
+                    <div><i class="green fas fa-arrow-circle-up"></i> <span id="charNum">{{$charItem->amount}}</span></div>
                 </div>
                 <div class="col-8 my-auto">
-                    <input type="range" class="custom-range" name="amount" id="amount" min="0" value="0" max="{{$item->amount}}">
+                    <input type="range" class="custom-range" name="slider" id="slider" min="0" value="{{$locItem->amount}}" max="{{$charItem->amount + $locItem->amount}}">
                 </div>
-                <div class="col-2 text-center">
-                    max: {{$item->amount}}
+                <div class="col-2 text-left">
+                    <div><span id="locNum">{{$locItem->amount}}</span> <i class="red fas fa-arrow-circle-down"></i></div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-4">
+            <div class="row mt-4">
+                <div class="col-3">
 
                 </div>
-                <div class="col-4 text-center">
-                    <button class="btn btn-warning my-4" type="submit" name="action">Drop off</button>
+                <div class="col-6 text-center">
+                    <button class="btn btn-success" type="submit" name="action">Accept</button>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
 
                 </div>
             </div>
@@ -54,14 +59,20 @@
 <script>
     document.addEventListener("DOMContentLoaded", function(event)
     {
-        console.log("Hello world!");
-        var slider = document.getElementById("amount");
-        var output = document.getElementById("label");
-        output.innerHTML = slider.value;
+        var slider = document.getElementById("slider");
+        var charVal = document.getElementById("char_item_val");
+        var locVal = document.getElementById("loc_item_val");
+        var charNum = document.getElementById("charNum");
+        var locNum = document.getElementById("locNum");
+        charNum.innerHTML = slider.max - slider.value;
+        locNum.innerHTML = slider.value;
 
         slider.oninput = function()
         {
-            output.innerHTML = this.value;
+            charVal.value = this.max - this.value;
+            locVal.value = this.value;
+            charNum.innerHTML = charVal.value;
+            locNum.innerHTML = locVal.value;
         }
     });
 

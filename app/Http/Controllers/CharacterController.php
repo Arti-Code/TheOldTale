@@ -145,4 +145,28 @@ class CharacterController extends Controller
             }
         }
     }
+
+    public function eat($id)
+    {
+        $character = Character::find(session('char_id'));
+        $item = Item::find($id);
+        if($item->character_id == $character->id)
+        {
+            $food = $character->satiety + Item::FOOD_QUALITY[$item->type];
+            if( $character->satiety < 91 && $item->amount > 0 )
+            {
+                $character->satiety = $food;
+                if( $character->satiety > 100 )   $character->satiety = 100;
+                $item->amount--;
+                $character->save();
+                if( $item->amount > 0 )     $item->save();
+                else    $item->delete();
+                return redirect()->route('item.index')->with('success', 'Posiliłeś się');
+            }
+        }
+        else
+        {
+            return redirect()->route('item.index')->with('danger', 'Nie znaleziono przedmiotu');
+        }
+    }
 }

@@ -51,4 +51,11 @@
     </div>
 </div>
 
+<div class="d-flex flex-row justify-content-around my-2 py-2">
+    <div class="card p-2 bg-light">
+        <a href="{{route('item.location')}}"><img class="card-img-top" src="{{asset('png/create.png')}}"></a>
+        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Items</div>
+    </div>
+</div>
+
 @endsection

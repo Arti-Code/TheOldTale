@@ -13,9 +13,8 @@
                     <tr>
                         <th class="text-center">type</th>
                         <th class="text-center">amount</th>
-                        <th class="text-center"></th>
-                        <th class="text-center"></th>
-                        <th class="text-center"></th>
+                        <th class="text-center">pick up</th>
+                        <th class="text-center">use</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,13 +22,8 @@
                         <tr>
                             <td class="text-center">{{$item->type}}</td>
                             <td class="text-center">{{$item->amount}}</td>
-                            <td class="text-center"><a href="{{route('item.show', $item->id)}}"><i class="red far fa-arrow-alt-circle-down"></i></a></td>
-                            @if( in_array($item->type, App\Item::FOOD) )
-                                <td class="text-center"><a href="{{route('character.eat', $item->id)}}"><i class="blue fas fa-utensils"></i></a></td>
-                            @else
-                                <td class="text-center"></td>
-                            @endif
-                            <td class="text-center"><i class="green fas fa-hammer"></i></td>
+                            <td class="text-center"><a href="{{route('item.show', $item->id)}}"><i class="green far fa-arrow-alt-circle-up"></i></a></td>
+                            <td class="text-center"><i class="blue fas fa-hammer"></i></td>
                         </tr>
                     @endforeach
                 </tbody>
