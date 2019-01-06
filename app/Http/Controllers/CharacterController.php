@@ -7,6 +7,7 @@ use App\Universum;
 use App\Location;
 use App\Name;
 use App\Item;
+use App\Progress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -119,30 +120,40 @@ class CharacterController extends Controller
 
     public function myself()
     {
-        if(session('char_id') != null)
+        $character = Character::find(session('char_id'));
+        if($character->user_id == Auth::id())
         {
-            $character = Character::find(session('char_id'));
-            if($character->user_id == Auth::id())
+            if($character->progress_id == null)
             {
-                if($character->progress_id == null)
-                {
-                    $loc = Location::find($character->location_id);
-                    $name = Name::where('location_id', $loc->id)->where('owner_id', $character->id)->first();
-                    if($name)
-                        $location = $name->title;
-                    else
-                        $location = "land with no name";
-                }
-                elseif($character->progress->type == 'travel')
+                $loc = Location::find($character->location_id);
+                $name = Name::where('location_id', $loc->id)->where('owner_id', $character->id)->first();
+                if($name)
+                    $location = $name->title;
+                else
+                    $location = "land with no name";
+                $progress = null;
+            }
+            else
+            {
+                if($character->progress->type == 'travel')
                 {
                     $location = "traveling...";
                 }
-                elseif($character->progress->type == 'collect')
+                if($character->progress->type == 'collect')
                 {
                     $location = "collecting resources...";
                 }
-                return view('character.myself')->with(["character" => $character, "location" => $location]);
+                if($character->progress->type == 'craft')
+                {
+                    $location = "crafting things...";
+
+                }
+                $p = Progress::find($character->progress_id);
+                $progress['type'] = $p->type;
+                $progress['value'] = round( ($p->act / $p->max) * 100);
             }
+
+            return view('character.myself')->with(["character" => $character, "location" => $location, "progress" => $progress]);
         }
     }
 
@@ -169,4 +180,50 @@ class CharacterController extends Controller
             return redirect()->route('item.index')->with('danger', 'Nie znaleziono przedmiotu');
         }
     }
+
+    public function craft()
+    {
+        $character = Character::find(session('char_id'));
+        $products_list = Item::PRODUCTS[0];
+        $products = [];
+        foreach($products_list as $pl)
+        {
+            $products[$pl] = Item::PRODUCT[$pl];
+        }
+        return view('character.craft')->with(["character" => $character, "products" => $products]);
+    }
+
+    /*public function craftThis($name)
+    {
+        $character = Character::find(session('char_id'));
+        $products = Item::PRODUCT;
+        if( array_key_exists( $name, $products ) )
+        {
+            $item = Item::PRODUCT[$name];
+            $item['name'] = $name;
+            $inventory = [];
+            foreach( $item['res'] as $k => $val )
+            {
+                $i = Item::where('character_id', $character->id)->where('type', $k)->first();
+                if( $i )
+                {
+                    if( $i->amount > $val )     $i->amount = $val;
+                    array_push($inventory, $i);
+                }
+                else
+                {
+                    $i = new Item;
+                    $i->type = $k;
+                    $i->title = $k;
+                    $i->amount = $val;
+                    $i->character_id = $character->id;
+                }
+            }
+            return view('character.craftthis')->with(["character" => $character, "inventory" => $inventory, "item" => $item]);
+        }
+        else
+        {
+            return redirect()->back()->with('danger', 'Wybrano niewłaściwy przedmiot');
+        }
+    }*/
 }

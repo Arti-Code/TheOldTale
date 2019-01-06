@@ -21,51 +21,46 @@ class UniversumController extends Controller
      */
     public function index()
     {
-        if(session('is_admin'))
-        {
-            $universums = Universum::all();
-            return view('admin.universum.index')->with(["universums" => $universums]);
-        }
+        $universums = Universum::all();
+        return view('admin.universum.index')->with(["universums" => $universums]);
     }
 
     public function nextturn($id)
     {
-        if(session('is_admin'))
+        $universum = Universum::find($id);
+        if($universum)
         {
-            $universum = Universum::find($id);
-            if($universum)
+            $msg = new Message;
+            $characters = Character::where('universum_id', $universum->id)->get();
+            foreach($characters as $character)
             {
-                //$i = 0;
-                $msg = new Message;
-                //$log[$i] = "Universum: " . $universum->name . " end of turn: " . $universum->turn;
-                $characters = Character::where('universum_id', $universum->id)->get();
-                foreach($characters as $character)
+                $this->calcHunger($character);
+                $this->calcHealth($character);
+                if($character->progress_id != null)
                 {
-                    $this->calcHunger($character);
-                    if($character->progress_id != null)
+                    if($character->progress->type == 'travel')
                     {
-                        if($character->progress->type == 'travel')
-                        {
-                            $this->calcTravel($character);
-                        }
-                        elseif($character->progress->type == 'collect')
-                        {
-                            $this->calcCollect($character);
-                        }
+                        $this->calcTravel($character);
                     }
-
+                    elseif($character->progress->type == 'collect')
+                    {
+                        $this->calcCollect($character);
+                    }
+                    elseif($character->progress->type == 'craft')
+                    {
+                        $this->calcCraft($character);
+                    }
                 }
-                $universum->turn++;
-                $universum->save();
-                //$i++;
-                $log = "turn " . $universum->turn . " has begin.";
-
-                return view('admin.universum.nextturn')->with(['log' => $log]);
+                $character->save();
             }
-            else
-            {
-                return redirect()->route('home')->with('danger', 'selected universum do not exist');
-            }
+            $universum->turn++;
+            $universum->save();
+            $log = "turn " . $universum->turn . " has begin.";
+            return view('admin.universum.nextturn')->with(['log' => $log]);
+        }
+        else
+        {
+            return redirect()->route('home')->with('danger', 'selected universum do not exist');
         }
     }
 
@@ -141,8 +136,6 @@ class UniversumController extends Controller
         if($character->progress->act < $character->progress->max)
         {
             $character->progress->save();
-            //$i++;
-            //$log[$i] = $character->name . " traveling to a new location...";
         }
         else
         {
@@ -151,8 +144,6 @@ class UniversumController extends Controller
             $character->location_id = $route->finish_id;
             $character->progress_id = null;
             $character->save();
-            //$i++;
-            //$log[$i] = $character->name . " reached to a new location...";
             $msg = new Message;
             $msg->location_id = $character->location_id;
             $msg->type = 'SYS_PUB';
@@ -198,12 +189,36 @@ class UniversumController extends Controller
                     $item->character_id = $character->id;
                 }
                 $item->save();
-                /*$msg = new Message;
-                $msg->location_id = $character->location_id;
-                $msg->type = 'SYS_PUB';
-                $msg->text = $character->name . ' zdobywa ' . $key;
-                $msg->save();*/
             }
+        }
+    }
+
+    private function calcCraft(Character $character)
+    {
+        $character->progress->act = $character->progress->act + 1;
+        if($character->progress->act < $character->progress->max)
+        {
+            $character->progress->save();
+        }
+        else
+        {
+            $item = Item::where('character_id', $character->id)->where('type', $character->progress->target)->first();
+            if( $item )
+            {
+                $item->amount = $item->amount + 1;
+            }
+            else
+            {
+                $item = new Item;
+                $item->type = $character->progress->target;
+                $item->title = $character->progress->target;
+                $item->amount = 1;
+                $item->character_id = $character->id;
+            }
+            $item->save();
+            $character->progress->delete();
+            $character->progress_id = null;
+            $character->save();
         }
     }
 
@@ -211,6 +226,24 @@ class UniversumController extends Controller
     {
         $character->satiety = $character->satiety - Character::HUNGER_MOD;
         if($character->satiety < 0)     $character->satiety = 0;
-        $character->save();
+    }
+
+    public function calcHealth(Character $character)
+    {
+        if($character->health > 0)
+        {
+            $h = round( ( $character->health - 50 ) / 10 );
+            $s = round( ( $character->satiety - 50 ) / 5 );
+            if( $s < 0 )    $s = $s * 2;
+            if( $character->health < 70 )   $v = rand(0, $h);
+            else $v = 0;
+            $character->health = $character->health + $h + $s - $v;
+            if($character->health > 100)    $character->health = 100;
+            elseif($character->health < 0)  $character->health = 0;
+        }
+        else
+        {
+            $character->health = 0;
+        }
     }
 }

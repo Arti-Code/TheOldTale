@@ -17,16 +17,9 @@ class MessageController extends Controller
      */
     public function index()
     {
-        if(Auth::check() && session('char_id') != null)
-        {
-            $character = Character::find(session('char_id'));
-            $messages = Message::where('location_id', $character->location_id)->orderBy('added_on', 'desc')->take(15)->get();
-            return view('message.index')->with(['character' => $character, 'messages' => $messages]);
-        }
-        else
-        {
-            return redirect()->route('welcome')->with('danger', 'Authorization failed or character is not selected');
-        }
+        $character = Character::find(session('char_id'));
+        $messages = Message::where('location_id', $character->location_id)->orderBy('added_on', 'desc')->take(15)->get();
+        return view('message.index')->with(['character' => $character, 'messages' => $messages]);
     }
 
     /**
@@ -47,10 +40,6 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        if(!Auth::check())
-            return redirect()->route('welcome')->with('danger', 'Authentication error. You must login.');
-        if(!session('char_id'))
-            return redirect()->route('character.index')->with('warning', 'Character is not selected.');
         $character = Character::find(session('char_id'));
         $msg = new Message;
         $msg->location_id = $character->location_id;

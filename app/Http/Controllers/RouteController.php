@@ -21,10 +21,6 @@ class RouteController extends Controller
      */
     public function index()
     {
-        if(!Auth::check())
-            return redirect()->route('home')->with('danger', 'Authentication error. You must login.');
-        if(!session('char_id'))
-            return redirect()->route('character.index')->with('warning', 'Character is not selected.');
         $progress = Progress::where('character_id', session('char_id'))->first();
         $character = Character::find(session('char_id'));
         if($character->progress_id == null)
@@ -142,10 +138,6 @@ class RouteController extends Controller
 
     public function select($id)
     {
-        if(!Auth::check())
-            return redirect()->route('home')->with('danger', 'Authentication error. You must login.');
-        if(!session('char_id'))
-            return redirect()->route('character.index')->with('warning', 'Character is not selected.');
         $character = Character::find(session('char_id'));
         $location = Location::find($character->location_id);
         $route = Route::find($id);
@@ -172,10 +164,6 @@ class RouteController extends Controller
 
     public function travel()
     {
-        if(!Auth::check())
-            return redirect()->route('home')->with('danger', 'Authentication error. You must login.');
-        if(!session('char_id'))
-            return redirect()->route('character.index')->with('warning', 'Character is not selected.');
         $character = Character::find(session('char_id'));
         $progress = Progress::find($character->progress_id);
         $route = Route::find($progress->target_id);
@@ -200,10 +188,6 @@ class RouteController extends Controller
 
     public function back()
     {
-        if(!Auth::check())
-            return redirect()->route('welcome')->with('danger', 'Authentication error. You must login.');
-        if(!session('char_id'))
-            return redirect()->route('character.index')->with('warning', 'Character is not selected.');
         $character = Character::find(session('char_id'));
         $progress = Progress::find($character->progress_id);
         if($progress->act == 0)
