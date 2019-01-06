@@ -1,10 +1,10 @@
 
 v0.1:
     Character:
-        ☐ Creating simple things
-        ☐ Pick up things
+        ✔ Creating simple things @done(19-01-07 00:09)
+        ✔ Pick up things @done(19-01-07 00:09)
         ✔ Drop off things @done(19-01-01 23:11)
-        ☐ Eating
+        ✔ Eating @done(19-01-07 00:09)
         ✔ Showing inventory @done(19-01-01 20:03)
         ☐ Inspecting characters
         ✔ Showing avatar @done(18-12-30 20:30)

@@ -51,7 +51,7 @@ class LocationController extends Controller
     public function show(Location $location)
     {
         $character = Character::find(session('char_id'));
-        if( ($character->progress_id == null) || ($character->progress->type == 'collect') )
+        if( ($character->progress_id == null) || ($character->progress->type == 'collect') || ($character->progress->type == 'craft') )
         {
             $location = Location::find($character->location_id);
             $name = Name::where('location_id', $location->id)->where('owner_id', $character->id)->first();
@@ -64,11 +64,20 @@ class LocationController extends Controller
             $res = null;
             if($character->progress_id == null)
                 $res = Resource::where('location_id', $location->id)->get();
-            elseif($character->progress->type == 'collect')
+            else
             {
-                $progress = $character->progress;
-                $res = Resource::find($progress->target_id);
+                if($character->progress->type == 'collect')
+                {
+                    $progress = $character->progress;
+                    $res = Resource::find($progress->target_id);
+                }
+                if($character->progress->type == 'craft')
+                {
+                    $progress = $character->progress;
+                    $res = Resource::where('location_id', $location->id)->get();
+                }
             }
+
             return view('location.show')->with(["location" => $location, "title" => $priv_name, 'people' => $people, 'res' => $res, 'prog' => $progress]);
         }
         elseif($character->progress->type == 'travel')

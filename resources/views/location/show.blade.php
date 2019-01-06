@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="card-body">
-        @if($prog == null)
+        @if($prog == null || $prog->type = 'craft')
             <div class="d-flex flex-row justify-content-center">
                 @foreach ($res as $r)
                     <div class="card res m-1 bg-light">
