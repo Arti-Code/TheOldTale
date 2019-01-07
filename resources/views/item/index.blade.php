@@ -26,6 +26,8 @@
                             <td class="text-center"><a href="{{route('item.show', $item->id)}}"><i class="red far fa-arrow-alt-circle-down"></i></a></td>
                             @if( in_array($item->type, App\Item::FOOD) )
                                 <td class="text-center"><a href="{{route('character.eat', $item->id)}}"><i class="blue fas fa-utensils"></i></a></td>
+                            @elseif( array_key_exists($item->type, App\Item::WEAPON) )
+                                <td class="text-center"><a href="{{route('character.weapon.equip', $item->id)}}"><i class="fas fa-shield-alt"></i></a></td>
                             @else
                                 <td class="text-center"></td>
                             @endif

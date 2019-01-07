@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="card-body">
-        @if($prog == null || $prog->type = 'craft')
+        @if($prog->type != 'collect')
             <div class="d-flex flex-row justify-content-center">
                 @foreach ($res as $r)
                     <div class="card res m-1 bg-light">
@@ -27,7 +27,7 @@
                     </div>
                 @endforeach
             </div>
-        @else
+        @elseif($prog->type == 'collect')
             <div class="d-flex flex-row justify-content-around py-2 border align-items-center">
                 <div class="col-2 d-flex py-auto">
                     {{ $res->title }}

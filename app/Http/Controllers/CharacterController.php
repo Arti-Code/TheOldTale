@@ -193,37 +193,33 @@ class CharacterController extends Controller
         return view('character.craft')->with(["character" => $character, "products" => $products]);
     }
 
-    /*public function craftThis($name)
+    public function fight()
     {
         $character = Character::find(session('char_id'));
-        $products = Item::PRODUCT;
-        if( array_key_exists( $name, $products ) )
+        $other = Character::where('location_id', $character->location_id)->where('id', '<>', $character->id)->get();
+        $weapon = Item::find($character->weapon_id);
+        if( !$weapon)
         {
-            $item = Item::PRODUCT[$name];
-            $item['name'] = $name;
-            $inventory = [];
-            foreach( $item['res'] as $k => $val )
-            {
-                $i = Item::where('character_id', $character->id)->where('type', $k)->first();
-                if( $i )
-                {
-                    if( $i->amount > $val )     $i->amount = $val;
-                    array_push($inventory, $i);
-                }
-                else
-                {
-                    $i = new Item;
-                    $i->type = $k;
-                    $i->title = $k;
-                    $i->amount = $val;
-                    $i->character_id = $character->id;
-                }
-            }
-            return view('character.craftthis')->with(["character" => $character, "inventory" => $inventory, "item" => $item]);
+            $weapon = new Item;
+            $weapon->type = 'fists';
+        }
+        return view ( 'character.fight' )->with(["character" => $character, "weapon" => $weapon, "other" => $other]);
+    }
+
+    public function weaponEquip($id)
+    {
+        $character = Character::find(session('char_id'));
+        $weapon = Item::find($id);
+        if($weapon->character_id == $character->id)
+        {
+            $character->weapon_id = $weapon->id;
+            $character->save();
+            return redirect()->back()->with('success', 'New weapon selected');
         }
         else
         {
-            return redirect()->back()->with('danger', 'Wybrano niewłaściwy przedmiot');
+            return redirect()->back()->with('danger', 'Wrong weapon');
         }
-    }*/
+    }
+
 }

@@ -9,8 +9,9 @@ class Item extends Model
     public $timestamps = false;
     protected $guarded=[];
 
-    const FOOD = ['fruit', 'fish', 'meat'];
-    const FOOD_QUALITY = ['fruit' => 10, 'meat' => 20, 'fish' => 20];
+    const FOOD = ['fruit', 'fish', 'meat', 'apple'];
+    const FOOD_QUALITY = ['fruit' => 6, 'meat' => 20, 'fish' => 20, 'apple' => 6];
+    const WEAPON = ['mace' => [ 'dmg' => 20, 'adv' =>20 ], 'bone knife' => [ 'dmg' => 35, 'adv' =>10 ], 'sling' => [ 'dmg' => 20, 'adv' => 0 ], 'stone hammer' => [ 'dmg' => 20, 'adv' => 15 ] ];
     const PRODUCTS = [ ['mace', 'bone knife', 'prim boots', 'sling', 'stone hammer'] ];
     const PRODUCT =
     [

@@ -102,6 +102,13 @@ class ProgressController extends Controller
                 }
                 if( $enough_res )
                 {
+                    foreach( $item['res'] as $k => $val )
+                    {
+                        $i = Item::where('character_id', $character->id)->where('type', $k)->first();
+                        $i->amount = $i->amount - $val;
+                        if( $i->amount > 0 )    $i->save();
+                        else $i->delete();
+                    }
                     $p = new Progress;
                     $p->act = 0;
                     $p->max = $item['turn'];

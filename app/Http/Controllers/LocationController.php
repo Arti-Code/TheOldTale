@@ -7,6 +7,7 @@ use App\Character;
 use App\Universum;
 use App\Name;
 use App\Resource;
+use App\Progress;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
@@ -63,7 +64,10 @@ class LocationController extends Controller
             $progress = null;
             $res = null;
             if($character->progress_id == null)
+            {
                 $res = Resource::where('location_id', $location->id)->get();
+                $progress = new Progress;
+            }
             else
             {
                 if($character->progress->type == 'collect')
