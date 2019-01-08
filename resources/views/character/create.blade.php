@@ -9,10 +9,11 @@
     <div class="card-body">
         <div class="form-group">
             <label for="name">Character Name</label>
-            <input name="name" id="name" type="text" class="form-control">
+            <small><i>(4-10 letters, first one with uppercase)</i></small>
+            <input name="name" id="name" type="text" class="form-control" minlength="4" maxlength="10" pattern="^[A-Z][a-z]{4,10}$" required>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="sex" id="maleRadio" value="M">
+            <input class="form-check-input" type="radio" name="sex" id="maleRadio" value="M" checked>
             <label class="form-check-label" for="maleRadio">Male</label>
         </div>
         <div class="form-check form-check-inline">

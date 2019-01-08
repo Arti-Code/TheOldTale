@@ -2,7 +2,7 @@
 
 @section('content')
 
-@if (count($characters) > 0)
+@if (isset($characters))
 <div class="card bg-light">
     <div class="card-header">Select Character</div>
     <div class="card-body">

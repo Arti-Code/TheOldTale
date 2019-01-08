@@ -58,14 +58,12 @@
                             @endif
                         @else
                                 @if (session('char_name') != null)
-                                    <li class="nav-item"><a class="nav-link" href="#">{{ Auth::user()->name }} ({{ session('char_name') }})</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">({{ session('char_name') }})</a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('character.myself') }}"><i class="far fa-user"></i></a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('location.show') }}"><i class="fas fa-map-marker-alt"></i></a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('message.index') }}"><i class="far fa-comments"></i></a></li>
                                     <li class="nav-item"><a class="nav-link" href="{{ route('character.fight') }}"><i class="fas fa-shield-alt"></i></a></li>
 
-                                @else
-                                    <li class="nav-item"><a class="nav-link" href="#">{{ Auth::user()->name }}</a></li>
                                 @endif
                                 @if(session("is_admin"))
                                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.universum.index') }}"><i class="fas fa-tools text-warning"></i></a></li>

@@ -8,6 +8,7 @@ use App\Location;
 use App\Name;
 use App\Item;
 use App\Progress;
+use App\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,14 +48,31 @@ class CharacterController extends Controller
      */
     public function store(Request $request)
     {
-        $character = new Character;
-        $character->name = $request['name'];
-        $character->sex = $request['sex'];
-        $character->universum_id = $request['universum_id'];
-        $character->user_id = Auth::id();
-        $character->location_id = 1;
-        $character->save();
-        return redirect()->route('character.index');
+        $unique_char = Character::where('name', $request['name'])->where('universum_id', $request['universum_id'])->first();
+        if( !$unique_char )
+        {
+            $one_char = Character::where('user_id', Auth::id())->where('universum_id', $request['universum_id'])->first();
+            if( !$one_char || session('is_admin'))
+            {
+                $character = new Character;
+                $character->name = $request['name'];
+                $character->sex = $request['sex'];
+                $character->universum_id = $request['universum_id'];
+                $character->user_id = Auth::id();
+                $character->location_id = 1;
+                $character->save();
+                return redirect()->route('character.index')->with('success', 'Utworzyłeś nową postac');
+            }
+            else
+            {
+                return redirect()->back()->with('danger', 'Możesz posiadac tylko jedna postac w danym Universum');
+            }
+
+        }
+        else
+        {
+            return redirect()->back()->with('danger', 'Postac o tej nazwie już istnieje');
+        }
     }
 
     /**
@@ -121,40 +139,43 @@ class CharacterController extends Controller
     public function myself()
     {
         $character = Character::find(session('char_id'));
-        if($character->user_id == Auth::id())
+        if( $character->weapon_id != null )
+            $weapon = Item::find($character->weapon_id);
+        else
         {
-            if($character->progress_id == null)
-            {
-                $loc = Location::find($character->location_id);
-                $name = Name::where('location_id', $loc->id)->where('owner_id', $character->id)->first();
-                if($name)
-                    $location = $name->title;
-                else
-                    $location = "land with no name";
-                $progress = null;
-            }
-            else
-            {
-                if($character->progress->type == 'travel')
-                {
-                    $location = "traveling...";
-                }
-                if($character->progress->type == 'collect')
-                {
-                    $location = "collecting resources...";
-                }
-                if($character->progress->type == 'craft')
-                {
-                    $location = "crafting things...";
-
-                }
-                $p = Progress::find($character->progress_id);
-                $progress['type'] = $p->type;
-                $progress['value'] = round( ($p->act / $p->max) * 100);
-            }
-
-            return view('character.myself')->with(["character" => $character, "location" => $location, "progress" => $progress]);
+            $weapon = new Item;
+            $weapon->type = 'fists';
         }
+        if($character->progress_id == null)
+        {
+            $loc = Location::find($character->location_id);
+            $name = Name::where('location_id', $loc->id)->where('owner_id', $character->id)->first();
+            if($name)
+                $location = $name->title;
+            else
+                $location = "land with no name";
+            $progress = null;
+        }
+        else
+        {
+            if($character->progress->type == 'travel')
+            {
+                $location = "traveling...";
+            }
+            if($character->progress->type == 'collect')
+            {
+                $location = "collecting resources...";
+            }
+            if($character->progress->type == 'craft')
+            {
+                $location = "crafting things...";
+
+            }
+            $p = Progress::find($character->progress_id);
+            $progress['type'] = $p->type;
+            $progress['value'] = round( ($p->act / $p->max) * 100);
+        }
+        return view('character.myself')->with(["character" => $character, "location" => $location, "progress" => $progress, "weapon" => $weapon]);
     }
 
     public function eat($id)
@@ -222,4 +243,89 @@ class CharacterController extends Controller
         }
     }
 
+    public function other($id)
+    {
+        $character = Character::find(session('char_id'));
+        $other = Character::find($id);
+        $weapon = Item::find($other->weapon_id);
+        if( $character->location_id == $other->location_id)
+        {
+            return view('character.other')->with( [ 'other' => $other, 'weapon' => $weapon] );
+        }
+        else
+        {
+            return redirect()->back()->with('danger', 'Wrong person');
+        }
+    }
+
+    public function attack($id)
+    {
+        $character = Character::find(session('char_id'));
+        $enemy = Character::find($id);
+        if($enemy->location_id == $character->location_id)
+        {
+            $msg = new Message;
+            $msg2 = new Message;
+            if($character->weapon_id != null)
+            {
+                $item = Item::find($character->weapon_id);
+                $weapon = Item::WEAPON[$item->type];
+                $weapon['name'] = $item->type;
+            }
+            else
+            {
+                $weapon['name'] = 'fists';
+                $weapon['dmg'] = 0;
+                $weapon['adv'] = 0;
+            }
+            if($enemy->weapon_id != null)
+            {
+                $item = Item::find($enemy->weapon_id);
+                $weaponE = Item::WEAPON[$item->type];
+                $weaponE['name'] = $item->type;
+            }
+            else
+            {
+                $weaponE['name'] = 'fists';
+                $weaponE['dmg'] = 0;
+                $weaponE['adv'] = 0;
+            }
+            $hm = 50 + $weapon['adv'];
+            $he = 50 + $weaponE['adv'];
+            $ww = round ( ( $hm + ( 100 - $he ) ) / 2 );
+            $rand = rand(0, 100);
+            if( $ww <= $rand )
+            {
+                $str = rand(0, 20) + $weapon['dmg'];
+                $enemy->health = $enemy->health - $str;
+                $enemy->save();
+                $msg->text = $character->name . ' hit ' . $enemy->name . ' using ' . $weapon['name'];
+            }
+            else
+            {
+                $msg->text = $character->name . ' miss ' . $enemy->name . ' using ' . $weapon['name'];
+            }
+            $msg->location_id = $character->location_id;
+            $msg->type = 'FIGHT';
+            $msg->save();
+
+            $ww2 = round ( ( $he + ( 100 - $hm ) ) / 2 );
+            $rand2 = rand(0, 100);
+            if( $ww2 <= $rand2 )
+            {
+                $str2 = rand(0, 20) + $weaponE['dmg'];
+                $character->health = $character->health - $str2;
+                $character->save();
+                $msg2->text = $enemy->name . ' hit ' . $character->name . ' using ' . $weaponE['name'];
+            }
+            else
+            {
+                $msg2->text = $enemy->name . ' miss ' . $character->name . ' using ' . $weaponE['name'];
+            }
+            $msg2->location_id = $enemy->location_id;
+            $msg2->type = 'FIGHT';
+            $msg2->save();
+            return redirect()->route('message.index');
+        }
+    }
 }

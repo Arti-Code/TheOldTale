@@ -40,10 +40,10 @@
                 </div>
             </div>
         @endif
-        <div class="d-flex flex-row justify-content-around py-2">
+        <div class="d-flex flex-row justify-content-center py-2">
             @foreach ($people as $p)
                 <div class="card avatar m-1 bg-light">
-                    <img class="card-img-top card-avatar" src="{{asset('png/avatar' . $p->sex . '.png')}}">
+                    <a href="{{route('character.other', $p->id)}}"><img class="card-img-top card-avatar" src="{{asset('png/' . $p->avatar . '.png')}}"></a>
                     <div class="card-header p-0 border-0 bg-light text-center"><small>{{ $p->name }}</small></div>
                 </div>
             @endforeach

@@ -51,10 +51,17 @@
                         </div>
                     </div>
                 @endif
+                <div class="row mt-2">
+                    <div class="col-12 my-auto">
+                        @if($weapon)
+                            <b>weapon: {{$weapon->type}}</b>
+                        @endif
+                    </div>
+                </div>
             </div>
             <div class="col-3 justify-content-center">
                 <div class="card avatar">
-                    <img class="card-img-top card-avatar" src="{{asset('png/avatar' . $character->sex . '.png')}}">
+                    <img class="card-img-top card-avatar" src="{{asset('png/' . $character->avatar . '.png')}}">
                     <div class="card-header p-0 text-center">
                         @if ($character->sex == "M")
                             <i class="fas fa-mars"></i>

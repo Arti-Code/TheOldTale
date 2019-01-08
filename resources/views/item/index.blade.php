@@ -23,7 +23,7 @@
                         <tr>
                             <td class="text-center">{{$item->type}}</td>
                             <td class="text-center">{{$item->amount}}</td>
-                            <td class="text-center"><a href="{{route('item.show', $item->id)}}"><i class="red far fa-arrow-alt-circle-down"></i></a></td>
+                            <td class="text-center"><a href="{{route('item.show', $item->id)}}"><i class="green fas fa-long-arrow-alt-up"></i><i class="red fas fa-long-arrow-alt-down"></i></a></td>
                             @if( in_array($item->type, App\Item::FOOD) )
                                 <td class="text-center"><a href="{{route('character.eat', $item->id)}}"><i class="blue fas fa-utensils"></i></a></td>
                             @elseif( array_key_exists($item->type, App\Item::WEAPON) )
@@ -31,7 +31,6 @@
                             @else
                                 <td class="text-center"></td>
                             @endif
-                            <td class="text-center"><i class="green fas fa-hammer"></i></td>
                         </tr>
                     @endforeach
                 </tbody>

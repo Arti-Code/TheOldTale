@@ -18,7 +18,7 @@ class MessageController extends Controller
     public function index()
     {
         $character = Character::find(session('char_id'));
-        $messages = Message::where('location_id', $character->location_id)->orderBy('added_on', 'desc')->take(15)->get();
+        $messages = Message::where('location_id', $character->location_id)->orderBy('added_on', 'desc')->orderBy('id', 'desc')->take(15)->get();
         return view('message.index')->with(['character' => $character, 'messages' => $messages]);
     }
 

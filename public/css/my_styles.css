@@ -57,3 +57,32 @@
     width: 48px;
 }
 
+input:invalid {
+  border: 1px red;
+}
+
+input:valid {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+a:link {
+  color: black;
+  text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+  color: black;
+  text-decoration: none;
+}
+
+a:active {
+  color: black;
+  text-decoration: none;
+}

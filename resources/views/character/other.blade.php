@@ -4,7 +4,7 @@
 
 <div class="card bg-light">
     <div class="card-header text-center">
-        <h5>{{ $character->name }}</h5>
+        <h5>{{ $other->name }}</h5>
     </div>
     <div class="card-body">
     <div class="container">
@@ -16,16 +16,7 @@
                         <i class="fas fa-heart red"></i>
                     </div>
                     <div class="col-8 progress my-auto  px-0" style="height: 4px;">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $character->health }}%;"></div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-2">
-                        <i class="far fa-smile text-success"></i>
-                    </div>
-                    <div class="col-8 progress my-auto  px-0" style="height: 4px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: {{ $character->happy }}%;"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $other->health }}%;"></div>
                     </div>
                 </div>
 
@@ -39,9 +30,9 @@
             </div>
             <div class="col-3 justify-content-center">
                 <div class="card avatar">
-                    <img class="card-img-top card-avatar" src="{{asset('png/avatar' . $character->sex . '.png')}}">
+                    <img class="card-img-top card-avatar" src="{{asset('png/' . $other->avatar . '.png')}}">
                     <div class="card-header p-0 text-center">
-                        @if ($character->sex == "M")
+                        @if ($other->sex == "M")
                             <i class="fas fa-mars"></i>
                         @else
                             <i class="fas fa-venus"></i>
@@ -53,6 +44,11 @@
     </div>
     </div>
 </div>
+
+<div class="d-flex mt-3">
+    <a href="{{route('character.attack', $other->id)}}" class="btn btn-danger mx-auto w-50">Attack</a>
+</div>
+
 
 
 @endsection

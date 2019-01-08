@@ -11,17 +11,27 @@
 
 @foreach($messages as $msg)
     @if($msg->character_id != null)
-        <div class="card mt-2">
+        <div class="card mt-2 border-0">
             <div class="card-body py-1">
-                <b>{{ $msg->character->name }}:</b> <i>{{ $msg->text }}</i> <br />
+               <!-- <a href=""><div class="d-inline bg-light border p-1 font-weight-bold rounded">{ $msg->character->name }}:</div></a> <div class="d-inline font-italic">{ $msg->text }}</div> <br />-->
+               <a href="{{route('character.other', $msg->character->id)}}" class="btn btn-outline-secondary">{{ $msg->character->name }}</a> <div class="d-inline font-italic">{{ $msg->text }}</div> <br />
             </div>
         </div>
     @else
-        <div class="card mt-2">
+        @if($msg->type == "FIGHT")
+            <div class="card mt-2 border-0">
             <div class="card-body py-1">
-                <b>{{ $msg->text }}</b> <br />
+                <div><i class="red fas fa-exclamation"></i><b class="red">  {{ $msg->text }}</b></div>
             </div>
         </div>
+        @else
+            <div class="card mt-2 border-0">
+            <div class="card-body py-1">
+                <div><i class="fas fa-exclamation"></i><b>  {{ $msg->text }}</b></div>
+            </div>
+        </div>
+        @endif
+
     @endif
 @endforeach
 
