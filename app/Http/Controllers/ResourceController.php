@@ -104,12 +104,8 @@ class ResourceController extends Controller
                 $p = Progress::where('character_id', $character->id)->first();
                 $character->progress_id = $p->id;
                 $character->save();
-                $msg = new Message;
-                $msg->location_id = $character->location_id;
-                $msg->type = 'SYS_PUB';
-                $msg->text = $character->name . ' ' . $r->title;
-                $msg->save();
-                return redirect()->route('location.show')->with('success', 'You start to collect resources');
+                MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' ' . $r->title);
+                return redirect()->route('location.show')->with('success', 'Pozyskujesz surowce');
             }
         }
         else

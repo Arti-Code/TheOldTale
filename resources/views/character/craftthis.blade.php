@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="card bg-light">
-    <div class="card-header text-center"><h5>Craft {{$item['name']}}</h5></div>
+    <div class="card-header text-center"><h5>Wytwarzaj {{$item['name']}}</h5></div>
     <div class="card-body">
         <form method="POST" action="{{ route('character.store') }}">
             @csrf
@@ -19,11 +19,11 @@
                 </div>
 
                 <div class="row mt-2">
-                    <div class="col-3 text-right"><span>character</span></div>
+                    <div class="col-3 text-right"><span>postac</span></div>
                     <div class="col-6 my-auto">
                         <input type="range" class="custom-range" name="slider" id="slider" min="0" value="{{$item['res'][$inv->type]}}" max="{{$inv->amount}}">
                     </div>
-                    <div class="col-3 text-left"><span>project</span></div>
+                    <div class="col-3 text-left"><span>projekt</span></div>
                 </div>
             @endforeach
         </form>

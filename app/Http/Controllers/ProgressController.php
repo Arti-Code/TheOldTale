@@ -118,16 +118,12 @@ class ProgressController extends Controller
                     $p->save();
                     $character->progress_id = $p->id;
                     $character->save();
-                    $msg = new Message;
-                    $msg->location_id = $character->location_id;
-                    $msg->type = 'SYS_PUB';
-                    $msg->text = $character->name . ' start crafting ' . $p->target;
-                    $msg->save();
-                    return redirect()->route('character.myself')->with('success', 'You start crafting');
+                    MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wytwarza ' . $p->target);
+                    return redirect()->route('character.myself')->with('success', 'Rozpoczynasz wytwarzanie');
                 }
                 else
                 {
-                    return redirect()->route('character.myself')->with('danger', 'You need more resources');
+                    return redirect()->route('character.myself')->with('danger', 'Potrzebujesz więcej surowcow');
                 }
             }
             else
@@ -137,7 +133,7 @@ class ProgressController extends Controller
         }
         else
         {
-            return redirect()->route('character.myself')->with('danger', 'You\re doing something else');
+            return redirect()->route('character.myself')->with('danger', 'Robisz już coś innego');
         }
     }
 
@@ -158,16 +154,16 @@ class ProgressController extends Controller
                 $p->delete();
                 $char->progress_id = null;
                 $char->save();
-                return redirect()->route('location.show')->with('info', 'You have cancelled your works...');
+                return redirect()->route('location.show')->with('info', 'Przerwałeś dotychczasową czynnośc');
             }
             else
             {
-                return redirect()->route('location.show')->with('danger', 'Specified progress isn\'t your own');
+                return redirect()->route('location.show')->with('danger', 'Niewłaściwa czynnośc');
             }
         }
         else
         {
-            return redirect()->route('location.show')->with('danger', 'Specified progress doesn\'t exist');
+            return redirect()->route('location.show')->with('danger', 'Ta czynnośc nie istnieje');
         }
     }
 }

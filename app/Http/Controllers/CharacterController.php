@@ -57,9 +57,14 @@ class CharacterController extends Controller
                 $character = new Character;
                 $character->name = $request['name'];
                 $character->sex = $request['sex'];
+                if( $character->sex == "M")
+                {
+                    $i = rand(1, 6);
+                    $character->avatar = "m" . $i;
+                }
                 $character->universum_id = $request['universum_id'];
                 $character->user_id = Auth::id();
-                $character->location_id = 1;
+                $character->location_id = 7;
                 $character->save();
                 return redirect()->route('character.index')->with('success', 'Utworzyłeś nową postac');
             }
@@ -235,11 +240,11 @@ class CharacterController extends Controller
         {
             $character->weapon_id = $weapon->id;
             $character->save();
-            return redirect()->back()->with('success', 'New weapon selected');
+            return redirect()->back()->with('success', 'Wybrano broń');
         }
         else
         {
-            return redirect()->back()->with('danger', 'Wrong weapon');
+            return redirect()->back()->with('danger', 'Nieprawidłowa broń');
         }
     }
 
@@ -254,7 +259,7 @@ class CharacterController extends Controller
         }
         else
         {
-            return redirect()->back()->with('danger', 'Wrong person');
+            return redirect()->back()->with('danger', 'Nieprawidłowa osoba');
         }
     }
 
@@ -264,68 +269,72 @@ class CharacterController extends Controller
         $enemy = Character::find($id);
         if($enemy->location_id == $character->location_id)
         {
-            $msg = new Message;
-            $msg2 = new Message;
-            if($character->weapon_id != null)
+            if( $character->fight = 1 )
             {
-                $item = Item::find($character->weapon_id);
-                $weapon = Item::WEAPON[$item->type];
-                $weapon['name'] = $item->type;
-            }
-            else
-            {
-                $weapon['name'] = 'fists';
-                $weapon['dmg'] = 0;
-                $weapon['adv'] = 0;
-            }
-            if($enemy->weapon_id != null)
-            {
-                $item = Item::find($enemy->weapon_id);
-                $weaponE = Item::WEAPON[$item->type];
-                $weaponE['name'] = $item->type;
-            }
-            else
-            {
-                $weaponE['name'] = 'fists';
-                $weaponE['dmg'] = 0;
-                $weaponE['adv'] = 0;
-            }
-            $hm = 50 + $weapon['adv'];
-            $he = 50 + $weaponE['adv'];
-            $ww = round ( ( $hm + ( 100 - $he ) ) / 2 );
-            $rand = rand(0, 100);
-            if( $ww <= $rand )
-            {
-                $str = rand(0, 20) + $weapon['dmg'];
-                $enemy->health = $enemy->health - $str;
-                $enemy->save();
-                $msg->text = $character->name . ' hit ' . $enemy->name . ' using ' . $weapon['name'];
-            }
-            else
-            {
-                $msg->text = $character->name . ' miss ' . $enemy->name . ' using ' . $weapon['name'];
-            }
-            $msg->location_id = $character->location_id;
-            $msg->type = 'FIGHT';
-            $msg->save();
+                $character->fight = 0;
+                $msg = new Message;
+                $msg2 = new Message;
+                if($character->weapon_id != null)
+                {
+                    $item = Item::find($character->weapon_id);
+                    $weapon = Item::WEAPON[$item->type];
+                    $weapon['name'] = $item->type;
+                }
+                else
+                {
+                    $weapon['name'] = 'fists';
+                    $weapon['dmg'] = 0;
+                    $weapon['adv'] = 0;
+                }
+                if($enemy->weapon_id != null)
+                {
+                    $item = Item::find($enemy->weapon_id);
+                    $weaponE = Item::WEAPON[$item->type];
+                    $weaponE['name'] = $item->type;
+                }
+                else
+                {
+                    $weaponE['name'] = 'fists';
+                    $weaponE['dmg'] = 0;
+                    $weaponE['adv'] = 0;
+                }
+                $hm = 50 + $weapon['adv'];
+                $he = 50 + $weaponE['adv'];
+                $ww = round ( ( $hm + ( 100 - $he ) ) / 2 );
+                $rand = rand(0, 100);
+                if( $ww <= $rand )
+                {
+                    $str = rand(0, 20) + $weapon['dmg'];
+                    $enemy->health = $enemy->health - $str;
+                    $enemy->save();
+                    $text1 = $character->name . ' hit ' . $enemy->name . ' using ' . $weapon['name'];
+                }
+                else
+                {
+                    $text1 = $character->name . ' miss ' . $enemy->name . ' using ' . $weapon['name'];
+                }
+                MessageController::ADD_FIGHT_MSG($character->location_id, $text1);
 
-            $ww2 = round ( ( $he + ( 100 - $hm ) ) / 2 );
-            $rand2 = rand(0, 100);
-            if( $ww2 <= $rand2 )
-            {
-                $str2 = rand(0, 20) + $weaponE['dmg'];
-                $character->health = $character->health - $str2;
-                $character->save();
-                $msg2->text = $enemy->name . ' hit ' . $character->name . ' using ' . $weaponE['name'];
+                $ww2 = round ( ( $he + ( 100 - $hm ) ) / 2 );
+                $rand2 = rand(0, 100);
+                if( $ww2 <= $rand2 )
+                {
+                    $str2 = rand(0, 20) + $weaponE['dmg'];
+                    $character->health = $character->health - $str2;
+                    $character->save();
+                    $text2 = $enemy->name . ' hit ' . $character->name . ' using ' . $weaponE['name'];
+                }
+                else
+                {
+                    $text2->text = $enemy->name . ' miss ' . $character->name . ' using ' . $weaponE['name'];
+                }
+                MessageController::ADD_FIGHT_MSG($enemy->location_id, $text2);
+                return redirect()->route('message.index');
             }
             else
             {
-                $msg2->text = $enemy->name . ' miss ' . $character->name . ' using ' . $weaponE['name'];
+                return redirect()->back()->with('danger', 'Atakowac możesz raz na turę');
             }
-            $msg2->location_id = $enemy->location_id;
-            $msg2->type = 'FIGHT';
-            $msg2->save();
-            return redirect()->route('message.index');
         }
     }
 }

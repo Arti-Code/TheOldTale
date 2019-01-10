@@ -59,7 +59,7 @@ class LocationController extends Controller
             if($name)
                 $priv_name = $name->title;
             else
-                $priv_name = "unknown";
+                $priv_name = $location->name;
             $people = Character::where('location_id', $location->id)->where('id', '<>', $character->id)->get();
             $progress = null;
             $res = null;

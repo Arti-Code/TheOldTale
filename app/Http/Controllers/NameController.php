@@ -36,20 +36,7 @@ class NameController extends Controller
      */
     public function store(Request $request)
     {
-        $name = Name::where('location_id', $request['location_id'])->where('owner_id', session('char_id'))->first();
-        if($name)
-        {
-            $name->title = $request['title'];
-        }
-        else
-        {
-            $name = new Name;
-            $name->title = $request['title'];
-            $name->location_id = $request['location_id'];
-            $name->owner_id = session('char_id');
-        }
-        $name->save();
-        return redirect()->route('character.myself');
+
     }
 
     /**

@@ -4,15 +4,15 @@
 
 @if (count($products) > 0)
 <div class="card bg-light">
-    <div class="card-header text-center"><h5>Craft item</h5></div>
+    <div class="card-header text-center"><h5>Wytwarzaj przedmiot</h5></div>
     <div class="card-body">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th class="text-center">Turns</th>
-                    <th>Resources</th>
-                    <th class="text-center">Craft</th>
+                    <th>Nazwa</th>
+                    <th class="text-center">Czas produkcji</th>
+                    <th>Surowce</th>
+                    <th class="text-center">Wytwarzaj</th>
                 </tr>
             </thead>
             <tbody>

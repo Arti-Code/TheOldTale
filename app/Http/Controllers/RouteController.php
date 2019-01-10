@@ -32,7 +32,7 @@ class RouteController extends Controller
             if(!$start_name)
             {
                 $start_name = new Name;
-                $start_name->title = "land with no name";
+                $start_name->title = $location->name;
             }
             $i = 0;
             foreach ($results as $result)
@@ -41,12 +41,13 @@ class RouteController extends Controller
                 $routes[$i]['start_id'] = $result->location_id;
                 $routes[$i]['finish_id'] = $result->finish_id;
                 $finish_name = Name::where('owner_id', $character->id)->where('location_id', $result->finish_id)->first();
+                $finish_loc = Location::find($result->finish_id);
                 if(!$finish_name)
                 {
                     $finish_name = new Name;
-                    $finish_name->title = "land with no name";
+                    $finish_loc = Location::find($result->finish_id);
+                    $finish_name->title = $finish_loc->name;
                 }
-                $finish_loc = Location::where('id', $result->finish_id)->first();
                 $routes[$i]['finish'] = $finish_name->title;
                 $routes[$i]['type'] = $finish_loc->type;
                 $routes[$i]['distance'] = $result->distance;
@@ -55,7 +56,7 @@ class RouteController extends Controller
             if($start_name != null)
                 return view('navigation.index')->with(['routes' => $routes, 'location_name' => $start_name->title]);
             else
-                return view('navigation.index')->with(['routes' => $routes, 'location_name' => 'untitled']);
+                return view('navigation.index')->with(['routes' => $routes, 'location_name' => $start_name->title]);
         }
         else
         {
@@ -65,7 +66,7 @@ class RouteController extends Controller
             }
             if($progress->type == 'collect')
             {
-                return redirect()->route('location.show')->with('warning', 'Sorrry, but you\'re busy... ');
+                return redirect()->route('location.show')->with('warning', 'Jesteś już zajęty... ');
             }
         }
     }
@@ -142,9 +143,9 @@ class RouteController extends Controller
         $location = Location::find($character->location_id);
         $route = Route::find($id);
         if(!$route)
-            return redirect()->back()->with('danger', 'Selected route do not exist.');
+            return redirect()->back()->with('danger', 'Wybrany szlak nie istnieje.');
         if($route->location_id != $location->id)
-            return redirect()->back()->with('danger', 'Selected route is not proper for this location.');
+            return redirect()->back()->with('danger', 'Niewłaściwy szlak.');
         $progress = new Progress;
         $progress->character_id = $character->id;
         $progress->act = 0;
@@ -154,11 +155,8 @@ class RouteController extends Controller
         $progress->save();
         $character->progress_id = $progress->id;
         $character->save();
-        $msg = new Message;
-        $msg->location_id = $character->location_id;
-        $msg->type = 'SYS_PUB';
-        $msg->text = $character->name . ' wyrusza w drogę';
-        $msg->save();
+        $finish_loc = Location::find($route->finish_id);
+        MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wyrusza w drogę do ' . $finish_loc->name);
         return redirect()->route('navigation.travel');
     }
 
@@ -171,14 +169,16 @@ class RouteController extends Controller
         $finish_name = Name::where('location_id', $route->finish_id)->where('owner_id', $character->id)->first();
         if(!$start_name)
         {
+            $start_loc = Location::find($route->location_id);
             $start_name = new Name;
-            $start_name->title = 'land with no name';
+            $start_name->title = $start_loc->name;
             $start_name->location_id = $route->location_id;
         }
         if(!$finish_name)
         {
+            $finish_loc = Location::find($route->finish_id);
             $finish_name = new Name;
-            $finish_name->title = 'land with no name';
+            $finish_name->title = $finish_loc->name;
             $finish_name->location_id = $route->finish_id;
         }
         $percent = round(($progress->act / $progress->max) * 100);

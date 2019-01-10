@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
+use App\Character;
 class Char
 {
     /**
@@ -19,6 +19,10 @@ class Char
         {
             return redirect('home');
         }
-        return $next($request);
+        $char = Character::find(session('char_id'));
+        if( !$char->dead )
+            return $next($request);
+        else
+            return redirect()->route('character.index')->with('danger', 'Wybrana postac nie żyje...');
     }
 }

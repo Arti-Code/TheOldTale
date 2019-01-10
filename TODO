@@ -23,7 +23,8 @@ v0.1:
         ✔ Showing local messages in order @done(18-12-30 23:43)
         ✔ Showing local informations @done(18-12-30 23:43)
         ✔ Speaking to everyone @done(18-12-30 23:43)
-        ☐ Links to characters in messages
+        ✔ Links to characters in messages @done(19-01-10 00:21)
+        ☐ NEW TURN global message
     Next Turn:
         ✔ Calc travel via routes @done(18-12-26 19:14)
         ✔ Calc hunger @done(19-01-08 19:06)
@@ -39,4 +40,5 @@ v0.1:
         ✔ Displaying messages @done(18-12-25 21:17)
     Bugs:
         ✔ Wrong roues index on navigation/index @done(18-12-26 19:14)
+        ✔ Wrong arrival_time @done(19-01-10 00:22)
 

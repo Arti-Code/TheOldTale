@@ -11,25 +11,31 @@
 
 @foreach($messages as $msg)
     @if($msg->character_id != null)
-        <div class="card mt-2 border-0">
+        <div class="card border-0">
             <div class="card-body py-1">
                <!-- <a href=""><div class="d-inline bg-light border p-1 font-weight-bold rounded">{ $msg->character->name }}:</div></a> <div class="d-inline font-italic">{ $msg->text }}</div> <br />-->
-               <a href="{{route('character.other', $msg->character->id)}}" class="btn btn-outline-secondary">{{ $msg->character->name }}</a> <div class="d-inline font-italic">{{ $msg->text }}</div> <br />
+               <a href="{{route('character.other', $msg->character->id)}}" class="btn btn-outline-secondary py-0">{{ $msg->character->name }}</a> <div class="d-inline font-italic">{{ $msg->text }}</div> <br />
             </div>
         </div>
     @else
         @if($msg->type == "FIGHT")
-            <div class="card mt-2 border-0">
-            <div class="card-body py-1">
-                <div><i class="red fas fa-exclamation"></i><b class="red">  {{ $msg->text }}</b></div>
+            <div class="card border-0">
+                <div class="card-body py-1">
+                    <div><i class="red fas fa-exclamation"></i><b class="red">  {{ $msg->text }}</b></div>
+                </div>
             </div>
-        </div>
+        @elseif($msg->type == "GLOBAL")
+            <div class="card border-0">
+                <div class="card-body py-1">
+                    <div class="font-weight-bold text-center blue">  {{ $msg->text }}</div>
+                </div>
+            </div>
         @else
-            <div class="card mt-2 border-0">
-            <div class="card-body py-1">
-                <div><i class="fas fa-exclamation"></i><b>  {{ $msg->text }}</b></div>
+            <div class="card border-0">
+                <div class="card-body py-1">
+                    <div><b class="text-muted">  {{ $msg->text }}</b></div>
+                </div>
             </div>
-        </div>
         @endif
 
     @endif

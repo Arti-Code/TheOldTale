@@ -29,7 +29,7 @@
 </div>
 
 <div class="d-flex mt-3">
-    <a class="btn bg-blue text-white mx-auto" href="" role="button">Create New Universum</a>
+    <a class="btn bg-blue text-white mx-auto" href="" role="button">Utworz Nowe Universum</a>
 </div>
 
 @endsection

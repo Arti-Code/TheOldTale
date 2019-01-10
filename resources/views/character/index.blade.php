@@ -9,10 +9,9 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Universe</th>
-                    <th class="text-center">Delete</th>
-                    <th class="text-center">Play</th>
+                    <th>Imię</th>
+                    <th>Universum</th>
+                    <th class="text-center">Wybierz</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,8 +19,11 @@
                     <tr>
                         <td>{{ $character->name }}</td>
                         <td>{{ $character->universum->name }}</td>
-                        <td class="text-center"><a href="{{ route('character.destroy', $character->id) }}"><i class="fas fa-trash-alt"></i></a></td>
-                        <td class="text-center"><a href="{{ route('character.select', $character->id) }}"><i class="fas fa-check"></i></a></td>
+                        @if($character->dead == 0)
+                            <td class="text-center"><a href="{{ route('character.select', $character->id) }}"><i class="fas fa-check"></i></a></td>
+                        @else
+                            <td class="text-center"><i class="red fas fa-skull"></i></td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
@@ -31,7 +33,7 @@
 @endif
 
 <div class="d-flex mt-3">
-    <a class="btn bg-blue text-white mx-auto" href="{{ route('character.create') }}" role="button">Create New Character</a>
+    <a class="btn bg-blue text-white mx-auto" href="{{ route('character.create') }}" role="button">Utworz Nowy Charakter</a>
 </div>
 
 @endsection

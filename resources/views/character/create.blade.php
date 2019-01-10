@@ -5,31 +5,31 @@
 <form method="POST" action="{{ route('character.store') }}">
     @csrf
     <div class="card bg-light">
-    <div class="card-header">Create new character</div>
+    <div class="card-header">Nowa Postac</div>
     <div class="card-body">
         <div class="form-group">
-            <label for="name">Character Name</label>
-            <small><i>(4-10 letters, first one with uppercase)</i></small>
+            <label for="name">Nazwa</label>
+            <small><i>(4-10 liter, pierwsza duża)</i></small>
             <input name="name" id="name" type="text" class="form-control" minlength="4" maxlength="10" pattern="^[A-Z][a-z]{4,10}$" required>
         </div>
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="sex" id="maleRadio" value="M" checked>
-            <label class="form-check-label" for="maleRadio">Male</label>
+            <label class="form-check-label" for="maleRadio">Mężczyzna</label>
         </div>
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="sex" id="femaleRadio" value="F">
-            <label class="form-check-label" for="femaleRadio">Female</label>
+            <label class="form-check-label" for="femaleRadio">Kobieta</label>
         </div>
         <div class="form-group">
-            <label>Select Universum</label>
+            <label>Universum</label>
             <select id="universum_id" name="universum_id" class="form-control">
                 @foreach ($universums as $universum)
-                    <option value="{{ $universum->id }}">{{ $universum->name }} (turn: {{ $universum->turn }})</option>
+                    <option value="{{ $universum->id }}">{{ $universum->name }} (tura: {{ $universum->turn }})</option>
                 @endforeach
             </select>
         </div>
         <div class="d-flex">
-            <button class="btn btn-success mx-auto" type="submit" name="action">Create</button>
+            <button class="btn btn-success mx-auto" type="submit" name="action">Utworz</button>
         </div>
     </div>
     </div>

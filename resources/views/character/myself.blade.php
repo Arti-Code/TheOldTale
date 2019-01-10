@@ -54,7 +54,7 @@
                 <div class="row mt-2">
                     <div class="col-12 my-auto">
                         @if($weapon)
-                            <b>weapon: {{$weapon->type}}</b>
+                            <b>bron: {{$weapon->type}}</b>
                         @endif
                     </div>
                 </div>
@@ -79,15 +79,15 @@
 <div class="d-flex flex-row justify-content-around my-2 py-2">
     <div class="card p-2 bg-light">
         <img class="card-img-top" src="{{asset('png/skills.png')}}">
-        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Skills</div>
+        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Umiejętności</div>
     </div>
     <div class="card p-2 bg-light">
         <a href="{{route('item.index')}}"><img class="card-img-top" src="{{asset('png/backpack.png')}}"></a>
-        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Inventory</div>
+        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Ekwipunek</div>
     </div>
     <div class="card p-2 bg-light">
         <a href="{{route('character.craft')}}"><img class="card-img-top" src="{{asset('png/craft.png')}}"></a>
-        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Craft</div>
+        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Wytwarzaj</div>
     </div>
 </div>
 

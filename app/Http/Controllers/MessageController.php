@@ -18,7 +18,7 @@ class MessageController extends Controller
     public function index()
     {
         $character = Character::find(session('char_id'));
-        $messages = Message::where('location_id', $character->location_id)->orderBy('added_on', 'desc')->orderBy('id', 'desc')->take(15)->get();
+        $messages = Message::where('location_id', $character->location_id)->orWhere('type', 'GLOBAL')->orderBy('added_on', 'desc')->orderBy('id', 'desc')->take(15)->get();
         return view('message.index')->with(['character' => $character, 'messages' => $messages]);
     }
 
@@ -41,12 +41,7 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $character = Character::find(session('char_id'));
-        $msg = new Message;
-        $msg->location_id = $character->location_id;
-        $msg->type = 'CHAR_PUB';
-        $msg->character_id = $character->id;
-        $msg->text = $request['msgText'];
-        $msg->save();
+        $this->ADD_CHAR_PUB_MSG($character->location_id, $character->id, $request['msgText']);
         return redirect()->route('message.index');
     }
 
@@ -93,5 +88,62 @@ class MessageController extends Controller
     public function destroy(Message $message)
     {
         //
+    }
+
+    static function ADD_GLOBAL_MSG($univ_id, $text)
+    {
+        $msg = new Message;
+        $msg->universum_id = $univ_id;
+        $msg->type = 'GLOBAL';
+        $msg->text = $text;
+        $time = date("Y-m-d H:i:s");
+        $msg->added_on = $time;
+        $msg->save();
+    }
+
+    static function ADD_FIGHT_MSG($loc_id, $text)
+    {
+        $msg = new Message;
+        $msg->location_id = $loc_id;
+        $msg->type = 'FIGHT';
+        $msg->text = $text;
+        $time = date("Y-m-d H:i:s");
+        $msg->added_on = $time;
+        $msg->save();
+    }
+
+    static function ADD_SYS_PUB_MSG($loc_id, $text)
+    {
+        $msg = new Message;
+        $msg->location_id = $loc_id;
+        $msg->type = 'SYS_PUB';
+        $msg->text = $text;
+        $time = date("Y-m-d H:i:s");
+        $msg->added_on = $time;
+        $msg->save();
+    }
+
+    static function ADD_SYS_PRIV_MSG($loc_id, $rec_id, $text)
+    {
+        $msg = new Message;
+        $msg->location_id = $loc_id;
+        $msg->receiver_id = $rec_id;
+        $msg->type = 'SYS_PRIV';
+        $msg->text = $text;
+        $time = date("Y-m-d H:i:s");
+        $msg->added_on = $time;
+        $msg->save();
+    }
+
+    static function ADD_CHAR_PUB_MSG($loc_id, $char_id, $text)
+    {
+        $msg = new Message;
+        $msg->location_id = $loc_id;
+        $msg->character_id = $char_id;
+        $msg->type = 'CHAR_PUB';
+        $msg->text = $text;
+        $time = date("Y-m-d H:i:s");
+        $msg->added_on = $time;
+        $msg->save();
     }
 }

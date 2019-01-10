@@ -32,7 +32,7 @@
                 <div class="row mt-2">
                     <div class="col-12 my-auto">
                         @if($weapon != null)
-                            <b>weapon: {{$weapon->type}}</b>
+                            <b>broń: {{$weapon->type}}</b>
                         @endif
                     </div>
                 </div>

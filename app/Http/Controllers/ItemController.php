@@ -172,7 +172,7 @@ class ItemController extends Controller
                 {
                     $locItem->delete();
                 }
-                return redirect()->route('item.index')->with('success', 'Drop/Take udane');
+                return redirect()->route('item.index')->with('success', 'Udało się');
             }
             else
             {

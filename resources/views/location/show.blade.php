@@ -10,7 +10,7 @@
 
             </div>
             <div class="col-6">
-                <h5>{{ $title }}  <a href="{{ route('name.edit', $location->id) }}"><i class="far fa-edit"></i></a></h5>
+                <h5>{{ $title }} <!-- <a href="{ route('name.edit', $location->id) }}"><i class="far fa-edit"></i></a> --> </h5>
             </div>
             <div class="col-3">
                 <a href="{{ route('navigation.index') }}"><img src="{{asset('png/routes.png')}}" /></a>

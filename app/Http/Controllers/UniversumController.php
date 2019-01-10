@@ -51,16 +51,18 @@ class UniversumController extends Controller
                         $this->calcCraft($character);
                     }
                 }
+                $character->fight = true;
+                $this->calcDeath($character);
                 $character->save();
             }
             $universum->turn++;
             $universum->save();
-            $log = "turn " . $universum->turn . " has begin.";
-            return view('admin.universum.nextturn')->with(['log' => $log]);
+            MessageController::ADD_GLOBAL_MSG($universum->id, 'NASTAJE NOWA TURA');
+            return redirect()->route('admin.universum.index')->with('success', 'NOWA TURA NR ' . $universum->turn);
         }
         else
         {
-            return redirect()->route('home')->with('danger', 'selected universum do not exist');
+            return redirect()->route('home')->with('danger', 'Wybrane universum nie istnieje');
         }
     }
 
@@ -132,7 +134,7 @@ class UniversumController extends Controller
 
     private function calcTravel(Character $character)
     {
-        $character->progress->act = $character->progress->act + 2;
+        $character->progress->act = $character->progress->act + 1;
         if($character->progress->act < $character->progress->max)
         {
             $character->progress->save();
@@ -143,12 +145,7 @@ class UniversumController extends Controller
             $character->progress->delete();
             $character->location_id = $route->finish_id;
             $character->progress_id = null;
-            $character->save();
-            $msg = new Message;
-            $msg->location_id = $character->location_id;
-            $msg->type = 'SYS_PUB';
-            $msg->text = $character->name . ' przybywa tutaj';
-            $msg->save();
+            MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' przybywa');
         }
     }
 
@@ -165,30 +162,34 @@ class UniversumController extends Controller
             $character->progress->delete();
             $character->progress_id = null;
             $character->save();
-            if($result->components == null)
+            $random_val = rand(0, 100);
+            if( $random_val <= $result->luck  )
             {
-                $res = [$result->type => $result->amount];
-            }
-            else
-            {
-                $res = json_decode($result->components, true);
-            }
-            foreach($res as $key => $r)
-            {
-                $item = Item::where('character_id', $character->id)->where('type', $key)->first();
-                if( $item )
+                if($result->components == null)
                 {
-                    $item->amount = $item->amount + $r;
+                    $res = [$result->type => $result->amount];
                 }
                 else
                 {
-                    $item = new Item;
-                    $item->type = $key;
-                    $item->title = $key;
-                    $item->amount = $r;
-                    $item->character_id = $character->id;
+                    $res = json_decode($result->components, true);
                 }
-                $item->save();
+                foreach($res as $key => $r)
+                {
+                    $item = Item::where('character_id', $character->id)->where('type', $key)->first();
+                    if( $item )
+                    {
+                        $item->amount = $item->amount + $r;
+                    }
+                    else
+                    {
+                        $item = new Item;
+                        $item->type = $key;
+                        $item->title = $key;
+                        $item->amount = $r;
+                        $item->character_id = $character->id;
+                    }
+                    $item->save();
+                }
             }
         }
     }
@@ -244,6 +245,15 @@ class UniversumController extends Controller
         else
         {
             $character->health = 0;
+        }
+    }
+
+    public function calcDeath(Character $character)
+    {
+        if( $character->health <= 0 )
+        {
+            MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' umiera...');
+            $character->dead = true;
         }
     }
 }

@@ -46,7 +46,7 @@
 </div>
 
 <div class="d-flex mt-3">
-    <a href="{{route('character.attack', $other->id)}}" class="btn btn-danger mx-auto w-50">Attack</a>
+    <a href="{{route('character.attack', $other->id)}}" class="btn btn-danger mx-auto w-50">Atakuj</a>
 </div>
 
 
