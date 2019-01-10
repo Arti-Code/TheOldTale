@@ -254,6 +254,7 @@ class UniversumController extends Controller
         {
             MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' umiera...');
             $character->dead = true;
+            $character->location_id = -1;
         }
     }
 }
