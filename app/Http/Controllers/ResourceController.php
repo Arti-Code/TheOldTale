@@ -114,6 +114,8 @@ class ResourceController extends Controller
                 return redirect()->route('navigation.travel')->with('danger', 'Robisz już coś innego');
             if($character->progress->type == "collect")
                 return redirect()->route('location.show')->with('danger', 'Robisz już coś innego');
+            if($character->progress->type == "craft")
+                return redirect()->route('location.show')->with('danger', 'Robisz już coś innego');
         }
     }
 }
