@@ -24,7 +24,7 @@ v0.1:
         ✔ Showing local informations @done(18-12-30 23:43)
         ✔ Speaking to everyone @done(18-12-30 23:43)
         ✔ Links to characters in messages @done(19-01-10 00:21)
-        ☐ NEW TURN global message
+        ✔ NEW TURN global message @done(19-01-11 15:55)
     Next Turn:
         ✔ Calc travel via routes @done(18-12-26 19:14)
         ✔ Calc hunger @done(19-01-08 19:06)
@@ -41,4 +41,26 @@ v0.1:
     Bugs:
         ✔ Wrong roues index on navigation/index @done(18-12-26 19:14)
         ✔ Wrong arrival_time @done(19-01-10 00:22)
+
+v0.2:
+
+    General:
+        ☐ 1 hour means 1 turn
+
+    Character:
+        ☐ Skills and Talents
+        ☐ Disarming
+        ☐ Female avatars collection
+        ☐ Happyness
+        ☐ Fatigue
+        ☐ Sleeping
+
+
+    Constructing:
+        ☐ Basics like cottage, fire, sign, obelisk
+
+    Items:
+        ☐ Tools like knife, axe, hammer, dish, rod
+        ☐ Clothes: boots, trousers, shirt, cloak
+
 
