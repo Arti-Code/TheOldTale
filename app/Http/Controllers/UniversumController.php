@@ -27,16 +27,14 @@ class UniversumController extends Controller
 
     public function nextturn($id)
     {
-        self::Go($id);
-        return redirect()->route('admin.universum.index')->with('success', 'NOWA TURA');
-        /*if( $this->CalcUniv($id) )
+        if( $this->CalcUniv($id) )
         {
             return redirect()->route('admin.universum.index')->with('success', 'NOWA TURA');
         }
         else
         {
             return redirect()->route('home')->with('danger', 'Wybrane universum nie istnieje');
-        }*/
+        }
     }
 
     /**
@@ -103,11 +101,6 @@ class UniversumController extends Controller
     public function destroy(Universum $universum)
     {
         //
-    }
-
-    public static function Go($univ_id)
-    {
-        self::CalcUniv($univ_id);
     }
 
     public function CalcUniv($univ_id)

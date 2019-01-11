@@ -26,7 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(UniversumController::CalcUniv(2))->hourly();
+        $UnivCtls = new UniversumController;
+        $schedule->call($UnivCtls->CalcUniv(2))->hourly();
         /*$schedule->call(function()
         {
             $time = date("Y-m-d H:i:s");
