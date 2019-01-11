@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+
     ];
 
     /**
@@ -25,11 +25,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->call(function()
+        /*$schedule->call(function()
         {
             $time = date("Y-m-d H:i:s");
             DB::table('logs')->insert(['log' => 'another log', 'created_at' => $time]);
-        })->everyMinute();
+        })->everyMinute();*/
     }
 
     /**
