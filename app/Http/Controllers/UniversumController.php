@@ -27,43 +27,16 @@ class UniversumController extends Controller
 
     public function nextturn($id)
     {
-        $universum = Universum::find($id);
-        if($universum)
+        self::Go($id);
+        return redirect()->route('admin.universum.index')->with('success', 'NOWA TURA');
+        /*if( $this->CalcUniv($id) )
         {
-            $msg = new Message;
-            $characters = Character::where('universum_id', $universum->id)->get();
-            foreach($characters as $character)
-            {
-                $this->calcHunger($character);
-                $this->calcHealth($character);
-                if($character->progress_id != null)
-                {
-                    if($character->progress->type == 'travel')
-                    {
-                        $this->calcTravel($character);
-                    }
-                    elseif($character->progress->type == 'collect')
-                    {
-                        $this->calcCollect($character);
-                    }
-                    elseif($character->progress->type == 'craft')
-                    {
-                        $this->calcCraft($character);
-                    }
-                }
-                $character->fight = true;
-                $this->calcDeath($character);
-                $character->save();
-            }
-            $universum->turn++;
-            $universum->save();
-            MessageController::ADD_GLOBAL_MSG($universum->id, 'NASTAJE NOWA TURA');
-            return redirect()->route('admin.universum.index')->with('success', 'NOWA TURA NR ' . $universum->turn);
+            return redirect()->route('admin.universum.index')->with('success', 'NOWA TURA');
         }
         else
         {
             return redirect()->route('home')->with('danger', 'Wybrane universum nie istnieje');
-        }
+        }*/
     }
 
     /**
@@ -130,6 +103,52 @@ class UniversumController extends Controller
     public function destroy(Universum $universum)
     {
         //
+    }
+
+    public static function Go($univ_id)
+    {
+        self::CalcUniv($univ_id);
+    }
+
+    public function CalcUniv($univ_id)
+    {
+        $universum = Universum::find($univ_id);
+        if($universum)
+        {
+            $msg = new Message;
+            $characters = Character::where('universum_id', $universum->id)->get();
+            foreach($characters as $character)
+            {
+                $this->calcHunger($character);
+                $this->calcHealth($character);
+                if($character->progress_id != null)
+                {
+                    if($character->progress->type == 'travel')
+                    {
+                        $this->calcTravel($character);
+                    }
+                    elseif($character->progress->type == 'collect')
+                    {
+                        $this->calcCollect($character);
+                    }
+                    elseif($character->progress->type == 'craft')
+                    {
+                        $this->calcCraft($character);
+                    }
+                }
+                $character->fight = true;
+                $this->calcDeath($character);
+                $character->save();
+            }
+            $universum->turn++;
+            $universum->save();
+            MessageController::ADD_GLOBAL_MSG($universum->id, 'NASTAJE NOWA TURA');
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private function calcTravel(Character $character)
