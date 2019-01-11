@@ -9,7 +9,7 @@ class Character extends Model
     public $timestamps = false;
     protected $guarded=[];
 
-    const HUNGER_MOD = 20;
+    const HUNGER_MOD = 4;
 
     public function user()
     {

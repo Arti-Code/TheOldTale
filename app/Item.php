@@ -10,39 +10,39 @@ class Item extends Model
     protected $guarded=[];
 
     const FOOD = ['fruit', 'fish', 'meat', 'apple'];
-    const FOOD_QUALITY = ['fruit' => 6, 'meat' => 20, 'fish' => 20, 'apple' => 6];
+    const FOOD_QUALITY = ['fruit' => 2, 'meat' => 5, 'fish' => 5, 'apple' => 2];
     const WEAPON = ['mace' => [ 'dmg' => 20, 'adv' =>20 ], 'bone knife' => [ 'dmg' => 35, 'adv' =>10 ], 'sling' => [ 'dmg' => 20, 'adv' => 0 ], 'stone hammer' => [ 'dmg' => 20, 'adv' => 15 ] ];
     const PRODUCTS = [ ['mace', 'bone knife', 'prim boots', 'sling', 'stone hammer'] ];
     const PRODUCT =
     [
         'mace' =>
         [
-            'turn' => 2,
-            'res' => ['wood' => 3],
+            'turn' => 6,
+            'res' => ['wood' => 9],
             'return' => 1
         ],
         'bone knife' =>
         [
-            'turn' => 5,
-            'res' => ['wood' => 1, 'bone' => 3, 'leather' => 1],
+            'turn' => 20,
+            'res' => ['wood' => 3, 'bone' => 9, 'leather' => 3],
             'return' => 1
         ],
         'prim boots' =>
         [
-            'turn' => 4,
-            'res' => ['leather' => 5],
+            'turn' => 12,
+            'res' => ['leather' => 15],
             'return' => 1
         ],
         'sling' =>
         [
-            'turn' => 4,
-            'res' => ['wood' => 2, 'leather' => 3],
+            'turn' => 8,
+            'res' => ['wood' => 6, 'leather' => 9],
             'return' => 1
         ],
         'stone hammer' =>
         [
-            'turn' => 5,
-            'res' => ['wood' => 4, 'stone' => 4],
+            'turn' => 20,
+            'res' => ['wood' => 12, 'stone' => 12],
             'return' => 1
         ],
     ];
