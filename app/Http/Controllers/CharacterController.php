@@ -62,6 +62,11 @@ class CharacterController extends Controller
                     $i = rand(1, 6);
                     $character->avatar = "m" . $i;
                 }
+                else
+                {
+                    $i = rand(1, 2);
+                    $character->avatar = "f" . $i;
+                }
                 $character->universum_id = $request['universum_id'];
                 $character->user_id = Auth::id();
                 $character->location_id = 9;
