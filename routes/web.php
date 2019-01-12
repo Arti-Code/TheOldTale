@@ -49,6 +49,7 @@ Route::get('/navigation/back', 'RouteController@back')->name('navigation.back')-
 
 Route::get('/message/index', 'MessageController@index')->name('message.index')->middleware('auth', 'char');
 Route::post('/message/store', 'MessageController@store')->name('message.store')->middleware('auth', 'char');
+Route::post('/message/priv/store', 'MessageController@priv_store')->name('message.priv.store')->middleware('auth', 'char');
 
 Route::get('/options/index', 'HomeController@options')->name('options.index')->middleware('auth');
 

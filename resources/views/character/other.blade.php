@@ -45,6 +45,13 @@
     </div>
 </div>
 
+<form class="form-inline pb-5" action="{{ route('message.priv.store') }}" method="post">
+    @csrf
+    <input type="text" class="form-control mx-auto w-75" name="msgText">
+    <input type="hidden" class="form-control" name="rec_id" id="rec_id" value="{{ $other->id }}">
+    <button type="submit" class="btn btn-primary">Szepnij</button>
+</form>
+
 <div class="d-flex mt-3">
     <a href="{{route('character.attack', $other->id)}}" class="btn btn-danger mx-auto w-50">Atakuj</a>
 </div>

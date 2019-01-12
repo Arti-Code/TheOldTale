@@ -13,27 +13,35 @@
     @if($msg->character_id != null)
         <div class="card border-0">
             <div class="card-body py-1">
-               <!-- <a href=""><div class="d-inline bg-light border p-1 font-weight-bold rounded">{ $msg->character->name }}:</div></a> <div class="d-inline font-italic">{ $msg->text }}</div> <br />-->
-               <a href="{{route('character.other', $msg->character->id)}}" class="btn btn-outline-secondary py-0">{{ $msg->character->name }}</a> <div class="d-inline font-italic">{{ $msg->text }}</div> <br />
+            @if($msg->type == "CHAR_PRIV" && $msg->character_id != $character->id)
+                <i class="blue far fa-eye"> </i><a href="{{route('character.other', $msg->character_id)}}" class="py-0"><u><b> {{ $msg->character->name }}</b></a> <div class="d-inline font-italic"> mowi do Ciebie: {{ $msg->text }}</u></div> <br />
+            @elseif($msg->type == "CHAR_PRIV" && $msg->character_id == $character->id)
+                <a href="{{route('character.myself')}}" class="py-0"><u><b>{{ $msg->character->name }}</b></a> <div class="d-inline font-italic"> mowi do <a href="{{route('character.other', $msg->receiver_id)}}" class="py-0"><b>{{$msg->receiver_name}}</b></a>: {{ $msg->text }}</u></div> <br />
+            @elseif($msg->type == "CHAR_PUB" && $msg->character_id != $character->id)
+                <a href="{{route('character.other', $msg->character_id)}}" class="py-0"><b>{{ $msg->character->name }}</b></a> <div class="d-inline font-italic">: {{ $msg->text }}</div> <br />
+            @elseif($msg->type == "CHAR_PUB" && $msg->character_id == $character->id)
+                <a href="{{route('character.myself')}}" class="py-0"><b>{{ $msg->character->name }}</b></a> <div class="d-inline font-italic">: {{ $msg->text }}</div> <br />
+            @endif
+
             </div>
         </div>
     @else
         @if($msg->type == "FIGHT")
             <div class="card border-0">
                 <div class="card-body py-1">
-                    <div><i class="red fas fa-exclamation"></i><b class="red">  {{ $msg->text }}</b></div>
+                    <div><i class="red fas fa-exclamation"></i><span class="text-secondary">  {{ $msg->text }}</span></div>
                 </div>
             </div>
         @elseif($msg->type == "GLOBAL")
             <div class="card border-0">
                 <div class="card-body py-1">
-                    <div class="font-weight-bold text-center blue">  {{ $msg->text }}</div>
+                    <div class="font-weight-bold blue">  {{ $msg->text }}</div>
                 </div>
             </div>
         @else
             <div class="card border-0">
                 <div class="card-body py-1">
-                    <div><b class="text-muted">  {{ $msg->text }}</b></div>
+                    <div class="text-muted">  {{ $msg->text }}</div>
                 </div>
             </div>
         @endif

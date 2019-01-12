@@ -157,6 +157,8 @@ class UniversumController extends Controller
             $character->progress->delete();
             $character->location_id = $route->finish_id;
             $character->progress_id = null;
+            $time = date("Y-m-d H:i:s");
+            $character->arrival_time = $time;
             MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' przybywa');
         }
     }

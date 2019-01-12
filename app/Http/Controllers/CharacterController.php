@@ -64,7 +64,9 @@ class CharacterController extends Controller
                 }
                 $character->universum_id = $request['universum_id'];
                 $character->user_id = Auth::id();
-                $character->location_id = 7;
+                $character->location_id = 9;
+                $time = date("Y-m-d H:i:s");
+                $character->arrival_time = $time;
                 $character->save();
                 return redirect()->route('character.index')->with('success', 'Utworzyłeś nową postac');
             }
