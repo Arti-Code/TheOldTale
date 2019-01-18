@@ -64,7 +64,7 @@ class CharacterController extends Controller
                 }
                 else
                 {
-                    $i = rand(1, 2);
+                    $i = rand(1, 6);
                     $character->avatar = "f" . $i;
                 }
                 $character->universum_id = $request['universum_id'];

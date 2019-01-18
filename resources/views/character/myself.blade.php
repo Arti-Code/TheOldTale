@@ -61,7 +61,7 @@
             </div>
             <div class="col-3 justify-content-center">
                 <div class="card avatar">
-                    <img class="card-img-top card-avatar" src="{{asset('png/' . $character->avatar . '.png')}}">
+                    <img class="card-img-top card-avatar" src="{{asset('png/avatar/' . $character->avatar . '.png')}}">
                     <div class="card-header p-0 text-center">
                         @if ($character->sex == "M")
                             <i class="fas fa-mars"></i>
