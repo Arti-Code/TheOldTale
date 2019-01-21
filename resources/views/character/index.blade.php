@@ -22,7 +22,7 @@
                         @if($character->dead == 0)
                             <td class="text-center"><a href="{{ route('character.select', $character->id) }}"><i class="fas fa-check"></i></a></td>
                         @else
-                            <td class="text-center"><i class="red fas fa-skull"></i></td>
+                            <td class="text-center"><i class="red fas fa-skull"></i><a href="{{ route('character.remove', $character->id) }}"><i class="red fas fa-eraser"></i></a></td>
                         @endif
                     </tr>
                 @endforeach

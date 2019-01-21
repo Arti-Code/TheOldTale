@@ -33,12 +33,14 @@ Route::get('/character/fight', 'CharacterController@fight')->name('character.fig
 Route::get('/character/weapon/equip/{id}', 'CharacterController@weaponEquip')->name('character.weapon.equip')->middleware('auth', 'char');
 Route::get('/character/other/{id}', 'CharacterController@other')->name('character.other')->middleware('auth', 'char');
 Route::get('/character/attack/{id}', 'CharacterController@attack')->name('character.attack')->middleware('auth', 'char');
+Route::get('/character/remove/{id}', 'CharacterController@remove')->name('character.remove')->middleware('auth');
 
 Route::get('/location/edit/{id}', 'NameController@edit')->name('name.edit')->middleware('auth', 'char');
 Route::post('/location/store', 'NameController@store')->name('name.store')->middleware('auth', 'char');
 
 Route::get('/admin/universum/index', 'UniversumController@index')->name('admin.universum.index')->middleware('auth', 'admin');
 Route::get('/admin/universum/nextturn/{id}', 'UniversumController@nextturn')->name('admin.universum.nextturn')->middleware('auth', 'admin');
+Route::get('/admin/universum/destroy/{id}', 'UniversumController@destroy')->name('admin.universum.destroy')->middleware('auth', 'admin');
 
 Route::get('/location/show', 'LocationController@show')->name('location.show')->middleware('auth', 'char');
 

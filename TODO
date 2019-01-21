@@ -46,6 +46,8 @@ v0.2:
 
     General:
         ✔ 1 hour means 1 turn @done(19-01-11 22:37)
+        ☐ Continous calculations
+        ☐ Dynamic Top Progress Bar with Timer
 
     Character:
         ☐ Skills and Talents
@@ -54,6 +56,8 @@ v0.2:
         ☐ Happyness
         ☐ Fatigue
         ☐ Sleeping
+        ☐ Disturbing
+        ☐ Dead body
 
 
     Constructing:
@@ -65,6 +69,9 @@ v0.2:
 
     Messages:
         ✔ Proper message sorting and filtering @done(19-01-12 17:11)
-        ☐ Priv messages
+        ✔ Priv messages @done(19-01-21 19:55)
+    
+    Administration:
+        ✔ Destroying Univs with all stuff @done(19-01-21 20:15)
 
 

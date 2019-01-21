@@ -9,6 +9,7 @@ use App\Name;
 use App\Item;
 use App\Progress;
 use App\Message;
+use App\Http\Controllers\UniversumController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -309,12 +310,17 @@ class CharacterController extends Controller
                 $he = 50 + $weaponE['adv'];
                 $ww = round ( ( $hm + ( 100 - $he ) ) / 2 );
                 $rand = rand(0, 100);
-                if( $ww <= $rand )
+                if( $ww >= $rand )
                 {
                     $str = rand(0, 20) + $weapon['dmg'];
                     $enemy->health = $enemy->health - $str;
                     $enemy->save();
                     $text1 = $character->name . ' hit ' . $enemy->name . ' using ' . $weapon['name'];
+                    if( $enemy->health <= 0 )
+                    {
+                        $univCtrl = new UniversumController;
+                        $univCtrl->calcDeath($enemy);
+                    }
                 }
                 else
                 {
@@ -324,16 +330,21 @@ class CharacterController extends Controller
 
                 $ww2 = round ( ( $he + ( 100 - $hm ) ) / 2 );
                 $rand2 = rand(0, 100);
-                if( $ww2 <= $rand2 )
+                if( $ww2 >= $rand2 )
                 {
                     $str2 = rand(0, 20) + $weaponE['dmg'];
                     $character->health = $character->health - $str2;
                     $character->save();
                     $text2 = $enemy->name . ' hit ' . $character->name . ' using ' . $weaponE['name'];
+                    if( $character->health <= 0 )
+                    {
+                        $univCtrl = new UniversumController;
+                        $univCtrl->calcDeath($character);
+                    }
                 }
                 else
                 {
-                    $text2->text = $enemy->name . ' miss ' . $character->name . ' using ' . $weaponE['name'];
+                    $text2 = $enemy->name . ' miss ' . $character->name . ' using ' . $weaponE['name'];
                 }
                 MessageController::ADD_FIGHT_MSG($enemy->location_id, $text2);
                 return redirect()->route('message.index');
@@ -342,6 +353,28 @@ class CharacterController extends Controller
             {
                 return redirect()->back()->with('danger', 'Atakowac możesz raz na turę');
             }
+        }
+    }
+
+    public function remove($id)
+    {
+        $char = Character::find($id);
+        if( $char )
+        {
+            if( $char->user_id == Auth::id() )
+            {
+                $char->user_id = null;
+                $char->save();
+                return redirect()->route('character.index')->with('info', 'Postać została usunięta...');
+            }
+            else
+            {
+                return redirect()->route('character.index')->with('danger', 'Postać nie należy do Ciebie...');
+            }
+        }
+        else
+        {
+            return redirect()->route('character.index')->with('danger', 'Postać nie istnieje...');
         }
     }
 }

@@ -98,9 +98,47 @@ class UniversumController extends Controller
      * @param  \App\Universum  $universum
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Universum $universum)
+    public function destroy($id)
     {
-        //
+        $univ = Universum::find($id);
+        if( $univ )
+        {
+            $chars = Character::where('universum_id', $id)->get();
+            if( $chars )
+            {
+                foreach ($chars as $char) 
+                {
+                    Item::where('character_id', $char->id)->delete();
+                    //if( $items )    $items->delete();
+                    Message::where('character_id', $char->id)->orWhere('receiver_id', $char->id)->delete();
+                    //if( $msgs )     $msgs->delete();
+                    Progress::where('character_id', $char->id)->delete();
+                    //if( $progress )     $progress->delete();
+                }
+                //$chars->delete();
+                Character::where('universum_id', $id)->delete();
+            }    
+            $locs = Location::where('universum_id', $id)->get();
+            if( $locs )
+            {
+                foreach ($locs as $loc) 
+                {
+                    Message::where('location_id', $loc->id)->orWhere('universum_id', $id)->delete();
+                    //if( $msgs )     $msgs->delete();
+                    Resource::where('location_id', $loc->id)->delete();
+                    //if( $res )     $res->delete();
+                    Route::where('location_id', $loc->id)->delete();
+                    //if( $routes )     $route->delete();
+                }
+                Location::where('universum_id', $id)->delete();
+            }
+            $univ->delete();
+            return redirect()->route('admin.universum.index')->with('info', 'Wskazane universum zostało usunięte');
+        }
+        else
+        {
+            return redirect()->route('admin.universum.index')->with('danger', 'Wybrane universum nie istnieje');
+        }
     }
 
     public function CalcUniv($univ_id)
@@ -266,6 +304,12 @@ class UniversumController extends Controller
     {
         if( $character->health <= 0 )
         {
+            $body = new Item;
+            $body->type = "zwłoki " . $character->name;
+            $body->title = $body->type;
+            $body->amount = 1;
+            $body->location_id = $character->location_id;
+            $body->save();
             MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' umiera...');
             $character->dead = true;
             $character->location_id = -1;
