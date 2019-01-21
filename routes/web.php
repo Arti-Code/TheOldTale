@@ -42,6 +42,8 @@ Route::get('/admin/universum/nextturn/{id}', 'UniversumController@nextturn')->na
 
 Route::get('/location/show', 'LocationController@show')->name('location.show')->middleware('auth', 'char');
 
+Route::get('/location/place', 'LocationController@place')->name('location.place')->middleware('auth', 'char');
+
 Route::get('/navigation/index', 'RouteController@index')->name('navigation.index')->middleware('auth', 'char');
 Route::get('/navigation/select/{id}', 'RouteController@select')->name('navigation.select')->middleware('auth', 'char');
 Route::get('/navigation/travel', 'RouteController@travel')->name('navigation.travel')->middleware('auth', 'char');

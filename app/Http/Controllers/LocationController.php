@@ -123,4 +123,9 @@ class LocationController extends Controller
     {
         //
     }
+
+    public function place()
+    {
+        return view('location.place');
+    }
 }
