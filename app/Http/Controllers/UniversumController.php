@@ -146,7 +146,6 @@ class UniversumController extends Controller
         $universum = Universum::find($univ_id);
         if($universum)
         {
-            $msg = new Message;
             $characters = Character::where('universum_id', $universum->id)->get();
             foreach($characters as $character)
             {
@@ -173,7 +172,6 @@ class UniversumController extends Controller
             }
             $universum->turn++;
             $universum->save();
-            MessageController::ADD_GLOBAL_MSG($universum->id, 'NASTAJE NOWA TURA');
             return true;
         }
         else
@@ -241,6 +239,7 @@ class UniversumController extends Controller
                         $item->character_id = $character->id;
                     }
                     $item->save();
+                    MessageController::ADD_SYS_PRIV_MSG($character->location_id, $character->id, "Zdobywasz trochę " . $item->type . ".");
                 }
             }
         }

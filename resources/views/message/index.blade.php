@@ -41,7 +41,7 @@
         @else
             <div class="card border-0">
                 <div class="card-body py-1">
-                    <div class="text-muted">  {{ $msg->text }}</div>
+                    <div class="drkblue">  {{ $msg->text }}</div>
                 </div>
             </div>
         @endif
