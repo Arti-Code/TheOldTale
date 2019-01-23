@@ -21,7 +21,9 @@
                 <a href="{{route('character.other', $msg->character_id)}}" class="py-0"><b>{{ $msg->character->name }}</b></a> <div class="d-inline font-italic">: {{ $msg->text }}</div> <br />
             @elseif($msg->type == "CHAR_PUB" && $msg->character_id == $character->id)
                 <a href="{{route('character.myself')}}" class="py-0"><b>{{ $msg->character->name }}</b></a> <div class="d-inline font-italic">: {{ $msg->text }}</div> <br />
-            @endif
+            @else
+                <div class="text-muted">  {{ $msg->text }}</div>
+                @endif
 
             </div>
         </div>

@@ -40,12 +40,14 @@ class ResourceController extends Controller
     {
         $character = Character::find(session('char_id'));
         if ($character->progress_id == null) {
-            $r = Resource::find($id);
+            $r = Resource::find($request["res_id"]);
             if ($r->location_id == $character->location_id) {
                 $p = new Progress;
                 $p->character_id = $character->id;
                 $p->act = 0;
-                $p->max = 1;
+                $p->max = $r->turns;
+                $p->cycles = 0;
+                $p->total_cycles = $request["slider"];
                 $p->type = 'collect';
                 $p->target_id = $r->id;
                 $p->save();

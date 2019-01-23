@@ -209,20 +209,29 @@ class UniversumController extends Controller
         else
         {
             $result = Resource::find($character->progress->target_id);
-            $character->progress->delete();
-            $character->progress_id = null;
-            $character->save();
+            $character->progress->cycles = $character->progress->cycles + 1;
+            if($character->progress->cycles == $character->progress->total_cycles )
+            {
+                $character->progress->delete();
+                $character->progress_id = null;
+                $character->save();
+            } 
+            else
+            {
+                $character->progress->act = 0;
+                $character->progress->save();
+            }
             $random_val = rand(0, 100);
             if( $random_val <= $result->luck  )
             {
-                if($result->components == null)
+                /*if($result->components == null)
                 {
                     $res = [$result->type => $result->amount];
                 }
                 else
-                {
+                {*/
                     $res = json_decode($result->components, true);
-                }
+                /*}*/
                 foreach($res as $key => $r)
                 {
                     $item = Item::where('character_id', $character->id)->where('type', $key)->first();

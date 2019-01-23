@@ -77,4 +77,4 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('/options/index', 'HomeController@options')->name('options.index')->middleware('auth');
 
 Route::get('/resource/select/{id}', 'ResourceController@select')->name('resource.select')->middleware('auth', 'char');
-Route::get('/resource/store', 'ResourceController@store')->name('resource.store')->middleware('auth', 'char');
+Route::post('/resource/store', 'ResourceController@store')->name('resource.store')->middleware('auth', 'char');

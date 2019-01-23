@@ -9,14 +9,14 @@
     <div class="card-body">
         <form method="POST" action="{{ route('resource.store') }}">
             @csrf
+            <input type="hidden" name="res_id" id="res_id" value="{{$resource->id}}">
+            <input type="hidden" name="res_t" id="res_t" value="{{$resource->turns}}">
             <div class="row mt-2">
                 <div class="col-3 text-center">
-                    <label id="turns" name="turns">{{$resource->turns}}godz. na cykl</label>
-                    <input type="hidden" name="res_id" id="res_id" value="{{$resource->id}}">
-                    <input type="hidden" name="res_t" id="res_t" value="{{$resource->turns}}">
+                    <label id="turns" name="turns">{{$resource->turns}} h/cykl</label>
                 </div>
                 <div class="col-6 text-center">
-                    <label id="cycles" name="cycles">cykle: 1</label>
+                    <label id="cycles" name="cycles"></label>
                 </div>
                 <div class="col-3 text-center">
                     <label id="total" name="total"></label>
@@ -65,7 +65,7 @@
         slider.oninput = function()
         {
             cycles.innerHTML = "cykle: " + this.value;
-            total.innerHTML = "całkowity czas: " + this.value * res_t.value;
+            total.innerHTML = "całkowity czas: " + this.value * res_t.value + "h";
         }
     });
 

@@ -33,7 +33,7 @@
                     {{ $res->title }}
                 </div>
                 <div class="progress col-6 my-auto px-0">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $progress_bar }}%"></div>
                 </div>
                 <div class="col-2 text-center align-center">
                     <a href="{{route('progress.destroy', $prog->id)}}"><i class="far fa-times-circle red"></i></a>

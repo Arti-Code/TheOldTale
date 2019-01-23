@@ -186,7 +186,7 @@ class CharacterController extends Controller
             }
             $p = Progress::find($character->progress_id);
             $progress['type'] = $p->type;
-            $progress['value'] = round( ($p->act / $p->max) * 100);
+            $progress['value'] = round((($p->act + $p->cycles * $p->max) / ($p->total_cycles * $p->max)) * 100);
         }
         return view('character.myself')->with(["character" => $character, "location" => $location, "progress" => $progress, "weapon" => $weapon]);
     }

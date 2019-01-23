@@ -63,6 +63,7 @@ class LocationController extends Controller
             $people = Character::where('location_id', $location->id)->where('id', '<>', $character->id)->get();
             $progress = null;
             $res = null;
+            $progress_bar = null;
             if($character->progress_id == null)
             {
                 $res = Resource::where('location_id', $location->id)->get();
@@ -74,6 +75,7 @@ class LocationController extends Controller
                 {
                     $progress = $character->progress;
                     $res = Resource::find($progress->target_id);
+                    $progress_bar = round( ( ( $progress->act + $progress->cycles * $res->turns ) / ( $progress->total_cycles * $res->turns ) ) * 100 );
                 }
                 if($character->progress->type == 'craft')
                 {
@@ -82,7 +84,7 @@ class LocationController extends Controller
                 }
             }
 
-            return view('location.show')->with(["location" => $location, "title" => $priv_name, 'people' => $people, 'res' => $res, 'prog' => $progress]);
+            return view('location.show')->with(["location" => $location, "title" => $priv_name, 'people' => $people, 'res' => $res, 'prog' => $progress, 'progress_bar' => $progress_bar]);
         }
         elseif($character->progress->type == 'travel')
         {
