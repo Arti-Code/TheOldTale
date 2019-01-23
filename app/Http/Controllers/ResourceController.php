@@ -30,42 +30,6 @@ class ResourceController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $character = Character::find(session('char_id'));
-        if ($character->progress_id == null) {
-            $r = Resource::find($request["res_id"]);
-            if ($r->location_id == $character->location_id) {
-                $p = new Progress;
-                $p->character_id = $character->id;
-                $p->act = 0;
-                $p->max = $r->turns;
-                $p->cycles = 0;
-                $p->total_cycles = $request["slider"];
-                $p->type = 'collect';
-                $p->target_id = $r->id;
-                $p->save();
-                $p = Progress::where('character_id', $character->id)->first();
-                $character->progress_id = $p->id;
-                $character->save();
-                MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' ' . $r->title);
-                return redirect()->route('location.show')->with('success', 'Pozyskujesz surowce');
-            }
-        } else {
-            if ($character->progress->type == "travel")
-                return redirect()->route('navigation.travel')->with('danger', 'Robisz już coś innego');
-            if ($character->progress->type == "collect")
-                return redirect()->route('location.show')->with('danger', 'Robisz już coś innego');
-            if ($character->progress->type == "craft")
-                return redirect()->route('location.show')->with('danger', 'Robisz już coś innego');
-        }
-    }
 
     /**
      * Display the specified resource.

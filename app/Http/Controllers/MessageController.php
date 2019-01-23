@@ -22,7 +22,7 @@ class MessageController extends Controller
         $messages = Message::whereRaw("
                 (
                     ( ( type = 'SYS_PUB' or type = 'CHAR_PUB' or type = 'FIGHT' ) and ( location_id = $character->location_id ) )
-                    or ( type = 'SYS_PRIV' and character_id = $character->id )
+                    or ( type = 'SYS_PRIV' and receiver_id = $character->id )
                     or ( type = 'CHAR_PRIV' and ( character_id = $character->id or receiver_id = $character->id ) and location_id = $character->location_id )
                     or ( type = 'GLOBAL' )
                 )

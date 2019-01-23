@@ -148,8 +148,8 @@ class RouteController extends Controller
             return redirect()->back()->with('danger', 'Niewłaściwy szlak.');
         $progress = new Progress;
         $progress->character_id = $character->id;
-        $progress->act = 0;
-        $progress->max = $route->distance;
+        $progress->turns = 0;
+        $progress->total_turns = $route->distance;
         $progress->type = 'travel';
         $progress->target_id = $route->id;
         $progress->save();
@@ -181,7 +181,7 @@ class RouteController extends Controller
             $finish_name->title = $finish_loc->name;
             $finish_name->location_id = $route->finish_id;
         }
-        $percent = round(($progress->act / $progress->max) * 100);
+        $percent = round(($progress->turns / $progress->total_turns) * 100);
         $travel = ['start_id' => $start_name->location_id, 'start_name' => $start_name->title, 'finish_id' => $finish_name->location_id, 'finish_name' => $finish_name->title, 'progress' => $percent];
         return view('navigation.travel')->with($travel);
     }
@@ -190,7 +190,7 @@ class RouteController extends Controller
     {
         $character = Character::find(session('char_id'));
         $progress = Progress::find($character->progress_id);
-        if($progress->act == 0)
+        if($progress->turns == 0)
         {
             $route = Route::find($progress->target_id);
             $character->location_id = $route->location_id;
@@ -211,8 +211,8 @@ class RouteController extends Controller
             if($new_route)
             {
                 $progress->target_id = $new_route->id;
-                $progress->act = $new_route->distance - $progress->act;
-                $progress->max = $new_route->distance;
+                $progress->turns = $new_route->distance - $progress->turns;
+                $progress->total_turns = $new_route->distance;
                 $progress->save();
                 return redirect()->route('navigation.travel')->with('warning', 'Zawracasz tam skąd przyszedłeś');
             }

@@ -7,10 +7,11 @@
         <h5>{{$resource->title}}</h5>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ route('resource.store') }}">
+        <form method="POST" action="{{ route('progress.store') }}">
             @csrf
             <input type="hidden" name="res_id" id="res_id" value="{{$resource->id}}">
             <input type="hidden" name="res_t" id="res_t" value="{{$resource->turns}}">
+            <input type="hidden" name="mode" id="mode" value="collect">
             <div class="row mt-2">
                 <div class="col-3 text-center">
                     <label id="turns" name="turns">{{$resource->turns}} h/cykl</label>
@@ -25,13 +26,32 @@
 
             <div class="row mt-4">
                 <div class="col-2 text-right">
-                    <div><i class="green fas fa-arrow-circle-up"></i></div>
+                    <div><i class="red fas fa-arrow-circle-down"></i></div>
                 </div>
                 <div class="col-8 my-auto">
                     <input type="range" class="custom-range" name="slider" id="slider" min="1" value="1" max="10">
                 </div>
                 <div class="col-2 text-left">
-                    <div><i class="red fas fa-arrow-circle-down"></i></div>
+                    <div><i class="green fas fa-arrow-circle-up"></i></div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-3">
+
+                </div>
+                <div class="col-6 text-center">
+                    <div class="form-group">
+                        <label>Avaible tools</label>
+                        <select id="tool_id" name="tool_id" class="form-control">
+                            @foreach ($tools as $tool)
+                                <option value="{{ $tool->id }}">{{ $tool->type }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="col-3">
+
                 </div>
             </div>
 
@@ -49,6 +69,7 @@
         </form>
     </div>
 </div>
+
 
 
 @endsection

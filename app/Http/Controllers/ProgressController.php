@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Progress;
+use App\Resource;
 use App\Location;
 use App\Character;
 use App\Item;
 use App\Message;
+use App\LIB;
 use Illuminate\Http\Request;
 
 class ProgressController extends Controller
@@ -26,9 +28,37 @@ class ProgressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($mode, $id)
     {
-        //
+        $char = Character::find(session('char_id'));
+        if( $mode == "collect" )
+        {
+            $res = Resource::find($id);
+            if( ($res) && ($res->location_id == $char->location_id) )
+            {
+                if ($char->progress_id == null) 
+                {
+                    $items = Item::where('character_id', $char->id)->get();
+                    $tools = [];
+                    foreach($items as $it)
+                    {
+                        if( array_key_exists($it->type, LIB::TOOLS_FOR_RES($res->type)) )
+                        {
+                            array_push($tools, $it);
+                        }
+                    }
+                    return view('progress.create')->with(['mode' => 'collect', 'character' => $char, 'resource' => $res, 'tools' => $tools]);
+                } 
+                else 
+                {
+                    return redirect()->route('location.show')->with('danger', 'Robisz już coś innego');
+                }
+            }
+            else
+            {
+                return redirect()->route('location.show')->with('danger', 'Wybrano niewłaściwy zasoby');
+            }
+        }
     }
 
     /**
@@ -39,7 +69,37 @@ class ProgressController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $character = Character::find(session('char_id'));
+        if ($character->progress_id == null) 
+        {
+            $r = Resource::find($request["res_id"]);
+            if ($r->location_id == $character->location_id) 
+            {
+                $p = new Progress;
+                $p->character_id = $character->id;
+                $p->turns = 0;
+                $p->total_turns = $r->turns;
+                $p->cycles = 0;
+                $p->total_cycles = $request["slider"];
+                $p->type = 'collect';
+                $p->target_id = $r->id;
+                $p->save();
+                $p = Progress::where('character_id', $character->id)->first();
+                $character->progress_id = $p->id;
+                $character->save();
+                MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' ' . $r->title);
+                return redirect()->route('location.show')->with('success', 'Pozyskujesz surowce');
+            }
+        } 
+        else 
+        {
+            if ($character->progress->type == "travel")
+                return redirect()->route('navigation.travel')->with('danger', 'Robisz już coś innego');
+            if ($character->progress->type == "collect")
+                return redirect()->route('location.show')->with('danger', 'Robisz już coś innego');
+            if ($character->progress->type == "craft")
+                return redirect()->route('location.show')->with('danger', 'Robisz już coś innego');
+        }
     }
 
     /**
@@ -110,8 +170,8 @@ class ProgressController extends Controller
                         else $i->delete();
                     }
                     $p = new Progress;
-                    $p->act = 0;
-                    $p->max = $item['turn'];
+                    $p->turns = 0;
+                    $p->total_turns = $item['turn'];
                     $p->type = 'craft';
                     $p->target = $item['name'];
                     $p->character_id = $character->id;

@@ -22,7 +22,7 @@
             <div class="d-flex flex-row justify-content-center">
                 @foreach ($res as $r)
                     <div class="card res m-1 bg-light">
-                        <a href="{{route('resource.select', $r->id)}}"><img class="card-img-top card-res" src="{{asset('png/' . $r->type . '.png')}}"></a>
+                        <a href="{{ route( 'progress.create', [ 'mode' => 'collect', 'id' => $r->id ] ) }}"><img class="card-img-top card-res" src="{{asset('png/' . $r->type . '.png')}}"></a>
                         <div class="card-header p-0 border-0 bg-light text-center"><small>{{ $r->type }}</small></div>
                     </div>
                 @endforeach

@@ -109,13 +109,9 @@ class UniversumController extends Controller
                 foreach ($chars as $char) 
                 {
                     Item::where('character_id', $char->id)->delete();
-                    //if( $items )    $items->delete();
                     Message::where('character_id', $char->id)->orWhere('receiver_id', $char->id)->delete();
-                    //if( $msgs )     $msgs->delete();
                     Progress::where('character_id', $char->id)->delete();
-                    //if( $progress )     $progress->delete();
                 }
-                //$chars->delete();
                 Character::where('universum_id', $id)->delete();
             }    
             $locs = Location::where('universum_id', $id)->get();
@@ -124,11 +120,8 @@ class UniversumController extends Controller
                 foreach ($locs as $loc) 
                 {
                     Message::where('location_id', $loc->id)->orWhere('universum_id', $id)->delete();
-                    //if( $msgs )     $msgs->delete();
                     Resource::where('location_id', $loc->id)->delete();
-                    //if( $res )     $res->delete();
                     Route::where('location_id', $loc->id)->delete();
-                    //if( $routes )     $route->delete();
                 }
                 Location::where('universum_id', $id)->delete();
             }
@@ -182,8 +175,8 @@ class UniversumController extends Controller
 
     private function calcTravel(Character $character)
     {
-        $character->progress->act = $character->progress->act + 1;
-        if($character->progress->act < $character->progress->max)
+        $character->progress->turns = $character->progress->turns + 1;
+        if($character->progress->turns < $character->progress->total_turns)
         {
             $character->progress->save();
         }
@@ -201,8 +194,8 @@ class UniversumController extends Controller
 
     private function calcCollect(Character $character)
     {
-        $character->progress->act = $character->progress->act + 1;
-        if($character->progress->act < $character->progress->max)
+        $character->progress->turns = $character->progress->turns + 1;
+        if($character->progress->turns < $character->progress->total_turns)
         {
             $character->progress->save();
         }
@@ -218,7 +211,7 @@ class UniversumController extends Controller
             } 
             else
             {
-                $character->progress->act = 0;
+                $character->progress->turns = 0;
                 $character->progress->save();
             }
             $random_val = rand(0, 100);
@@ -256,8 +249,8 @@ class UniversumController extends Controller
 
     private function calcCraft(Character $character)
     {
-        $character->progress->act = $character->progress->act + 1;
-        if($character->progress->act < $character->progress->max)
+        $character->progress->turns = $character->progress->turns + 1;
+        if($character->progress->turns < $character->progress->total_turns)
         {
             $character->progress->save();
         }
