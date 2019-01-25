@@ -10,6 +10,7 @@ use App\Item;
 use App\Message;
 use App\LIB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ProgressController extends Controller
 {
@@ -40,6 +41,16 @@ class ProgressController extends Controller
                 {
                     $items = Item::where('character_id', $char->id)->get();
                     $tools = [];
+                    if (array_key_exists("none", LIB::TOOLS_FOR_RES($res->type)))
+                    {
+                        $itm = new Item;
+                        $itm->id = -1;
+                        $itm->type = "none";
+                        $itm->title = "none";
+                        $itm->amount = 1;
+                        $itm->character_id = $char->id;
+                        array_push($tools, $itm);
+                    }
                     foreach($items as $it)
                     {
                         if( array_key_exists($it->type, LIB::TOOLS_FOR_RES($res->type)) )
@@ -47,7 +58,10 @@ class ProgressController extends Controller
                             array_push($tools, $it);
                         }
                     }
-                    return view('progress.create')->with(['mode' => 'collect', 'character' => $char, 'resource' => $res, 'tools' => $tools]);
+                    if( count($tools) > 0 )
+                        return view('progress.create')->with(['mode' => 'collect', 'character' => $char, 'resource' => $res, 'tools' => $tools]);
+                    else
+                        return redirect()->route('location.show')->with('danger', 'Nie posiadasz właściwego narzędzia');
                 } 
                 else 
                 {

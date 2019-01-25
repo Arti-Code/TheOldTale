@@ -10,7 +10,8 @@ class LIB extends Model
     [
         'wood' => ['none' => 0, 'stone axe' => 25],
         'stone' => ['none' => 0, 'stone pick' => 25],
-        'fish' => [' none ' => 0, 'primitiv rod' => 30]
+        'fish' => [' none ' => 0, 'primitiv rod' => 30],
+        'fruit' => ['none' => 0]
     ];
 
     static function TOOLS_FOR_RES($res_type)

@@ -56,6 +56,14 @@
         <a href="{{route('item.location')}}"><img class="card-img-top" src="{{asset('png/create.png')}}"></a>
         <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Items</div>
     </div>
+    <div class="card p-2 bg-light">
+        <a href=""><img class="card-img-top" src="{{asset('png/travel.png')}}"></a>
+        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Travel</div>
+    </div>
+    <div class="card p-2 bg-light">
+        <a href=""><img class="card-img-top" src="{{asset('png/build.png')}}"></a>
+        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Build</div>
+    </div>
 </div>
 
 @endsection

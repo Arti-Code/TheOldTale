@@ -197,8 +197,8 @@ class CharacterController extends Controller
         $item = Item::find($id);
         if($item->character_id == $character->id)
         {
-            $food = $character->satiety + Item::FOOD_QUALITY[$item->type];
-            if( $character->satiety < 91 && $item->amount > 0 )
+            $food = $character->satiety + Item::FOOD[$item->type];
+            if( $character->satiety < 100 && $item->amount > 0 )
             {
                 $character->satiety = $food;
                 if( $character->satiety > 100 )   $character->satiety = 100;
@@ -207,6 +207,11 @@ class CharacterController extends Controller
                 if( $item->amount > 0 )     $item->save();
                 else    $item->delete();
                 return redirect()->route('item.index')->with('success', 'Posiliłeś się');
+                
+            }
+            else
+            {
+                return redirect()->route('item.index')->with('warning', 'Jesteś najedzony. Nie zjesz już nic więcej');
             }
         }
         else
