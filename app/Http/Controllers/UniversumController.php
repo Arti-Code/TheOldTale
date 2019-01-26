@@ -10,15 +10,12 @@ use App\Location;
 use App\Message;
 use App\Item;
 use App\Resource;
+use App\Http\Controllers\ItemController;
 use Illuminate\Http\Request;
 
 class UniversumController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $universums = Universum::all();
@@ -37,67 +34,6 @@ class UniversumController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Universum  $universum
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Universum $universum)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Universum  $universum
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Universum $universum)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Universum  $universum
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Universum $universum)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Universum  $universum
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $univ = Universum::find($id);
@@ -217,31 +153,11 @@ class UniversumController extends Controller
             $random_val = rand(0, 100);
             if( $random_val <= $result->luck  )
             {
-                /*if($result->components == null)
-                {
-                    $res = [$result->type => $result->amount];
-                }
-                else
-                {*/
-                    $res = json_decode($result->components, true);
-                /*}*/
+                $res = json_decode($result->components, true);
                 foreach($res as $key => $r)
                 {
-                    $item = Item::where('character_id', $character->id)->where('type', $key)->first();
-                    if( $item )
-                    {
-                        $item->amount = $item->amount + $r;
-                    }
-                    else
-                    {
-                        $item = new Item;
-                        $item->type = $key;
-                        $item->title = $key;
-                        $item->amount = $r;
-                        $item->character_id = $character->id;
-                    }
-                    $item->save();
-                    MessageController::ADD_SYS_PRIV_MSG($character->location_id, $character->id, "Zdobywasz trochę " . $item->type . ".");
+                    ItemController::AddItemToChar($character->id, $key, $r);
+                    MessageController::ADD_SYS_PRIV_MSG($character->location_id, $character->id, "Zdobywasz trochę " . $key . ".");
                 }
             }
         }
@@ -256,20 +172,7 @@ class UniversumController extends Controller
         }
         else
         {
-            $item = Item::where('character_id', $character->id)->where('type', $character->progress->target)->first();
-            if( $item )
-            {
-                $item->amount = $item->amount + 1;
-            }
-            else
-            {
-                $item = new Item;
-                $item->type = $character->progress->target;
-                $item->title = $character->progress->target;
-                $item->amount = 1;
-                $item->character_id = $character->id;
-            }
-            $item->save();
+            ItemController::AddItemToChar($character->id, $character->progress->target, 1);
             $character->progress->delete();
             $character->progress_id = null;
             $character->save();

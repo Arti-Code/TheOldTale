@@ -42,6 +42,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
     Route::post('/location/store', 'NameController@store')->name('name.store')->middleware('auth', 'char');
     Route::get('/location/show', 'LocationController@show')->name('location.show')->middleware('auth', 'char');
     Route::get('/location/place', 'LocationController@place')->name('location.place')->middleware('auth', 'char');
+    Route::get('/location/build/{inside}', 'LocationController@build')->name('location.build')->middleware('auth', 'char');
 }
 
 {   //Admin

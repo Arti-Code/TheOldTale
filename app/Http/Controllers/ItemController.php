@@ -22,33 +22,6 @@ class ItemController extends Controller
         return view('item.index')->with(['items' => $items]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $character = Character::find(session('char_id'));
@@ -93,35 +66,6 @@ class ItemController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Item $item)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Item $item)
-    {
-
-    }
-
-     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Item  $item
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
         $checksum = 0;
@@ -192,4 +136,49 @@ class ItemController extends Controller
         if( !$items )   $items = null;
         return view('item.location')->with(['items' => $items]);
     }
+    
+    static function AddItemToChar($char_id, $item_type, $quantity)
+    {
+        $item = Item::where('character_id', $char_id)->where('type', $item_type)->first();
+        if ($item) 
+        {
+            $item->amount = $item->amount + $quantity;
+        } 
+        else 
+        {
+            $item = new Item;
+            $item->type = $item_type;
+            $item->title = $item_type;
+            $item->amount = $quantity;
+            $item->character_id = $char_id;
+        }
+        $item->save();
+    }
+
+    static function RemoveItemFromChar($char_id, $item_type, $quantity)
+    {
+        $item = Item::where('character_id', $char_id)->where('type', $item_type)->first();
+        if ($item) 
+        {
+            if ( $item->amount >= $quantity )
+            {
+                $item->amount = $item->amount - $quantity;
+                if ($item->amount == 0)     
+                    $item->delete();
+                else 
+                    $item->save();
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        } 
+        else 
+        {
+            return false;
+        }
+        
+    }
+
 }

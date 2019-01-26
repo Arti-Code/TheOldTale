@@ -8,6 +8,7 @@ use App\Universum;
 use App\Name;
 use App\Resource;
 use App\Progress;
+use App\LIB;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
@@ -129,5 +130,21 @@ class LocationController extends Controller
     public function place()
     {
         return view('location.place');
+    }
+
+    public function build($inside)
+    {
+        $character = Character::find(session('char_id'));
+        $utilities = LIB::UTILITIES;
+        $utils = [];
+        foreach ($utilities as $key => $value) 
+        {   
+            if( in_array($inside, $value['inside']) )
+            {
+                $utils[$key] = $value;
+            }
+            
+        }
+        return view('location.build')->with(["character" => $character, "utils" => $utils]);
     }
 }

@@ -9,26 +9,13 @@ use App\Character;
 use App\Item;
 use App\Message;
 use App\LIB;
+//use ItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
 class ProgressController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function create($mode, $id)
     {
         $char = Character::find(session('char_id'));
@@ -75,12 +62,6 @@ class ProgressController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $character = Character::find(session('char_id'));
@@ -116,40 +97,6 @@ class ProgressController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Progress  $progress
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Progress $progress)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Progress  $progress
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Progress $progress)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Progress  $progress
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Progress $progress)
-    {
-        //
-    }
-
     public function craft($name)
     {
         $enough_res = true;
@@ -162,7 +109,7 @@ class ProgressController extends Controller
                 $item = Item::PRODUCT[$name];
                 $item['name'] = $name;
                 $inventory = [];
-                foreach( $item['res'] as $k => $val )
+                /*foreach( $item['res'] as $k => $val )
                 {
                     $i = Item::where('character_id', $character->id)->where('type', $k)->first();
                     if( $i )
@@ -173,16 +120,19 @@ class ProgressController extends Controller
                     {
                         $enough_res = false;
                     }
-                }
-                if( $enough_res )
+                }*/
+                
+                foreach( $item['res'] as $k => $val )
                 {
-                    foreach( $item['res'] as $k => $val )
-                    {
-                        $i = Item::where('character_id', $character->id)->where('type', $k)->first();
-                        $i->amount = $i->amount - $val;
-                        if( $i->amount > 0 )    $i->save();
-                        else $i->delete();
-                    }
+                    /*$i = Item::where('character_id', $character->id)->where('type', $k)->first();
+                    $i->amount = $i->amount - $val;
+                    if( $i->amount > 0 )    $i->save();
+                    else $i->delete();*/
+                    if( !ItemController::RemoveItemFromChar($character->id, $k, $val) )
+                        $enough_res = false;
+                }
+                if ($enough_res) 
+                {
                     $p = new Progress;
                     $p->turns = 0;
                     $p->total_turns = $item['turn'];
@@ -211,12 +161,6 @@ class ProgressController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Progress  $progress
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $char = Character::find(session('char_id'));

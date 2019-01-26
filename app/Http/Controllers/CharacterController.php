@@ -15,11 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CharacterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $characters = Character::where('user_id', Auth::id())->get();
@@ -30,23 +26,12 @@ class CharacterController extends Controller
             return view('character.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $universums = Universum::all();
         return view('character.create')->with(['universums' => $universums]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $unique_char = Character::where('name', $request['name'])->where('universum_id', $request['universum_id'])->first();
@@ -88,46 +73,6 @@ class CharacterController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Character  $character
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Character $character)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Character  $character
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Character $character)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Character  $character
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Character $character)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Character  $character
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $character = Character::find($id);

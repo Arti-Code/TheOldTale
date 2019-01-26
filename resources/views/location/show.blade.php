@@ -10,10 +10,10 @@
 
             </div>
             <div class="col-6">
-                <h5>{{ $title }} <!-- <a href="{ route('name.edit', $location->id) }}"><i class="far fa-edit"></i></a> --> </h5>
+                <h5>{{ $title }}</h5>
             </div>
             <div class="col-3">
-                <a href="{{ route('navigation.index') }}"><img src="{{asset('png/routes.png')}}" /></a>
+            
             </div>
         </div>
     </div>
@@ -57,11 +57,11 @@
         <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Items</div>
     </div>
     <div class="card p-2 bg-light">
-        <a href=""><img class="card-img-top" src="{{asset('png/travel.png')}}"></a>
+        <a href="{{ route('navigation.index') }}"><img class="card-img-top" src="{{asset('png/travel.png')}}"></a>
         <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Travel</div>
     </div>
     <div class="card p-2 bg-light">
-        <a href=""><img class="card-img-top" src="{{asset('png/build.png')}}"></a>
+        <a href="{{route('location.build', 'location')}}"><img class="card-img-top" src="{{asset('png/build.png')}}"></a>
         <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Build</div>
     </div>
 </div>

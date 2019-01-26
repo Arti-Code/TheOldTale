@@ -14,6 +14,12 @@ class LIB extends Model
         'fruit' => ['none' => 0]
     ];
 
+    const UTILITIES = 
+    [
+        'campfire' => ['inside' => [ 'location', 'cottage' ], 'tool' => [], 'building' => ['wood' => 3], 'turns' => 0, 'keeping' => ['wood' => 1], 'storage' => 10, 'places' => 0 ],
+        'cottage' => ['inside' => ['location'], 'tool' => ['stone hammer' => 30], 'building' => ['wood' => 30], 'turns' => 30, 'keeping' => [], 'storage' => 30, 'places' => 2]
+    ];
+
     static function TOOLS_FOR_RES($res_type)
     {
         return self::RESOURCES[$res_type];
