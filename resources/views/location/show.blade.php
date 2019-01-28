@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="card-body">
-        @if($prog->type != 'collect')
+        @if($prog->type != 'collect' && $prog->type != 'build')
             <div class="d-flex flex-row justify-content-center">
                 @foreach ($res as $r)
                     <div class="card res m-1 bg-light">
@@ -27,10 +27,10 @@
                     </div>
                 @endforeach
             </div>
-        @elseif($prog->type == 'collect')
+        @elseif($prog->type == 'collect' || $prog->type == 'build')
             <div class="d-flex flex-row justify-content-around py-2 border align-items-center">
                 <div class="col-2 d-flex py-auto">
-                    {{ $res->title }}
+                    {{ $target }}
                 </div>
                 <div class="progress col-6 my-auto px-0">
                 <div class="progress-bar bg-success" role="progressbar" style="width: {{ $progress_bar }}%"></div>
@@ -48,6 +48,14 @@
                 </div>
             @endforeach
         </div>
+        <div class="d-flex flex-row justify-content-center py-2">
+            @foreach ($utils as $u)
+                <div class="card util m-1 bg-light">
+                        <a href=""><img class="card-img-top card-util" src="{{asset('png/' . $u->type . '.png')}}"></a>
+                        <div class="card-header p-0 border-0 bg-light text-center"><small>{{ $u->type }}</small></div>
+                    </div>
+            @endforeach
+        </div>
     </div>
 </div>
 
@@ -61,8 +69,8 @@
         <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Travel</div>
     </div>
     <div class="card p-2 bg-light">
-        <a href="{{route('location.build', 'location')}}"><img class="card-img-top" src="{{asset('png/build.png')}}"></a>
-        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Build</div>
+        <a href="{{route('util.location.list', $location->id)}}"><img class="card-img-top" src="{{asset('png/build.png')}}"></a>
+        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Construct</div>
     </div>
 </div>
 

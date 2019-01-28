@@ -9,51 +9,16 @@ use App\Name;
 use App\Resource;
 use App\Progress;
 use App\LIB;
+use App\Util;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Location  $location
-     * @return \Illuminate\Http\Response
-     */
+    
     public function show(Location $location)
     {
         $character = Character::find(session('char_id'));
-        if( ($character->progress_id == null) || ($character->progress->type == 'collect') || ($character->progress->type == 'craft') )
+        if( ($character->progress_id == null) || ($character->progress->type == 'collect') || ($character->progress->type == 'craft') || ($character->progress->type == 'build') )
         {
             $location = Location::find($character->location_id);
             $name = Name::where('location_id', $location->id)->where('owner_id', $character->id)->first();
@@ -64,7 +29,10 @@ class LocationController extends Controller
             $people = Character::where('location_id', $location->id)->where('id', '<>', $character->id)->get();
             $progress = null;
             $res = null;
+            $utils = null;
+            $target = null;
             $progress_bar = null;
+            $utils = Util::where('location_id', $location->id)->get();
             if($character->progress_id == null)
             {
                 $res = Resource::where('location_id', $location->id)->get();
@@ -76,16 +44,23 @@ class LocationController extends Controller
                 {
                     $progress = $character->progress;
                     $res = Resource::find($progress->target_id);
-                    $progress_bar = round( ( ( $progress->turns + $progress->cycles * $res->turns ) / ( $progress->total_cycles * $res->turns ) ) * 100 );
+                    $target = $res->type;
+                    $progress_bar = round( ( ( $progress->turns + $progress->cycles * $progress->total_turns ) / ( $progress->total_cycles * $progress->total_turns ) ) * 100 );
                 }
                 if($character->progress->type == 'craft')
                 {
                     $progress = $character->progress;
                     $res = Resource::where('location_id', $location->id)->get();
                 }
+                if ($character->progress->type == 'build') {
+                    $progress = $character->progress;
+                    $target = $progress->util;
+                    $res = Resource::where('location_id', $location->id)->get();
+                    $progress_bar = round( ( ( $progress->turns + $progress->cycles * $progress->total_turns ) / ( $progress->total_cycles * $progress->total_turns ) ) * 100 );
+                }
             }
 
-            return view('location.show')->with(["location" => $location, "title" => $priv_name, 'people' => $people, 'res' => $res, 'prog' => $progress, 'progress_bar' => $progress_bar]);
+            return view('location.show')->with(["location" => $location, "title" => $priv_name, 'people' => $people, 'res' => $res, 'utils' => $utils, 'prog' => $progress, 'progress_bar' => $progress_bar, 'target' => $target]);
         }
         elseif($character->progress->type == 'travel')
         {
@@ -93,35 +68,7 @@ class LocationController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Location  $location
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Location $location)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Location  $location
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Location $location)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Location  $location
-     * @return \Illuminate\Http\Response
-     */
+    
     public function destroy(Location $location)
     {
         //
@@ -130,21 +77,5 @@ class LocationController extends Controller
     public function place()
     {
         return view('location.place');
-    }
-
-    public function build($inside)
-    {
-        $character = Character::find(session('char_id'));
-        $utilities = LIB::UTILITIES;
-        $utils = [];
-        foreach ($utilities as $key => $value) 
-        {   
-            if( in_array($inside, $value['inside']) )
-            {
-                $utils[$key] = $value;
-            }
-            
-        }
-        return view('location.build')->with(["character" => $character, "utils" => $utils]);
     }
 }

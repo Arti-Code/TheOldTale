@@ -129,6 +129,11 @@ class CharacterController extends Controller
                 $location = "crafting things...";
 
             }
+            if($character->progress->type == 'build')
+            {
+                $location = "building something...";
+
+            }
             $p = Progress::find($character->progress_id);
             $progress['type'] = $p->type;
             $progress['value'] = round((($p->turns + $p->cycles * $p->total_turns) / ($p->total_cycles * $p->total_turns)) * 100);

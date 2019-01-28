@@ -44,6 +44,8 @@
                                 <i class="fas fa-hiking"></i>
                             @elseif( $progress['type'] == 'collect' )
                                 <i class="fas fa-apple-alt"></i>
+                            @elseif( $progress['type'] == 'build' )
+                                <i class="fas fa-hammer"></i>
                             @endif
                         </div>
                         <div class="col-8 progress my-auto  px-0" style="height: 4px;">

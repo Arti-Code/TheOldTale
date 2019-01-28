@@ -94,6 +94,10 @@ class UniversumController extends Controller
                     {
                         $this->calcCraft($character);
                     }
+                    elseif($character->progress->type == 'build')
+                    {
+                        $this->calcBuild($character);
+                    }
                 }
                 $character->fight = true;
                 $this->calcDeath($character);
@@ -177,6 +181,22 @@ class UniversumController extends Controller
             $character->progress_id = null;
             $character->save();
         }
+    }
+
+    private function calcBuild(Character $character)
+    {
+        $character->progress->turns = $character->progress->turns + 1;
+        if($character->progress->turns < $character->progress->total_turns)
+        {
+            $character->progress->save();
+        }
+        /*else
+        {
+            ItemController::AddItemToChar($character->id, $character->progress->target, 1);
+            $character->progress->delete();
+            $character->progress_id = null;
+            $character->save();
+        }*/
     }
 
     public function calcHunger(Character $character)

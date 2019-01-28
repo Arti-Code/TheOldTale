@@ -42,7 +42,8 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
     Route::post('/location/store', 'NameController@store')->name('name.store')->middleware('auth', 'char');
     Route::get('/location/show', 'LocationController@show')->name('location.show')->middleware('auth', 'char');
     Route::get('/location/place', 'LocationController@place')->name('location.place')->middleware('auth', 'char');
-    Route::get('/location/build/{inside}', 'LocationController@build')->name('location.build')->middleware('auth', 'char');
+
+    Route::get('/util/location/list/{id}', 'UtilController@list')->name('util.location.list')->middleware('auth', 'char');
 }
 
 {   //Admin
@@ -68,6 +69,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
     Route::get('/progress/destroy/{id}', 'ProgressController@destroy')->name('progress.destroy')->middleware('auth', 'char');
     Route::get('/progress/create/{mode}/{id}', 'ProgressController@create')->name('progress.create')->middleware('auth', 'char');
     Route::post('/progress/store', 'ProgressController@store')->name('progress.store')->middleware('auth', 'char');
+    Route::get('/progress/construct/{type}', 'ProgressController@construct')->name('progress.construct')->middleware('auth', 'char');
 }
 
 {   //Item

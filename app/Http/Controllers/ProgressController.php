@@ -9,6 +9,7 @@ use App\Character;
 use App\Item;
 use App\Message;
 use App\LIB;
+use App\Util;
 //use ItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -108,26 +109,9 @@ class ProgressController extends Controller
             {
                 $item = Item::PRODUCT[$name];
                 $item['name'] = $name;
-                $inventory = [];
-                /*foreach( $item['res'] as $k => $val )
-                {
-                    $i = Item::where('character_id', $character->id)->where('type', $k)->first();
-                    if( $i )
-                    {
-                        if( $i->amount < $val )     $enough_res = false;
-                    }
-                    else
-                    {
-                        $enough_res = false;
-                    }
-                }*/
-                
+                $inventory = []; 
                 foreach( $item['res'] as $k => $val )
                 {
-                    /*$i = Item::where('character_id', $character->id)->where('type', $k)->first();
-                    $i->amount = $i->amount - $val;
-                    if( $i->amount > 0 )    $i->save();
-                    else $i->delete();*/
                     if( !ItemController::RemoveItemFromChar($character->id, $k, $val) )
                         $enough_res = false;
                 }
@@ -182,6 +166,50 @@ class ProgressController extends Controller
         else
         {
             return redirect()->route('location.show')->with('danger', 'Ta czynnośc nie istnieje');
+        }
+    }
+
+    public function construct($type)
+    {
+        $character = Character::find(session('char_id'));
+        if ($character->progress_id == null) {
+            if (array_key_exists($type, LIB::UTILITIES)) {
+                $util = LIB::UTILITIES[$type];
+                if ($util['turns'] > 0) {
+                    $p = new Progress;
+                    $p->character_id = $character->id;
+                    $p->turns = 0;
+                    $p->total_turns = $util['turns'];
+                    $p->cycles = 0;
+                    $p->total_cycles = 1;
+                    $p->type = 'build';
+                    $p->util = $type;
+                    $p->save();
+                    $p = Progress::where('character_id', $character->id)->first();
+                    $character->progress_id = $p->id;
+                    $character->save();
+                    MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' tworzy ' . $type);
+                    return redirect()->route('location.show')->with('success', 'Rozpocząłeś konstrukcję');
+                } else {
+                    $u = new Util;
+                    $u->type = $type;
+                    $u->title = $type;
+                    $u->location_id = $character->location_id;
+                    $u->character_id = $character->location_id;
+                    $u->save();
+                    MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wykonał ' . $type);
+                    return redirect()->route('location.show')->with('success', 'Udało się');
+                }
+            } else {
+                return redirect()->route('location.show')->with('danger', 'Wybrana konstrukcja nie istnieje');
+            }
+        } else {
+            if ($character->progress->type == "travel")
+                return redirect()->route('navigation.travel')->with('danger', 'Robisz już coś innego');
+            if ($character->progress->type == "collect")
+                return redirect()->route('location.show')->with('danger', 'Robisz już coś innego');
+            if ($character->progress->type == "craft")
+                return redirect()->route('location.show')->with('danger', 'Robisz już coś innego');
         }
     }
 }
