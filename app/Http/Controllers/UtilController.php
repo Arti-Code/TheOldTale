@@ -67,5 +67,22 @@ class UtilController extends Controller
         return view('util.location.list')->with(["character" => $character, "utils" => $utils]);
     }
 
+    static function AddUtilToLoc($type, $loc_id, $char_id)
+    {
+        if( array_key_exists($type, LIB::UTILITIES) )
+        {
+            $u = new Util;
+            $u->type = $type;
+            $u->title = $type;
+            $u->location_id = $loc_id;
+            $u->character_id = $char_id;
+            $u->save();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     
 }

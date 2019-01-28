@@ -18,7 +18,16 @@
         </div>
     </div>
     <div class="card-body">
-        @if($prog->type == 'collect' || $prog->type == 'build' || $prog->type == 'craft' )
+        @if($prog->type != 'collect' && $prog->type != 'build')
+            <div class="d-flex flex-row justify-content-center">
+                @foreach ($res as $r)
+                    <div class="card res m-1 bg-light">
+                        <a href="{{ route( 'progress.create', [ 'mode' => 'collect', 'id' => $r->id ] ) }}"><img class="card-img-top card-res" src="{{asset('png/' . $r->type . '.png')}}"></a>
+                        <div class="card-header p-0 border-0 bg-light text-center"><small>{{ $r->type }}</small></div>
+                    </div>
+                @endforeach
+            </div>
+        @elseif($prog->type == 'collect' || $prog->type == 'build')
             <div class="d-flex flex-row justify-content-around py-2 border align-items-center">
                 <div class="col-2 d-flex py-auto">
                     {{ $target }}
@@ -31,14 +40,6 @@
                 </div>
             </div>
         @endif
-        <div class="d-flex flex-row justify-content-center">
-            @foreach ($res as $r)
-                <div class="card res m-1 bg-light">
-                    <a href="{{ route( 'progress.create', [ 'mode' => 'collect', 'id' => $r->id ] ) }}"><img class="card-img-top card-res" src="{{asset('png/' . $r->type . '.png')}}"></a>
-                    <div class="card-header p-0 border-0 bg-light text-center"><small>{{ $r->type }}</small></div>
-                </div>
-            @endforeach
-            </div>
         <div class="d-flex flex-row justify-content-center py-2">
             @foreach ($people as $p)
                 <div class="card avatar m-1 bg-light">
@@ -50,7 +51,7 @@
         <div class="d-flex flex-row justify-content-center py-2">
             @foreach ($utils as $u)
                 <div class="card util m-1 bg-light">
-                        <a href="{{route('util.' . $u->type, $u->id)}}"><img class="card-img-top card-util" src="{{asset('png/' . $u->type . '.png')}}"></a>
+                        <a href=""><img class="card-img-top card-util" src="{{asset('png/' . $u->type . '.png')}}"></a>
                         <div class="card-header p-0 border-0 bg-light text-center"><small>{{ $u->type }}</small></div>
                     </div>
             @endforeach

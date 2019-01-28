@@ -11,6 +11,7 @@ use App\Message;
 use App\Item;
 use App\Resource;
 use App\Http\Controllers\ItemController;
+//use App\Http\Controllers\UtilController;
 use Illuminate\Http\Request;
 
 class UniversumController extends Controller
@@ -190,13 +191,14 @@ class UniversumController extends Controller
         {
             $character->progress->save();
         }
-        /*else
+        else
         {
-            ItemController::AddItemToChar($character->id, $character->progress->target, 1);
+            UtilController::AddUtilToLoc($character->progress->util, $character->location_id, $character->id);
+            MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . " skonstruował " . $character->progress->util);
             $character->progress->delete();
             $character->progress_id = null;
             $character->save();
-        }*/
+        }
     }
 
     public function calcHunger(Character $character)

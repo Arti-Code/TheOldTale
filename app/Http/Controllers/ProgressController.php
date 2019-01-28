@@ -191,13 +191,8 @@ class ProgressController extends Controller
                     MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' tworzy ' . $type);
                     return redirect()->route('location.show')->with('success', 'Rozpocząłeś konstrukcję');
                 } else {
-                    $u = new Util;
-                    $u->type = $type;
-                    $u->title = $type;
-                    $u->location_id = $character->location_id;
-                    $u->character_id = $character->location_id;
-                    $u->save();
-                    MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wykonał ' . $type);
+                    UtilController::AddUtilToLoc($type, $character->location_id, $character->id);
+                    MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' skonstruował ' . $type);
                     return redirect()->route('location.show')->with('success', 'Udało się');
                 }
             } else {

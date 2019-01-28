@@ -82,3 +82,6 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 Route::get('/options/index', 'HomeController@options')->name('options.index')->middleware('auth');
 
 Route::post('/resource/store', 'ResourceController@store')->name('resource.store')->middleware('auth', 'char');
+
+Route::get('/util/campfire/{id}', 'UtilController@campfire')->name('util.campfire')->middleware('auth');
+Route::get('/util/cottage/{id}', 'UtilController@cottage')->name('util.cottage')->middleware('auth');

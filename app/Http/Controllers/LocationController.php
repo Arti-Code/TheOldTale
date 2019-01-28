@@ -50,6 +50,7 @@ class LocationController extends Controller
                 if($character->progress->type == 'craft')
                 {
                     $progress = $character->progress;
+                    $target = $progress->target;
                     $res = Resource::where('location_id', $location->id)->get();
                 }
                 if ($character->progress->type == 'build') {
