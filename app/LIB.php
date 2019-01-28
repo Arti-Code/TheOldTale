@@ -11,7 +11,8 @@ class LIB extends Model
         'wood' => ['none' => 0, 'stone axe' => 25],
         'stone' => ['none' => 0, 'stone pick' => 25],
         'fish' => [' none ' => 0, 'primitiv rod' => 30],
-        'fruit' => ['none' => 0]
+        'fruit' => ['none' => 0],
+        'hare' => ['none' => 0]
     ];
 
     const UTILITIES = 
