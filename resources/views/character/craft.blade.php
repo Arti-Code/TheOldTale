@@ -25,7 +25,7 @@
                             {{$l . '(' . $r . ') ' }}
                         @endforeach
                         </td>
-                        <td class="text-center"><a href="{{ route('progress.craft', $k) }}"><i class="green fas fa-hammer"></i></a></td>
+                        <td class="text-center"><a href="{{ route('progress.craft', ['name' => $k, 'id' => -1]) }}"><i class="green fas fa-hammer"></i></a></td>
                     </tr>
                 @endforeach
             </tbody>
