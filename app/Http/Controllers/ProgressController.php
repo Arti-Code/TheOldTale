@@ -98,9 +98,11 @@ class ProgressController extends Controller
         }
     }
 
-    public function craft($name)
+    public function craft($name, $util_id)
     {
         $enough_res = true;
+        $util = Util::find($util_id);
+        $util_valid = false;
         $character = Character::find(session('char_id'));
         if( $character->progress_id == null )
         {
@@ -115,19 +117,47 @@ class ProgressController extends Controller
                     if( !ItemController::RemoveItemFromChar($character->id, $k, $val) )
                         $enough_res = false;
                 }
+                unset($k);
+                unset($val);
                 if ($enough_res) 
                 {
-                    $p = new Progress;
-                    $p->turns = 0;
-                    $p->total_turns = $item['turn'];
-                    $p->type = 'craft';
-                    $p->target = $item['name'];
-                    $p->character_id = $character->id;
-                    $p->save();
-                    $character->progress_id = $p->id;
-                    $character->save();
-                    MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wytwarza ' . $p->target);
-                    return redirect()->route('character.myself')->with('success', 'Rozpoczynasz wytwarzanie');
+                    if( empty($item['util']) )
+                        $util_valid = true;
+                    else
+                    {
+                        foreach( $item['util'] as $u )
+                        {
+                            if( $util->type == $u )
+                                $util_valid = true;
+                        }
+                    }
+                    if ( $util_valid )
+                    {
+                        if( $item['turn'] > 0 )
+                        {
+                            $p = new Progress;
+                            $p->turns = 0;
+                            $p->total_turns = $item['turn'];
+                            $p->type = 'craft';
+                            $p->target = $item['name'];
+                            $p->character_id = $character->id;
+                            $p->save();
+                            $character->progress_id = $p->id;
+                            $character->save();
+                            MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wytwarza ' . $p->target);
+                            return redirect()->route('character.myself')->with('success', 'Rozpoczynasz wytwarzanie');
+                        }
+                        else
+                        {
+                            ItemController::AddItemToChar($character->id, $item['name'], $item['return']);
+                            MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wytwarza ' . $item['name']);
+                            return redirect()->route('character.myself')->with('success', 'Zyskujesz ' . $item['name']);
+                        }
+                    }
+                    else
+                    {
+                        return redirect()->route('character.myself')->with('danger', 'Brak możliwości wykonania');
+                    }
                 }
                 else
                 {

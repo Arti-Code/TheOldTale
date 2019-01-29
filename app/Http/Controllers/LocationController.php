@@ -43,8 +43,9 @@ class LocationController extends Controller
                 if($character->progress->type == 'collect')
                 {
                     $progress = $character->progress;
-                    $res = Resource::find($progress->target_id);
-                    $target = $res->type;
+                    $res = Resource::where('location_id', $location->id)->get();
+                    $used_res = Resource::find($progress->target_id);
+                    $target = $used_res->type;
                     $progress_bar = round( ( ( $progress->turns + $progress->cycles * $progress->total_turns ) / ( $progress->total_cycles * $progress->total_turns ) ) * 100 );
                 }
                 if($character->progress->type == 'craft')

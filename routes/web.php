@@ -29,7 +29,6 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
     Route::get('/character/eat/{id}', 'CharacterController@eat')->name('character.eat')->middleware('auth', 'char');
     Route::get('/character/select/{id}', 'CharacterController@select')->name('character.select')->middleware('auth');
     Route::get('/character/craft', 'CharacterController@craft')->name('character.craft')->middleware('auth', 'char');
-    Route::get('/progress/craft/{name}', 'ProgressController@craft')->name('progress.craft')->middleware('auth', 'char');
     Route::get('/character/fight', 'CharacterController@fight')->name('character.fight')->middleware('auth', 'char');
     Route::get('/character/weapon/equip/{id}', 'CharacterController@weaponEquip')->name('character.weapon.equip')->middleware('auth', 'char');
     Route::get('/character/other/{id}', 'CharacterController@other')->name('character.other')->middleware('auth', 'char');
@@ -66,6 +65,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 }
 
 {   //Progress
+    Route::get('/progress/craft/{name}/{util_id}', 'ProgressController@craft')->name('progress.craft')->middleware('auth', 'char');
     Route::get('/progress/destroy/{id}', 'ProgressController@destroy')->name('progress.destroy')->middleware('auth', 'char');
     Route::get('/progress/create/{mode}/{id}', 'ProgressController@create')->name('progress.create')->middleware('auth', 'char');
     Route::post('/progress/store', 'ProgressController@store')->name('progress.store')->middleware('auth', 'char');

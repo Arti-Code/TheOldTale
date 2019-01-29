@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Util;
+use App\Item;
 use App\Character;
 use App\LIB;
 use Illuminate\Http\Request;
@@ -65,6 +66,35 @@ class UtilController extends Controller
 
         }
         return view('util.location.list')->with(["character" => $character, "utils" => $utils]);
+    }
+
+    public function campfire($id)
+    {
+        $character = Character::find(session('char_id'));
+        $util = Util::find($id);
+        if( $util )
+        {
+            if( $character->location_id == $util->location_id )
+            {
+                $character = Character::find(session('char_id'));
+                $products_list = Item::PRODUCT;
+                $products = [];
+                foreach($products_list as $key => $value)
+                {
+                    if( in_array('campfire', $value['util']) )
+                    $products[$key] = $value;
+                }
+                return view('util.campfire.index')->with(["character" => $character, "products" => $products, "util" => $util]);
+            }
+            else
+            {
+                return redirect()->route('location.show')->with('danger', 'Niewłaściwy wybór');
+            }
+        }
+        else
+        {
+            return redirect()->route('location.show')->with('danger', 'Niewłaściwy wybór');
+        }
     }
 
     static function AddUtilToLoc($type, $loc_id, $char_id)
