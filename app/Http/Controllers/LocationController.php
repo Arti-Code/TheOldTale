@@ -53,6 +53,7 @@ class LocationController extends Controller
                     $progress = $character->progress;
                     $target = $progress->target;
                     $res = Resource::where('location_id', $location->id)->get();
+                    $progress_bar = round( ( ( $progress->turns + $progress->cycles * $progress->total_turns ) / ( $progress->total_cycles * $progress->total_turns ) ) * 100 );
                 }
                 if ($character->progress->type == 'build') {
                     $progress = $character->progress;
