@@ -2,6 +2,17 @@
 
 @section('content')
 
+@if(!empty($prog))
+    @if($prog["type"] != 'travel')
+        @component('layouts.components.progressbar')
+            @slot('title')
+                {{ $prog["target"] }}
+            @endslot
+            {{ $prog["bar"] }}
+        @endcomponent
+    @endif
+@endif
+
 <div class="card bg-light">
     <div class="card-header text-center">
         <h5>{{ $character->name }}</h5>
@@ -35,24 +46,7 @@
                         <div class="progress-bar bg-success" role="progressbar" style="width: {{ $character->happy }}%;"></div>
                     </div>
                 </div>
-                @if( $progress != null )
-                    <div class="row">
-                        <div class="col-2">
-                            @if( $progress['type'] == 'craft' )
-                                <i class="fas fa-hammer"></i>
-                            @elseif( $progress['type'] == 'travel' )
-                                <i class="fas fa-hiking"></i>
-                            @elseif( $progress['type'] == 'collect' )
-                                <i class="fas fa-apple-alt"></i>
-                            @elseif( $progress['type'] == 'build' )
-                                <i class="fas fa-hammer"></i>
-                            @endif
-                        </div>
-                        <div class="col-8 progress my-auto  px-0" style="height: 4px;">
-                            <div class="progress-bar bg-secondary" role="progressbar" style="width: {{ $progress['value'] }}%;"></div>
-                        </div>
-                    </div>
-                @endif
+    
                 <div class="row mt-2">
                     <div class="col-12 my-auto">
                         @if($weapon)
@@ -85,7 +79,7 @@
     </div>
     <div class="card p-2 bg-light">
         <a href="{{route('item.index')}}"><img class="card-img-top" src="{{asset('png/backpack.png')}}"></a>
-        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Ekwipunek</div>
+        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Przedmioty</div>
     </div>
     <div class="card p-2 bg-light">
         <a href="{{route('character.craft')}}"><img class="card-img-top" src="{{asset('png/craft.png')}}"></a>

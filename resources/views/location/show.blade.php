@@ -2,6 +2,17 @@
 
 @section('content')
 
+@if(!empty($prog))
+    @if($prog["type"] != 'travel')
+        @component('layouts.components.progressbar')
+            @slot('title')
+                {{ $prog["target"] }}
+            @endslot
+            {{ $prog["bar"] }}
+        @endcomponent
+    @endif
+@endif
+
 <div class="card bg-light">
     <img class="card-img-top" src="{{ asset('png/'. $location->type .'.png') }}">
     <div class="card-header text-center">
@@ -10,7 +21,7 @@
 
             </div>
             <div class="col-6">
-                <h5>{{ $title }}</h5>
+                <h5>{{ $location->name }}</h5>
             </div>
             <div class="col-3">
             
@@ -18,19 +29,6 @@
         </div>
     </div>
     <div class="card-body">
-        @if($prog->type == 'collect' || $prog->type == 'build' || $prog->type == 'craft' )
-            <div class="d-flex flex-row justify-content-around py-2 border align-items-center">
-                <div class="col-2 d-flex py-auto">
-                    {{ $target }}
-                </div>
-                <div class="progress col-6 my-auto px-0">
-                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $progress_bar }}%"></div>
-                </div>
-                <div class="col-2 text-center align-center">
-                    <a href="{{route('progress.destroy', $prog->id)}}"><i class="far fa-times-circle red"></i></a>
-                </div>
-            </div>
-        @endif
         <div class="d-flex flex-row justify-content-center">
             @foreach ($res as $r)
                 <div class="card res m-1 bg-light">

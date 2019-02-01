@@ -14,4 +14,9 @@ class Route extends Model
         return $this->belongsTo('App\Location');
     }
 
+    public function progress()
+    {
+        return $this->belongsTo('App\Progress');
+    }
+
 }

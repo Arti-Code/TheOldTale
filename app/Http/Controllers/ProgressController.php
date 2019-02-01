@@ -78,7 +78,7 @@ class ProgressController extends Controller
                 $p->cycles = 0;
                 $p->total_cycles = $request["slider"];
                 $p->type = 'collect';
-                $p->target_id = $r->id;
+                $p->resource_id = $r->id;
                 $p->save();
                 $p = Progress::where('character_id', $character->id)->first();
                 $character->progress_id = $p->id;
@@ -139,7 +139,7 @@ class ProgressController extends Controller
                             $p->turns = 0;
                             $p->total_turns = $item['turn'];
                             $p->type = 'craft';
-                            $p->target = $item['name'];
+                            $p->product_type = $item['name'];
                             $p->character_id = $character->id;
                             $p->save();
                             $character->progress_id = $p->id;
@@ -175,23 +175,16 @@ class ProgressController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy()
     {
         $char = Character::find(session('char_id'));
-        $p = Progress::find($id);
+        $p = Progress::find($char->progress_id);
         if($p)
         {
-            if($char->id == $p->character_id)
-            {
-                $p->delete();
-                $char->progress_id = null;
-                $char->save();
-                return redirect()->route('location.show')->with('info', 'Przerwałeś dotychczasową czynnośc');
-            }
-            else
-            {
-                return redirect()->route('location.show')->with('danger', 'Niewłaściwa czynnośc');
-            }
+            $p->delete();
+            $char->progress_id = null;
+            $char->save();
+            return redirect()->route('location.show')->with('info', 'Przerwałeś dotychczasową czynnośc');
         }
         else
         {
@@ -236,5 +229,27 @@ class ProgressController extends Controller
             if ($character->progress->type == "craft")
                 return redirect()->route('location.show')->with('danger', 'Robisz już coś innego');
         }
+    }
+
+    static function GET_PROG($character)
+    {
+        $prog["bar"] = round( ( ( $character->progress->turns + $character->progress->cycles * $character->progress->total_turns ) 
+            / ( $character->progress->total_cycles * $character->progress->total_turns ) ) * 100 );
+        if($character->progress->type == 'collect')
+        {
+            $used_res = Resource::find($character->progress->resource_id);
+            $prog["target"] = $used_res->type;
+            $prog["type"] = 'collect';
+        }
+        if($character->progress->type == 'craft')
+        {
+            $prog["type"] = 'craft';
+            $prog["target"] = $progress->product_type;
+        }
+        if ($character->progress->type == 'build') {
+            $prog["target"] = $progress->util;
+            $prog["type"] = 'build';
+        }
+        return $prog;
     }
 }

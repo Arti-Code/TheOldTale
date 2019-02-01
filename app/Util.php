@@ -13,4 +13,14 @@ class Util extends Model
     {
         return $this->belongsTo('App\Location');
     }
+
+    public function item()
+    {
+        return $this->hasMany('App\Item');
+    }
+
+    public function progress()
+    {
+        return $this->belongsTo('App\Progress');
+    }
 }

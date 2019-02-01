@@ -151,7 +151,7 @@ class RouteController extends Controller
         $progress->turns = 0;
         $progress->total_turns = $route->distance;
         $progress->type = 'travel';
-        $progress->target_id = $route->id;
+        $progress->route_id = $route->id;
         $progress->save();
         $character->progress_id = $progress->id;
         $character->save();
@@ -164,7 +164,7 @@ class RouteController extends Controller
     {
         $character = Character::find(session('char_id'));
         $progress = Progress::find($character->progress_id);
-        $route = Route::find($progress->target_id);
+        $route = Route::find($progress->route_id);
         $start_name = Name::where('location_id', $route->location_id)->where('owner_id', $character->id)->first();
         $finish_name = Name::where('location_id', $route->finish_id)->where('owner_id', $character->id)->first();
         if(!$start_name)
@@ -192,7 +192,7 @@ class RouteController extends Controller
         $progress = Progress::find($character->progress_id);
         if($progress->turns == 0)
         {
-            $route = Route::find($progress->target_id);
+            $route = Route::find($progress->route_id);
             $character->location_id = $route->location_id;
             $character->progress_id = null;
             $msg = new Message;
@@ -206,11 +206,11 @@ class RouteController extends Controller
         }
         else
         {
-            $route = Route::find($progress->target_id);
+            $route = Route::find($progress->route_id);
             $new_route = Route::where('location_id', $route->finish_id)->where('finish_id', $route->location_id)->first();
             if($new_route)
             {
-                $progress->target_id = $new_route->id;
+                $progress->route_id = $new_route->id;
                 $progress->turns = $new_route->distance - $progress->turns;
                 $progress->total_turns = $new_route->distance;
                 $progress->save();

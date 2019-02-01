@@ -9,6 +9,7 @@ use App\Route;
 use App\Location;
 use App\Message;
 use App\Item;
+use App\Util;
 use App\Resource;
 use App\Http\Controllers\ItemController;
 //use App\Http\Controllers\UtilController;
@@ -83,6 +84,7 @@ class UniversumController extends Controller
                 $this->calcHealth($character);
                 if($character->progress_id != null)
                 {
+                    $character->rest = $character->rest - 10;
                     if($character->progress->type == 'travel')
                     {
                         $this->calcTravel($character);
@@ -100,9 +102,39 @@ class UniversumController extends Controller
                         $this->calcBuild($character);
                     }
                 }
+                else
+                {
+                    $character->rest = $character->rest + 5;
+                    MessageController::ADD_SYS_PRIV_MSG($character->location_id, $character->id, "Odpoczywasz i odzyskujesz siły");
+                }
                 $character->fight = true;
                 $this->calcDeath($character);
+                if($character->rest > 100)
+                    $character->rest = 100;
+                elseif ($character->rest < 0)
+                    $character->rest = 0;
+                if($character->happy > 100)
+                    $character->happy = 100;
+                elseif ($character->happy < 0)
+                    $character->happy = 0;
                 $character->save();
+            }
+            $locations = Location::where('universum_id', $univ_id)->get();
+            foreach($locations as $location)
+            {
+                $utils = Util::where('location_id', $location->id)->get();
+                if( $utils )
+                {
+                    foreach ($utils as $util) 
+                    {
+                        if( $util->lifetime > 0 )
+                        {
+                            $util->lifetime = $util->lifetime - 1;
+                        }
+                        if($util->lifetime > 0)   $util->save();
+                        if($util->lifetime == 0)   $util->delete();
+                    }
+                }
             }
             $universum->turn++;
             $universum->save();
@@ -117,13 +149,14 @@ class UniversumController extends Controller
     private function calcTravel(Character $character)
     {
         $character->progress->turns = $character->progress->turns + 1;
+        $character->rest = $character->rest - 20;
         if($character->progress->turns < $character->progress->total_turns)
         {
             $character->progress->save();
         }
         else
         {
-            $route = Route::find($character->progress->target_id);
+            $route = Route::find($character->progress->route_id);
             $character->progress->delete();
             $character->location_id = $route->finish_id;
             $character->progress_id = null;
@@ -142,7 +175,7 @@ class UniversumController extends Controller
         }
         else
         {
-            $result = Resource::find($character->progress->target_id);
+            $result = Resource::find($character->progress->resource_id);
             $character->progress->cycles = $character->progress->cycles + 1;
             if($character->progress->cycles == $character->progress->total_cycles )
             {
@@ -161,7 +194,7 @@ class UniversumController extends Controller
                 $res = json_decode($result->components, true);
                 foreach($res as $key => $r)
                 {
-                    ItemController::AddItemToChar($character->id, $key, $r);
+                    ItemController::AddItem($character->id, null, $key, $r);
                     MessageController::ADD_SYS_PRIV_MSG($character->location_id, $character->id, "Zdobywasz trochę " . $key . ".");
                 }
             }
@@ -177,7 +210,7 @@ class UniversumController extends Controller
         }
         else
         {
-            ItemController::AddItemToChar($character->id, $character->progress->target, 1);
+            ItemController::AddItemToChar($character->id, $character->progress->product_type, 1);
             $character->progress->delete();
             $character->progress_id = null;
             $character->save();
@@ -237,8 +270,19 @@ class UniversumController extends Controller
             $body->location_id = $character->location_id;
             $body->save();
             MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' umiera...');
+            $items = Item::where('character_id', $character->id)->get();
+            foreach($items as $item)
+            {
+                ItemController::AddItemToLoc($character->location_id, $item->type, $item->amount);
+                $item->delete();
+            }
             $character->dead = true;
             $character->location_id = -1;
         }
+    }
+
+    public function calcUtils()
+    {
+
     }
 }

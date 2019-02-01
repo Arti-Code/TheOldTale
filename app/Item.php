@@ -21,7 +21,8 @@ class Item extends Model
             'res' => ['wood' => 9],
             'tool' => null,
             'util' => [],
-            'return' => 1
+            'return' => 1,
+            'single' => true
         ],
         'bone knife' =>
         [
@@ -29,7 +30,8 @@ class Item extends Model
             'res' => ['wood' => 3, 'bone' => 9, 'leather' => 3],
             'tool' => null,
             'util' => [],
-            'return' => 1
+            'return' => 1,
+            'single' => true
         ],
         'prim boots' =>
         [
@@ -37,7 +39,8 @@ class Item extends Model
             'res' => ['leather' => 15],
             'tool' => 'bone knife',
             'util' => [],
-            'return' => 1
+            'return' => 1,
+            'single' => true
         ],
         'sling' =>
         [
@@ -45,7 +48,8 @@ class Item extends Model
             'res' => ['wood' => 6, 'leather' => 9],
             'tool' => null,
             'util' => [],
-            'return' => 1
+            'return' => 1,
+            'single' => true
         ],
         'stone hammer' =>
         [
@@ -53,7 +57,8 @@ class Item extends Model
             'res' => ['wood' => 12, 'stone' => 12],
             'tool' => null,
             'util' => [],
-            'return' => 1
+            'return' => 1,
+            'single' => true
         ],
         'roasted meat' =>
         [
@@ -61,7 +66,8 @@ class Item extends Model
             'res' => ['meat' => 1],
             'tool' => null,
             'util' => ['campfire'],
-            'return' => 1
+            'return' => 1,
+            'single' => false
         ],
         'roasted fish' =>
         [
@@ -69,7 +75,8 @@ class Item extends Model
             'res' => ['fish' => 1],
             'tool' => null,
             'util' => ['campfire'],
-            'return' => 1
+            'return' => 1,
+            'single' => false
         ],
         'primitiv rod' =>
         [
@@ -77,7 +84,8 @@ class Item extends Model
             'res' => ['wood' => 12, 'bone' => 2],
             'tool' => null,
             'util' => [],
-            'return' => 1
+            'return' => 1,
+            'single' => true
         ]
     ];
     const TOOLS = [];
@@ -91,5 +99,10 @@ class Item extends Model
     public function location()
     {
         return $this->belongsTo('App\Location');
+    }
+
+    public function util()
+    {
+        return $this->belongsTo('App\Util');
     }
 }

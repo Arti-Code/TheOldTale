@@ -66,10 +66,12 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 {   //Progress
     Route::get('/progress/craft/{name}/{util_id}', 'ProgressController@craft')->name('progress.craft')->middleware('auth', 'char');
-    Route::get('/progress/destroy/{id}', 'ProgressController@destroy')->name('progress.destroy')->middleware('auth', 'char');
+    Route::get('/progress/destroy', 'ProgressController@destroy')->name('progress.destroy')->middleware('auth', 'char');
     Route::get('/progress/create/{mode}/{id}', 'ProgressController@create')->name('progress.create')->middleware('auth', 'char');
     Route::post('/progress/store', 'ProgressController@store')->name('progress.store')->middleware('auth', 'char');
     Route::get('/progress/construct/{type}', 'ProgressController@construct')->name('progress.construct')->middleware('auth', 'char');
+    Route::get('/progress/sleep/form/{id}', 'ProgressController@sleep_form')->name('progress.sleep.form')->middleware('auth', 'char');
+    Route::post('/progress/sleep', 'ProgressController@sleep')->name('progress.sleep')->middleware('auth', 'char');
 }
 
 {   //Item

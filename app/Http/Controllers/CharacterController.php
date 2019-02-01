@@ -107,38 +107,13 @@ class CharacterController extends Controller
         if($character->progress_id == null)
         {
             $loc = Location::find($character->location_id);
-            $name = Name::where('location_id', $loc->id)->where('owner_id', $character->id)->first();
-            if($name)
-                $location = $name->title;
-            else
-                $location = "land with no name";
-            $progress = null;
+            $prog = null;
         }
         else
         {
-            if($character->progress->type == 'travel')
-            {
-                $location = "traveling...";
-            }
-            if($character->progress->type == 'collect')
-            {
-                $location = "collecting resources...";
-            }
-            if($character->progress->type == 'craft')
-            {
-                $location = "crafting things...";
-
-            }
-            if($character->progress->type == 'build')
-            {
-                $location = "building something...";
-
-            }
-            $p = Progress::find($character->progress_id);
-            $progress['type'] = $p->type;
-            $progress['value'] = round((($p->turns + $p->cycles * $p->total_turns) / ($p->total_cycles * $p->total_turns)) * 100);
+            $prog = ProgressController::GET_PROG($character);
         }
-        return view('character.myself')->with(["character" => $character, "location" => $location, "progress" => $progress, "weapon" => $weapon]);
+        return view('character.myself')->with(["character" => $character, "prog" => $prog, "weapon" => $weapon]);
     }
 
     public function eat($id)

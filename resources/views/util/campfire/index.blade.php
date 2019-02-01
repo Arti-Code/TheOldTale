@@ -36,4 +36,30 @@
 </div>
 @endif
 
+@if (count($store) > 0)
+<div class="card bg-light my-1">
+    <div class="card-header text-center"><h6>Store</h6></div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th class="text-center">Ilość</th>
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($store as $item)
+                    <tr>
+                        <td>{{ $item->type }}</td>
+                        <td class="text-center">{{ $item->amount }}</td>
+                        <td class="text-center"><a href="{{route('item.show', $item->id)}}"><i class="green fas fa-long-arrow-alt-up"></i><i class="red fas fa-long-arrow-alt-down"></i></a></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+@endif
+
 @endsection

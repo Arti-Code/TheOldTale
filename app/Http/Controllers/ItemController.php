@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Item;
+use App\Util;
 use App\Character;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -45,6 +46,7 @@ class ItemController extends Controller
             }
             if($item->location_id != null)
             {
+                $utilStore = false;
                 $locItem = $item;
                 $charItem = Item::where('type', $locItem->type)->where('character_id', $character->id)->first();
                 if( !$charItem )
@@ -93,7 +95,6 @@ class ItemController extends Controller
             $locItem->location_id = $character->location_id;
         }
         else    $checksum += $locItem->amount;
-
         if( $charItem->character_id == $character->id && $locItem->location_id == $character->location_id )
         {
             if(($charItem->amount + $locItem->amount) <= $checksum)
@@ -137,6 +138,28 @@ class ItemController extends Controller
         return view('item.location')->with(['items' => $items]);
     }
     
+    static function AddItem($char_id, $loc_id, $item_type, $quantity)
+    {
+        if( $char_id != null )
+            $item = Item::where('character_id', $char_id)->where('type', $item_type)->first();
+        if( $loc_id != null )
+            $item = Item::where('location_id', $loc_id)->where('type', $item_type)->first();
+        if ($item) 
+        {
+            $item->amount = $item->amount + $quantity;
+        } 
+        else 
+        {
+            $item = new Item;
+            $item->type = $item_type;
+            $item->title = $item_type;
+            $item->amount = $quantity;
+            $item->character_id = $char_id;
+            $item->location_id = $loc_id;
+        }
+        $item->save();
+    }
+
     static function AddItemToChar($char_id, $item_type, $quantity)
     {
         $item = Item::where('character_id', $char_id)->where('type', $item_type)->first();
@@ -181,4 +204,93 @@ class ItemController extends Controller
         
     }
 
+    static function AddItemToLoc($loc_id, $item_type, $quantity)
+    {
+        $item = Item::where('location_id', $loc_id)->where('type', $item_type)->first();
+        if ($item) 
+        {
+            $item->amount = $item->amount + $quantity;
+        } 
+        else 
+        {
+            $item = new Item;
+            $item->type = $item_type;
+            $item->title = $item_type;
+            $item->amount = $quantity;
+            $item->character_id = null;
+            $item->util_id = null;
+            $item->location_id = $loc_id;
+        }
+        $item->save();
+    }
+
+    static function RemoveItemFromLoc($loc_id, $item_type, $quantity)
+    {
+        $item = Item::where('location_id', $loc_id)->where('type', $item_type)->first();
+        if ($item) 
+        {
+            if ( $item->amount >= $quantity )
+            {
+                $item->amount = $item->amount - $quantity;
+                if ($item->amount == 0)     
+                    $item->delete();
+                else 
+                    $item->save();
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        } 
+        else 
+        {
+            return false;
+        }
+    }
+
+    static function AddItemToUtil($util_id, $item_type, $quantity)
+    {
+        $item = Item::where('util_id', $util_id)->where('type', $item_type)->first();
+        if ($item) 
+        {
+            $item->amount = $item->amount + $quantity;
+        } 
+        else 
+        {
+            $item = new Item;
+            $item->type = $item_type;
+            $item->title = $item_type;
+            $item->amount = $quantity;
+            $item->character_id = null;
+            $item->location_id = null;
+            $item->util_id = $util_id;
+        }
+        $item->save();
+    }
+
+    static function RemoveItemFromUtil($util_id, $item_type, $quantity)
+    {
+        $item = Item::where('util_id', $util_id)->where('type', $item_type)->first();
+        if ($item) 
+        {
+            if ( $item->amount >= $quantity )
+            {
+                $item->amount = $item->amount - $quantity;
+                if ($item->amount == 0)     
+                    $item->delete();
+                else 
+                    $item->save();
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
+        } 
+        else 
+        {
+            return false;
+        } 
+    }
 }

@@ -14,4 +14,18 @@ class Progress extends Model
         return $this->belongsTo('App\Character');
     }
 
+    public function route()
+    {
+        return $this->hasOne('App\Route');
+    }    
+
+    /*public function resource()
+    {
+        return $this->hasMany('App\Resource');
+    }*/
+
+    public function util()
+    {
+        return $this->hasOne('App\Util');
+    }
 }
