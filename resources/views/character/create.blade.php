@@ -28,42 +28,42 @@
                 @endforeach
             </select>
         </div>
-
-        <div class="d-flex flex-row justify-content-center">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkSTR" name="checkSTR">
+        <h6 id="lbl"></h6>
+        <div class="d-flex flex-row justify-content-between my-2">
+            <div class="form-check col-3">
+                <input class="form-check-input" type="checkbox" value="" id="checkSTR" name="checkSTR" onchange="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Siła
                 </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkDEX" name="checkDEX">
+            <div class="form-check col-3">
+                <input class="form-check-input" type="checkbox" value="" id="checkDEX" name="checkDEX" onchange="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Zwinność
                 </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkDUR" name="checkDUR">
+            <div class="form-check col-3">
+                <input class="form-check-input" type="checkbox" value="" id="checkDUR" name="checkDUR" onchange="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Wytrzymałość
                 </label>
             </div>
         </div>
-        <div class="d-flex flex-row justify-content-center">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkINTEL" name="checkINTEL">
+        <div class="d-flex flex-row justify-content-between my-2">
+            <div class="form-check col-3">
+                <input class="form-check-input" type="checkbox" value="" id="checkINTEL" name="checkINTEL" onchange="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Inteligencja
                 </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkWILL" name="checkWILL">
+            <div class="form-check col-3">
+                <input class="form-check-input" type="checkbox" value="" id="checkWILL" name="checkWILL" onchange="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Siła Woli
                 </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkPERC" name="checkPERC">
+            <div class="form-check col-3">
+                <input class="form-check-input" type="checkbox" value="" id="checkPERC" name="checkPERC" onchange="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Percepcja
                 </label>
@@ -77,3 +77,35 @@
 </form>
 
 @endsection
+
+<script>
+    var check = [];
+    var numTalents = 0;
+    document.addEventListener("DOMContentLoaded", function(event)
+    {
+        
+        check[0] = document.getElementById("checkSTR");
+        check[1] = document.getElementById("checkDEX");
+        check[2] = document.getElementById("checkDUR");
+        check[3] = document.getElementById("checkINTEL");
+        check[4] = document.getElementById("checkWILL");
+        check[5] = document.getElementById("checkPERC");
+        lbl = document.getElementById("lbl");
+
+        lbl.innerHTML = "Wybierz dwie cechy które są dla Ciebie najważniejsze (" + numTalents + ")";
+
+        
+    });
+
+    function countTalents()
+    {
+        numTalents = 0;
+        for (let index = 0; index < 6; index++) {
+            if(check[index].checked == true)
+                numTalents = numTalents + 1;
+            else
+                numTalents = numTalents - 1;
+        }
+        lbl.innerHTML = "Wybierz dwie cechy które są dla Ciebie najważniejsze (" + numTalents + ")";
+    }
+</script>
