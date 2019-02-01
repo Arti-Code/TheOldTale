@@ -28,6 +28,47 @@
                 @endforeach
             </select>
         </div>
+
+        <div class="d-flex flex-row justify-content-center">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkSTR" name="checkSTR">
+                <label class="form-check-label" for="defaultCheck1">
+                    Siła
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkDEX" name="checkDEX">
+                <label class="form-check-label" for="defaultCheck1">
+                    Zwinność
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkDUR" name="checkDUR">
+                <label class="form-check-label" for="defaultCheck1">
+                    Wytrzymałość
+                </label>
+            </div>
+        </div>
+        <div class="d-flex flex-row justify-content-center">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkINTEL" name="checkINTEL">
+                <label class="form-check-label" for="defaultCheck1">
+                    Inteligencja
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkWILL" name="checkWILL">
+                <label class="form-check-label" for="defaultCheck1">
+                    Siła Woli
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="checkPERC" name="checkPERC">
+                <label class="form-check-label" for="defaultCheck1">
+                    Percepcja
+                </label>
+            </div>
+        </div>
         <div class="d-flex">
             <button class="btn btn-success mx-auto" type="submit" name="action">Utworz</button>
         </div>
