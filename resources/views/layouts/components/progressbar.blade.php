@@ -1,6 +1,6 @@
 <div class="d-flex flex-row justify-content-around py-2 my-1 border align-items-center">
 
-    <div class="col-2 d-flex py-auto">
+    <div class="col-3 d-flex py-auto">
         {{ $title }}
     </div>
 
@@ -12,7 +12,7 @@
 
     </div>
 
-    <div class="col-2 text-center align-center">
+    <div class="col-3 text-center align-center">
     <a href="{{ route('progress.destroy') }}"><i class="far fa-times-circle red"></i></a>
     </div>
 
