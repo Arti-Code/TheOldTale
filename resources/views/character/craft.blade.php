@@ -12,7 +12,7 @@
                     <th>Nazwa</th>
                     <th class="text-center">Czas produkcji</th>
                     <th>Surowce</th>
-                    <th class="text-center">Wytwarzaj</th>
+                    <th class="text-center"></th>
                 </tr>
             </thead>
             <tbody>

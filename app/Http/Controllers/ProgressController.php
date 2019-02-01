@@ -152,7 +152,7 @@ class ProgressController extends Controller
                         {
                             ItemController::AddItemToChar($character->id, $item['name'], $item['return']);
                             MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wytwarza ' . $item['name']);
-                            return redirect()->route('character.myself')->with('success', 'Zyskujesz ' . $item['name']);
+                            return redirect()->back()->with('success', 'Zyskujesz ' . $item['name']); 
                         }
                     }
                     else
