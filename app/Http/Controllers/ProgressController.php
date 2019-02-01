@@ -10,6 +10,7 @@ use App\Item;
 use App\Message;
 use App\LIB;
 use App\Util;
+use App\Route;
 //use ItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -244,10 +245,16 @@ class ProgressController extends Controller
         if($character->progress->type == 'craft')
         {
             $prog["type"] = 'craft';
-            $prog["target"] = $progress->product_type;
+            $prog["target"] = $character->progress->product_type;
         }
         if ($character->progress->type == 'build') {
-            $prog["target"] = $progress->util;
+            $prog["target"] = $character->progress->util;
+            $prog["type"] = 'build';
+        }
+        if ($character->progress->type == 'travel') {
+            $route = Route::find($character->progress->route_id);
+            $loc = Location::find($route->finish_id);
+            $prog["target"] = $loc->name;
             $prog["type"] = 'build';
         }
         return $prog;

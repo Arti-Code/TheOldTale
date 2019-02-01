@@ -65,21 +65,7 @@
                                     <li class="nav-item"><a class="nav-link" href="{{ route('character.fight') }}"><i class="fas fa-shield-alt"></i></a></li>
 
                                 @endif
-                                @if(session("is_admin"))
-                                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.universum.index') }}"><i class="fas fa-tools text-warning"></i></a></li>
-                                @endif
                                 <li class="nav-item"><a class="nav-link" href="{{ route('options.index') }}"><i class="fas fa-cog"></i></a></li>
-                            <li class="nav-item">
-                                <div>
-                                    <a class="nav-link" href="{{ route('logout') }}"
-                                                onclick="event.preventDefault();
-                                                document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-sign-out-alt red"></i></a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
                         @endguest
                     </ul>
                 </div>
