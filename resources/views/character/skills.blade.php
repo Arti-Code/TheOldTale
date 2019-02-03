@@ -23,7 +23,7 @@
             <div class="col-12">
                 @foreach($talents as $key => $value)
                     <div class="row">
-                        <div class="col-2 my-1">
+                        <div class="col-2 my-1 mx-1">
                             <img src="{{asset('png/' . $key . '.png')}}">
                         </div>
                         <div class="col-8 progress my-auto  px-0" style="height: 4px;">
