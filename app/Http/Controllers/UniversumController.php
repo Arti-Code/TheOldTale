@@ -84,7 +84,7 @@ class UniversumController extends Controller
                 $this->calcHealth($character);
                 if($character->progress_id != null)
                 {
-                    $character->rest = $character->rest - 10;
+                    //$character->rest = $character->rest - 10;
                     if($character->progress->type == 'travel')
                     {
                         $this->calcTravel($character);

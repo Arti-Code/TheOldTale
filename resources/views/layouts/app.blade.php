@@ -102,7 +102,7 @@
     <!-- Footer -->
     <footer class="page-footer font-small blue">
         <div class="footer-copyright text-center py-5">
-            © 2018 Copyright: Artur Gwoździowski
+            © 2018-2019 Copyright: Artur Gwoździowski
         </div>
     </footer>
 

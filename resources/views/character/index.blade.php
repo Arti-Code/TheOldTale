@@ -33,7 +33,7 @@
 @endif
 
 <div class="d-flex mt-3">
-    <a class="btn bg-blue text-white mx-auto" href="{{ route('character.create') }}" role="button">Utworz Nowy Charakter</a>
+    <a class="btn btn-success text-white mx-auto" href="{{ route('character.create') }}" role="button">Utworz Nowy Charakter</a>
 </div>
 
 @endsection

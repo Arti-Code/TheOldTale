@@ -53,13 +53,44 @@ class CharacterController extends Controller
                     $i = rand(1, 6);
                     $character->avatar = "f" . $i;
                 }
+                $numTalents = 0;
+                $talents = ["str", "dex", "dur", "intel", "will", "perc"];
+                $valTalents = [];
+                foreach ($talents as $t) 
+                {
+                    $valTalents[$t] = 0;
+                    if(in_array($t, $request["talent"]))
+                        $repeats = 3;
+                    else
+                        $repeats = 2;
+
+                    for ($i=0; $i < $repeats; $i++) 
+                    { 
+                        $r = rand(0, 40);
+                        $valTalents[$t] += $r;
+                    }
+                    if($valTalents[$t] > 100)
+                        $valTalents[$t] = 100;
+                }
+                
                 $character->universum_id = $request['universum_id'];
                 $character->user_id = Auth::id();
                 $character->location_id = 9;
+                foreach ($valTalents as $key => $value) 
+                {
+                    $character->__set($key, $value);
+                }
                 $time = date("Y-m-d H:i:s");
                 $character->arrival_time = $time;
-                $character->save();
-                return redirect()->route('character.index')->with('success', 'Utworzyłeś nową postac');
+                if(count($request["talent"]) == 2)
+                {
+                    $character->save();
+                    return redirect()->route('character.index')->with('success', 'Utworzyłeś nową postac');
+                }
+                else
+                {
+                    return redirect()->route('character.index')->with('danger', 'Niewłaściwa ilość talentów');
+                }
             }
             else
             {
@@ -306,5 +337,16 @@ class CharacterController extends Controller
         {
             return redirect()->route('character.index')->with('danger', 'Postać nie istnieje...');
         }
+    }
+
+    public function skills()
+    {
+        $character = Character::find(session('char_id'));
+        $talentList = ["str", "dex", "dur", "intel", "will", "perc"];
+        foreach ($talentList as $t) 
+        {
+            $talents[$t] = $character->{$t};
+        }
+        return view("character.skills")->with(["character" => $character, "talents" => $talents]);
     }
 }

@@ -31,19 +31,19 @@
         <h6 id="lbl"></h6>
         <div class="d-flex flex-row justify-content-between my-2">
             <div class="form-check col-3">
-                <input class="form-check-input" type="checkbox" value="" id="checkSTR" name="checkSTR" onchange="countTalents()">
+                <input class="form-check-input" type="checkbox" value="str" id="talent[0]" name="talent[0]" onClick="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Siła
                 </label>
             </div>
             <div class="form-check col-3">
-                <input class="form-check-input" type="checkbox" value="" id="checkDEX" name="checkDEX" onchange="countTalents()">
+                <input class="form-check-input" type="checkbox" value="dex" id="talent[1]" name="talent[1]" onClick="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Zwinność
                 </label>
             </div>
             <div class="form-check col-3">
-                <input class="form-check-input" type="checkbox" value="" id="checkDUR" name="checkDUR" onchange="countTalents()">
+                <input class="form-check-input" type="checkbox" value="dur" id="talent[2]" name="talent[2]" onClick="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Wytrzymałość
                 </label>
@@ -51,26 +51,26 @@
         </div>
         <div class="d-flex flex-row justify-content-between my-2">
             <div class="form-check col-3">
-                <input class="form-check-input" type="checkbox" value="" id="checkINTEL" name="checkINTEL" onchange="countTalents()">
+                <input class="form-check-input" type="checkbox" value="intel" id="talent[3]" name="talent[3]" onClick="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Inteligencja
                 </label>
             </div>
             <div class="form-check col-3">
-                <input class="form-check-input" type="checkbox" value="" id="checkWILL" name="checkWILL" onchange="countTalents()">
+                <input class="form-check-input" type="checkbox" value="will" id="talent[4]" name="talent[4]" onClick="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Siła Woli
                 </label>
             </div>
             <div class="form-check col-3">
-                <input class="form-check-input" type="checkbox" value="" id="checkPERC" name="checkPERC" onchange="countTalents()">
+                <input class="form-check-input" type="checkbox" value="perc" id="talent[5]" name="talent[5]" onClick="countTalents()">
                 <label class="form-check-label" for="defaultCheck1">
                     Percepcja
                 </label>
             </div>
         </div>
         <div class="d-flex">
-            <button class="btn btn-success mx-auto" type="submit" name="action">Utworz</button>
+            <button class="btn btn-success mx-auto" type="submit" id="action" name="action">Utworz Nową Postać</button>
         </div>
     </div>
     </div>
@@ -79,21 +79,19 @@
 @endsection
 
 <script>
-    var check = [];
+    var talent = [];
     var numTalents = 0;
+    var btn;
     document.addEventListener("DOMContentLoaded", function(event)
     {
-        
-        check[0] = document.getElementById("checkSTR");
-        check[1] = document.getElementById("checkDEX");
-        check[2] = document.getElementById("checkDUR");
-        check[3] = document.getElementById("checkINTEL");
-        check[4] = document.getElementById("checkWILL");
-        check[5] = document.getElementById("checkPERC");
+        for (let i = 0; i < 6; i++) 
+        {
+            talent[i] = document.getElementById("talent[" + i + "]");          
+        }
         lbl = document.getElementById("lbl");
-
+        btn = document.getElementById("action");
         lbl.innerHTML = "Wybierz dwie cechy które są dla Ciebie najważniejsze (" + numTalents + ")";
-
+        btn.disabled = true;
         
     });
 
@@ -101,11 +99,13 @@
     {
         numTalents = 0;
         for (let index = 0; index < 6; index++) {
-            if(check[index].checked == true)
+            if(talent[index].checked == true)
                 numTalents = numTalents + 1;
-            else
-                numTalents = numTalents - 1;
         }
         lbl.innerHTML = "Wybierz dwie cechy które są dla Ciebie najważniejsze (" + numTalents + ")";
+        if(numTalents == 2)
+            btn.disabled = false;
+        else
+            btn.disabled = true;
     }
 </script>

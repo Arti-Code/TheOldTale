@@ -74,7 +74,7 @@
 
 <div class="d-flex flex-row justify-content-around my-2 py-2">
     <div class="card p-2 bg-light">
-        <img class="card-img-top" src="{{asset('png/skills.png')}}">
+        <a href="{{route('character.skills')}}"><img class="card-img-top" src="{{asset('png/skills.png')}}"></a>
         <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Umiejętności</div>
     </div>
     <div class="card p-2 bg-light">
