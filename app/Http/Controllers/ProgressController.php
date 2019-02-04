@@ -11,7 +11,6 @@ use App\Message;
 use App\LIB;
 use App\Util;
 use App\Route;
-//use ItemController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -30,7 +29,9 @@ class ProgressController extends Controller
                 {
                     $items = Item::where('character_id', $char->id)->get();
                     $tools = [];
-                    if (array_key_exists("none", LIB::TOOLS_FOR_RES($res->type)))
+                    //if (array_key_exists("none", LIB::TOOLS_FOR_RES($res->type)))
+                    $res_spec = Item::GET_RES($res->type);
+                    if (array_key_exists("none", $res_spec["tools"]))
                     {
                         $itm = new Item;
                         $itm->id = -1;
@@ -42,7 +43,7 @@ class ProgressController extends Controller
                     }
                     foreach($items as $it)
                     {
-                        if( array_key_exists($it->type, LIB::TOOLS_FOR_RES($res->type)) )
+                        if( array_key_exists($it->type, $res_spec["tools"]) )
                         {
                             array_push($tools, $it);
                         }
@@ -107,10 +108,10 @@ class ProgressController extends Controller
         $character = Character::find(session('char_id'));
         if( $character->progress_id == null )
         {
-            $products = Item::PRODUCT;
+            $products = Item::GET_ALL_PRODUCTS();
             if( array_key_exists( $name, $products ) )
             {
-                $item = Item::PRODUCT[$name];
+                $item = Item::GET_PRODUCT($name);
                 $item['name'] = $name;
                 $inventory = []; 
                 foreach( $item['res'] as $k => $val )
@@ -185,7 +186,7 @@ class ProgressController extends Controller
             $p->delete();
             $char->progress_id = null;
             $char->save();
-            return redirect()->route('location.show')->with('info', 'Przerwałeś dotychczasową czynnośc');
+            return redirect()->back()->with('info', 'Przerwałeś dotychczasową czynnośc');
         }
         else
         {

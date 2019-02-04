@@ -9,85 +9,8 @@ class Item extends Model
     public $timestamps = false;
     protected $guarded=[];
 
-    //const FOOD = ['fruit', 'fish', 'meat', 'apple'];
-    const FOOD = ['fruit' => 10, 'meat' => 35, 'fish' => 30, 'apple' => 10, 'roasted meat' => 35, 'roasted fish' => 30];
-    const WEAPON = ['mace' => [ 'dmg' => 20, 'adv' =>20 ], 'bone knife' => [ 'dmg' => 35, 'adv' =>10 ], 'sling' => [ 'dmg' => 20, 'adv' => 0 ], 'stone hammer' => [ 'dmg' => 20, 'adv' => 15 ], 'stone axe' => ['dmg' => 20, 'adv' => 15] ];
     const PRODUCTS = [ ['mace', 'bone knife', 'prim boots', 'sling', 'stone hammer', 'primitiv rod'] ];
-    const PRODUCT =
-    [
-        'mace' =>
-        [
-            'turn' => 6,
-            'res' => ['wood' => 9],
-            'tool' => null,
-            'util' => [],
-            'return' => 1,
-            'single' => true
-        ],
-        'bone knife' =>
-        [
-            'turn' => 20,
-            'res' => ['wood' => 3, 'bone' => 9, 'leather' => 3],
-            'tool' => null,
-            'util' => [],
-            'return' => 1,
-            'single' => true
-        ],
-        'prim boots' =>
-        [
-            'turn' => 12,
-            'res' => ['leather' => 15],
-            'tool' => 'bone knife',
-            'util' => [],
-            'return' => 1,
-            'single' => true
-        ],
-        'sling' =>
-        [
-            'turn' => 8,
-            'res' => ['wood' => 6, 'leather' => 9],
-            'tool' => null,
-            'util' => [],
-            'return' => 1,
-            'single' => true
-        ],
-        'stone hammer' =>
-        [
-            'turn' => 20,
-            'res' => ['wood' => 12, 'stone' => 12],
-            'tool' => null,
-            'util' => [],
-            'return' => 1,
-            'single' => true
-        ],
-        'roasted meat' =>
-        [
-            'turn' => 0,
-            'res' => ['meat' => 1],
-            'tool' => null,
-            'util' => ['campfire'],
-            'return' => 1,
-            'single' => false
-        ],
-        'roasted fish' =>
-        [
-            'turn' => 0,
-            'res' => ['fish' => 1],
-            'tool' => null,
-            'util' => ['campfire'],
-            'return' => 1,
-            'single' => false
-        ],
-        'primitiv rod' =>
-        [
-            'turn' => 20,
-            'res' => ['wood' => 12, 'bone' => 2],
-            'tool' => null,
-            'util' => [],
-            'return' => 1,
-            'single' => true
-        ]
-    ];
+    
     const TOOLS = [];
     
 
@@ -104,5 +27,85 @@ class Item extends Model
     public function util()
     {
         return $this->belongsTo('App\Util');
+    }
+
+    static function GET_FOOD($food_type)
+    {
+        $data = file_get_contents(public_path('json/food.json'));
+        $food = json_decode($data, true);
+        if(isset($food[$food_type]))
+            return $food[$food_type];
+        else
+            return false;
+    }
+
+    static function GET_ALL_FOOD()
+    {
+        $data = file_get_contents(public_path('json/food.json'));
+        $food = json_decode($data, true);
+        if(isset($food))
+            return $food;
+        else
+            return false;
+    }
+
+    static function GET_WEAPON($weapon_type)
+    {
+        $data = file_get_contents(public_path('json/weapons.json'));
+        $weapons = json_decode($data, true);
+        if(isset($weapons[$weapon_type]))
+            return $weapons[$weapon_type];
+        else
+            return false;
+    }
+
+    static function GET_ALL_WEAPONS()
+    {
+        $data = file_get_contents(public_path('json/weapons.json'));
+        $json = json_decode($data, true);
+        if(isset($json))
+            return $json;
+        else
+            return false;
+    }
+
+    static function GET_PRODUCT($type)
+    {
+        $data = file_get_contents(public_path('json/products.json'));
+        $products = json_decode($data, true);
+        if(isset($products[$type]))
+            return $products[$type];
+        else
+            return false;
+    }
+
+    static function GET_RES($type)
+    {
+        $data = file_get_contents(public_path('json/resources.json'));
+        $res = json_decode($data, true);
+        if(isset($res[$type]))
+            return $res[$type];
+        else
+            return false;
+    }
+
+    static function GET_ALL_RES()
+    {
+        $data = file_get_contents(public_path('json/resources.json'));
+        $res = json_decode($data, true);
+        if(isset($res))
+            return $res;
+        else
+            return false;
+    }
+
+    static function GET_ALL_PRODUCTS()
+    {
+        $data = file_get_contents(public_path('json/products.json'));
+        $prod = json_decode($data, true);
+        if(isset($prod))
+            return $prod;
+        else
+            return false;
     }
 }

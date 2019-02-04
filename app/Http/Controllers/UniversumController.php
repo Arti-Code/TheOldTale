@@ -84,7 +84,6 @@ class UniversumController extends Controller
                 $this->calcHealth($character);
                 if($character->progress_id != null)
                 {
-                    //$character->rest = $character->rest - 10;
                     if($character->progress->type == 'travel')
                     {
                         $this->calcTravel($character);
@@ -102,17 +101,9 @@ class UniversumController extends Controller
                         $this->calcBuild($character);
                     }
                 }
-                else
-                {
-                    $character->rest = $character->rest + 5;
-                    MessageController::ADD_SYS_PRIV_MSG($character->location_id, $character->id, "Odpoczywasz i odzyskujesz siły");
-                }
                 $character->fight = true;
+                $this->calcHappy($character);
                 $this->calcDeath($character);
-                if($character->rest > 100)
-                    $character->rest = 100;
-                elseif ($character->rest < 0)
-                    $character->rest = 0;
                 if($character->happy > 100)
                     $character->happy = 100;
                 elseif ($character->happy < 0)
@@ -237,7 +228,8 @@ class UniversumController extends Controller
     public function calcHunger(Character $character)
     {
         $character->satiety = $character->satiety - Character::HUNGER_MOD;
-        if($character->satiety < 0)     $character->satiety = 0;
+        if($character->satiety < 0)     
+            $character->satiety = 0;
     }
 
     public function calcHealth(Character $character)
@@ -246,12 +238,17 @@ class UniversumController extends Controller
         {
             $h = round( ( $character->health - 50 ) / 10 );
             $s = round( ( $character->satiety - 50 ) / 5 );
-            if( $s < 0 )    $s = $s * 2;
-            if( $character->health < 70 )   $v = rand(0, $h);
-            else $v = 0;
+            if( $s < 0 )    
+                $s = $s * 2;
+            if( $character->health < 70 )   
+                $v = rand(0, $h);
+            else 
+                $v = 0;
             $character->health = $character->health + $h + $s - $v;
-            if($character->health > 100)    $character->health = 100;
-            elseif($character->health < 0)  $character->health = 0;
+            if($character->health > 100)    
+                $character->health = 100;
+            elseif($character->health < 0)  
+                $character->health = 0;
         }
         else
         {
@@ -284,5 +281,11 @@ class UniversumController extends Controller
     public function calcUtils()
     {
 
+    }
+
+    public function calcHappy(Character $character)
+    {
+        $deltaHappy = -(round( ( $character->happy - 50 ) / 5 ));
+        $character->happy += $deltaHappy;
     }
 }

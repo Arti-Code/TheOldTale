@@ -1,0 +1,22 @@
+{
+    "wood": 
+    {
+        "tools": [ {"none": 0}, {"stone axe": 25} ]
+    },
+    "stone": 
+    { 
+        "tools": [ {"none": 0}, {"stone pick": 25} ]
+    },
+    "fish": 
+    {
+        "tools": [ {"none": 0}, {"primitiv rod": 30} ]
+    },
+    "fruit": 
+    { 
+        "tools": [ {"none": 0} ] 
+    },
+    "hare": 
+    { 
+        "tools": [ {"none": 0} ]
+    }
+}

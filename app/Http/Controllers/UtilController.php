@@ -78,11 +78,11 @@ class UtilController extends Controller
             if( $character->location_id == $util->location_id )
             {
                 $character = Character::find(session('char_id'));
-                $products_list = Item::PRODUCT;
+                $products_list = Item::GET_ALL_PRODUCTS();
                 $products = [];
                 foreach($products_list as $key => $value)
                 {
-                    if( in_array('campfire', $value['util']) )
+                    if( array_key_exists('campfire', $value['util']) )
                     $products[$key] = $value;
                 }
                 $store = $this->GetItemsList($util->id);

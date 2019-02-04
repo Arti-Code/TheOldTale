@@ -6,6 +6,10 @@
         <a href="{{route('character.index')}}" class="btn btn-primary w-50 mx-auto my-2">Wybierz Postac</a>
 </div>
 
+<div class="container d-flex">
+        <a href="{{route('character.json')}}" class="btn btn-secondary w-50 mx-auto my-2">JSON</a>
+</div>
+
 @if(session('is_admin'))
         <div class="container d-flex">
                 <a href="{{ route('admin.universum.index') }}" class="btn btn-warning w-50 mx-auto my-2">Administracja</a>

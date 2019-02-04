@@ -1,7 +1,70 @@
-[
-    {
-        "name": "Artur",
-        "age": "33",
-        "skills": ["medical", "driver" ]
+{
+    "mace":{
+        "turn": 6,
+        "res": {"wood":9},
+        "tools": { "none": 0 },
+        "util": {"none": 0},
+        "return": 1,
+        "single": true
+    },
+    "bone knife":{
+        "turn":20,
+        "res":{
+            "wood":3,
+            "bone":9,
+            "leather":3
+        },
+        "tools": { "none": 0 },
+        "util": {"none": 0},
+        "return": 1,
+        "single": true
+    },
+    "prim boots":{
+        "turn": 12,
+        "res": {"leather": 15},
+        "tools": {"bone knife": 0},
+        "util": {"none": 0},
+        "return": 1,
+        "single": true
+    },
+    "sling":{
+        "turn":8,
+        "res":{"wood":6,"leather":9},
+        "tools": {"none": 0},
+        "util": {"none": 0},
+        "return":1,
+        "single":true
+    },
+    "stone hammer":{
+        "turn":20,
+        "res":{"wood":12,"stone":12},
+        "tools": {"none": 0},
+        "util": {"none": 0},
+        "return":1,
+        "single":true
+    },
+    "roasted meat":{
+        "turn":0,
+        "res":{"meat":1},
+        "tools": {"none": 0},
+        "util": {"campfire": 0},
+        "return":1,
+        "single":false
+    },
+    "roasted fish":{
+        "turn":0,
+        "res":{"fish":1},
+        "tools": {"none": 0},
+        "util": {"campfire": 0},
+        "return":1,
+        "single":false
+    },
+    "primitiv rod":{
+        "turn":20,
+        "res":{"wood":12,"bone":2},
+        "tools": {"none": 0},
+        "util":{"none": 0},
+        "return":1,
+        "single":true
     }
-]
+}

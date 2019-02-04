@@ -22,6 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 {   // Character
     Route::get('/character/index', 'CharacterController@index')->name('character.index')->middleware('auth');
+    Route::get('/character/json', 'CharacterController@json')->name('character.json')->middleware('auth');
     Route::get('/character/myself', 'CharacterController@myself')->name('character.myself')->middleware('auth', 'char');
     Route::get('/character/create', 'CharacterController@create')->name('character.create')->middleware('auth');
     Route::get('/character/skills', 'CharacterController@skills')->name('character.skills')->middleware('auth', 'char');

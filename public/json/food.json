@@ -1,0 +1,26 @@
+{
+    "fruit": {
+        "satiety": 10,
+         "happy": 2
+    }, 
+    "meat": {
+        "satiety": 35,
+        "happy": -5
+    },
+    "fish": {
+        "satiety": 35,
+        "happy": -5
+    }, 
+    "apple": {
+        "satiety": 10,
+        "happy": 2
+    }, 
+    "roasted meat": {
+        "satiety": 35,
+        "happy": 5
+    }, 
+    "roasted fish": {
+        "satiety": 35,
+        "happy": 5
+    }
+}

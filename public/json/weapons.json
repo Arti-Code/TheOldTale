@@ -1,0 +1,16 @@
+{
+    "mace":{
+        "dmg":20, "skill":20
+    },
+    "bone knife":{
+        "dmg":35, "skill":10
+    },
+    "sling":{
+        "dmg":20, "skill":0
+    },
+    "stone hammer":{
+        "dmg":20, "skill":15
+    },"stone axe":{
+        "dmg":20, "skill":15
+    }
+}

@@ -153,17 +153,33 @@ class CharacterController extends Controller
         $item = Item::find($id);
         if($item->character_id == $character->id)
         {
-            $food = $character->satiety + Item::FOOD[$item->type];
             if( $character->satiety < 100 && $item->amount > 0 )
             {
-                $character->satiety = $food;
-                if( $character->satiety > 100 )   $character->satiety = 100;
-                $item->amount--;
-                $character->save();
-                if( $item->amount > 0 )     $item->save();
-                else    $item->delete();
-                return redirect()->route('item.index')->with('success', 'Posiliłeś się');
-                
+                $food = Item::GET_FOOD($item->type);
+                if($food)
+                {
+                    $character->satiety += $food["satiety"];
+                    $character->happy += $food["happy"];
+                    if( $character->satiety > 100 )   
+                        $character->satiety = 100;
+                    if( $character->happy > 100 )   
+                        $character->happy = 100;
+                    $item->amount--;
+                    if( $item->amount > 0 )     
+                        $item->save();
+                    else    
+                        $item->delete();
+                    $character->save();
+                    
+                    if($food["happy"] < -10)
+                        return redirect()->route('item.index')->with('warning', 'Posiliłeś się. Niestety było paskudne');
+                    elseif($food["happy"] < 0)
+                        return redirect()->route('item.index')->with('warning', 'Posiliłeś się. Niestety nie smakowało');
+                    elseif($food["happy"] < 10)
+                        return redirect()->route('item.index')->with('success', 'Posiliłeś się. Smakowało');
+                    else
+                        return redirect()->route('item.index')->with('success', 'Posiliłeś się. Było pyszne');
+                }
             }
             else
             {
@@ -179,11 +195,12 @@ class CharacterController extends Controller
     public function craft()
     {
         $character = Character::find(session('char_id'));
-        $products_list = Item::PRODUCTS[0];
+        $products_list = Item::GET_ALL_PRODUCTS();
         $products = [];
-        foreach($products_list as $pl)
+        foreach($products_list as $key => $value)
         {
-            $products[$pl] = Item::PRODUCT[$pl];
+            if(array_key_exists("none", $value["util"]))
+                $products[$key] = $value;
         }
         return view('character.craft')->with(["character" => $character, "products" => $products]);
     }
@@ -348,5 +365,18 @@ class CharacterController extends Controller
             $talents[$t] = $character->{$t};
         }
         return view("character.skills")->with(["character" => $character, "talents" => $talents]);
+    }
+
+    public function json()
+    {
+        $data = [
+            'wood' => ['none' => 0, 'stone axe' => 25],
+            'stone' => ['none' => 0, 'stone pick' => 25],
+            'fish' => [' none ' => 0, 'primitiv rod' => 30],
+            'fruit' => ['none' => 0],
+            'hare' => ['none' => 0]
+        ];
+        $json = json_encode($data);
+        file_put_contents(public_path('json/resources.json'), $json);
     }
 }
