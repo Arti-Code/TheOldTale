@@ -29,7 +29,6 @@ class ProgressController extends Controller
                 {
                     $items = Item::where('character_id', $char->id)->get();
                     $tools = [];
-                    //if (array_key_exists("none", LIB::TOOLS_FOR_RES($res->type)))
                     $res_spec = Item::GET_RES($res->type);
                     if (array_key_exists("none", $res_spec["tools"]))
                     {
@@ -123,15 +122,18 @@ class ProgressController extends Controller
                 unset($val);
                 if ($enough_res) 
                 {
-                    if( empty($item['util']) )
-                        $util_valid = true;
-                    else
+                    if( $util_id > 0 )
                     {
                         foreach( $item['util'] as $u )
                         {
                             if( $util->type == $u )
                                 $util_valid = true;
                         }
+                    }
+                    else
+                    {
+                        if( array_key_exists("none", $item['util']) )
+                            $util_valid = true;
                     }
                     if ( $util_valid )
                     {
@@ -146,7 +148,7 @@ class ProgressController extends Controller
                             $p->save();
                             $character->progress_id = $p->id;
                             $character->save();
-                            MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wytwarza ' . $p->target);
+                            MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wytwarza ' . $p->product_type);
                             return redirect()->route('character.myself')->with('success', 'Rozpoczynasz wytwarzanie');
                         }
                         else
