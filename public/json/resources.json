@@ -17,6 +17,9 @@
     },
     "hare": 
     { 
-        "tools": {"none": 0}
+        "tools": {"none": 0, "primitiv bow": 50 }
+    },
+    "deer": {
+        "tools": { "none": 0, "primitiv bow": 100 }
     }
 }
