@@ -40,4 +40,14 @@ class Character extends Model
     {
         return $this->hasMany('App\Item');
     }
+
+    static function GET_SKILLS()
+    {
+        $data = file_get_contents(public_path('json/skills.json'));
+        $json = json_decode($data, true);
+        if(isset($json))
+            return $json;
+        else
+            return false;
+    }
 }

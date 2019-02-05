@@ -27,6 +27,7 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
     Route::get('/character/create', 'CharacterController@create')->name('character.create')->middleware('auth');
     Route::get('/character/skills', 'CharacterController@skills')->name('character.skills')->middleware('auth', 'char');
     Route::post('/character/store', 'CharacterController@store')->name('character.store')->middleware('auth');
+    Route::get('/character/equip', 'CharacterController@equip')->name('character.equip')->middleware('auth', 'char');
     Route::get('/character/destroy/{id}', 'CharacterController@destroy')->name('character.destroy')->middleware('auth');
     Route::get('/character/eat/{id}', 'CharacterController@eat')->name('character.eat')->middleware('auth', 'char');
     Route::get('/character/select/{id}', 'CharacterController@select')->name('character.select')->middleware('auth');

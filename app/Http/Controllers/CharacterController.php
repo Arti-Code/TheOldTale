@@ -55,24 +55,27 @@ class CharacterController extends Controller
                 }
                 $numTalents = 0;
                 $talents = ["str", "dex", "dur", "intel", "will", "perc"];
+                $skills = Character::GET_SKILLS();
                 $valTalents = [];
                 foreach ($talents as $t) 
                 {
-                    $valTalents[$t] = 0;
                     if(in_array($t, $request["talent"]))
-                        $repeats = 3;
+                        $valTalents[$t] = 20;
                     else
-                        $repeats = 2;
+                        $valTalents[$t] = 0;
 
-                    for ($i=0; $i < $repeats; $i++) 
+                    for ($i=0; $i < 2; $i++) 
                     { 
-                        $r = rand(0, 40);
+                        $r = mt_rand(0, 40);
                         $valTalents[$t] += $r;
                     }
                     if($valTalents[$t] > 100)
                         $valTalents[$t] = 100;
                 }
-                
+                foreach ($skills as $key => $value) 
+                {
+                    $character->{$key} = (10 + mt_rand(0, 20) + mt_rand(0, 20)) ** 2;
+                }
                 $character->universum_id = $request['universum_id'];
                 $character->user_id = Auth::id();
                 $character->location_id = 9;
@@ -360,23 +363,30 @@ class CharacterController extends Controller
     {
         $character = Character::find(session('char_id'));
         $talentList = ["str", "dex", "dur", "intel", "will", "perc"];
+        $skillList = Character::GET_SKILLS();
         foreach ($talentList as $t) 
         {
             $talents[$t] = $character->{$t};
         }
-        return view("character.skills")->with(["character" => $character, "talents" => $talents]);
+        foreach ($skillList as $key => $value) 
+        {
+            $skills[$key]["title"] = $value;
+            $skills[$key]["value"] = ceil(sqrt($character->{$key}));
+        }
+        return view("character.skills")->with(["character" => $character, "talents" => $talents, "skills" => $skills]);
     }
 
     public function json()
     {
-        $data = [
-            'wood' => ['none' => 0, 'stone axe' => 25],
-            'stone' => ['none' => 0, 'stone pick' => 25],
-            'fish' => [' none ' => 0, 'primitiv rod' => 30],
-            'fruit' => ['none' => 0],
-            'hare' => ['none' => 0]
-        ];
+        /*$data = ["malee" => "wojownik", "range" => "strzelec", "lumber" => "drwal", "hunting" => "myśliwy", "mining" => "górnik", "crafting" => "rzemieślnik"];
         $json = json_encode($data);
-        file_put_contents(public_path('json/resources.json'), $json);
+        file_put_contents(public_path('json/skills.json'), $json);*/
+        Item::REMOVE_ITEM(11, null, "bone", 20);
+        //Item::ADD_ITEM(11, null, "bone", 8);
+    }
+
+    public function equip()
+    {
+        return view("character.equip");
     }
 }

@@ -185,7 +185,7 @@ class UniversumController extends Controller
                 $res = json_decode($result->components, true);
                 foreach($res as $key => $r)
                 {
-                    ItemController::AddItem($character->id, null, $key, $r);
+                    Item::ADD_ITEM($character->id, null, $key, $r);
                     MessageController::ADD_SYS_PRIV_MSG($character->location_id, $character->id, "Zdobywasz trochę " . $key . ".");
                 }
             }
@@ -201,7 +201,7 @@ class UniversumController extends Controller
         }
         else
         {
-            ItemController::AddItemToChar($character->id, $character->progress->product_type, 1);
+            Item::ADD_ITEM($character->id, null, $character->progress->product_type, 1);
             $character->progress->delete();
             $character->progress_id = null;
             $character->save();
@@ -270,7 +270,7 @@ class UniversumController extends Controller
             $items = Item::where('character_id', $character->id)->get();
             foreach($items as $item)
             {
-                ItemController::AddItemToLoc($character->location_id, $item->type, $item->amount);
+                Item::ADD_ITEM(null, $character->location_id, $item->type, $item->amount);
                 $item->delete();
             }
             $character->dead = true;

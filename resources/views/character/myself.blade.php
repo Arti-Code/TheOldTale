@@ -78,6 +78,10 @@
         <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Umiejętności</div>
     </div>
     <div class="card p-2 bg-light">
+        <a href="{{route('character.equip')}}"><img class="card-img-top" src="{{asset('png/equipment.png')}}"></a>
+        <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Ekwipunek</div>
+    </div>
+    <div class="card p-2 bg-light">
         <a href="{{route('item.index')}}"><img class="card-img-top" src="{{asset('png/backpack.png')}}"></a>
         <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Przedmioty</div>
     </div>

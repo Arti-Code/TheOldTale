@@ -115,7 +115,7 @@ class ProgressController extends Controller
                 $inventory = []; 
                 foreach( $item['res'] as $k => $val )
                 {
-                    if( !ItemController::RemoveItemFromChar($character->id, $k, $val) )
+                    if( !Item::REMOVE_ITEM($character->id, null, $k, $val) )
                         $enough_res = false;
                 }
                 unset($k);
@@ -153,7 +153,7 @@ class ProgressController extends Controller
                         }
                         else
                         {
-                            ItemController::AddItemToChar($character->id, $item['name'], $item['return']);
+                            Item::ADD_ITEM($character->id, null, $item['name'], $item['return']);
                             MessageController::ADD_SYS_PUB_MSG($character->location_id, $character->name . ' wytwarza ' . $item['name']);
                             return redirect()->back()->with('success', 'Zyskujesz ' . $item['name']); 
                         }

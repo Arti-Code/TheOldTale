@@ -108,4 +108,107 @@ class Item extends Model
         else
             return false;
     }
+
+    static function IS_SINGLE()
+    {
+        $data = file_get_contents(public_path('json/single.json'));
+        $json = json_decode($data, true);
+        if(isset($json))
+            return true;
+        else
+            return false;
+    }
+
+    static function ADD_ITEM($char_id, $loc_id, $item_type, $quantity)
+    {
+        $jsonItem = self::GET_PRODUCT($item_type);
+        if( empty($jsonItem) || !$jsonItem["single"] )
+        {
+            if( $char_id != null )
+                $item = Item::where('character_id', $char_id)->where('type', $item_type)->first();
+            if( $loc_id != null )
+                $item = Item::where('location_id', $loc_id)->where('type', $item_type)->first();
+            if ($item) 
+            {
+                $item->amount = $item->amount + $quantity;
+            } 
+            else 
+            {
+                $item = new Item;
+                $item->type = $item_type;
+                $item->title = $item_type;
+                $item->amount = $quantity;
+                $item->character_id = $char_id;
+                $item->location_id = $loc_id;
+            }
+            $item->save();
+        }
+        else
+        {
+            
+            for ($i=0; $i < $quantity; $i++) 
+            {
+                $item = new Item;
+                $item->type = $item_type;
+                $item->title = $item_type;
+                $item->amount = 1;
+                $item->character_id = $char_id;
+                $item->location_id = $loc_id;
+                $item->save();
+            }
+        }
+    }
+
+    static function REMOVE_ITEM($char_id, $loc_id, $item_type, $quantity)
+    {
+        $jsonItem = self::GET_PRODUCT($item_type);
+        if( empty($jsonItem) || !$jsonItem["single"] )
+        {
+            if( $char_id != null )
+                $item = self::where('character_id', $char_id)->where('type', $item_type)->first();
+            if( $loc_id != null )
+                $item = self::where('location_id', $loc_id)->where('type', $item_type)->first();
+            if ($item) 
+            { 
+                if ( $item->amount > $quantity )
+                {
+                    $item->amount = $item->amount - $quantity;
+                    $item->save();
+                    return true;
+                }
+                elseif ($item->amount == $quantity)
+                {
+                    $item->delete();
+                    return true;
+                }     
+                else 
+                {      
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            if( $char_id != null )
+                $items = self::where('character_id', $char_id)->where('type', $item_type)->get();
+            if( $loc_id != null )
+                $items = self::where('location_id', $loc_id)->where('type', $item_type)->get();
+            if ($items && count($items) >= $quantity)
+            {
+                $index = 0;
+                foreach ($items as $i ) 
+                {
+                    $i->delete();
+                    $index++;
+                    if($index >= $quantity)
+                        break;
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
 }
