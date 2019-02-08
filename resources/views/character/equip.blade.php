@@ -5,7 +5,12 @@
 <div class="d-flex flex-row justify-content-center">
 
     <div class="d-flex flex-column justify-content-center">
-        <a href="{{route("character.equip.part", "weapon")}}"><div class="flex-item part mx-auto" name="weapon" id="weapon">{{$equiped["weapon"]}}</div></a>
+        @if(!empty($equiped["weapon"]))
+    <a href="{{route("character.equip.part", "weapon")}}"><div class="flex-item part mx-auto" name="weapon" id="weapon"><img src="{{asset('png/' . $equiped["weapon"] . '64.png')}}" /></div></a>
+        @else
+            <a href="{{route("character.equip.part", "weapon")}}"><div class="flex-item part mx-auto" name="weapon" id="weapon"></div></a>
+        @endif
+        
     </div>
 
     <div class="d-flex flex-column human-bg justify-content-between">

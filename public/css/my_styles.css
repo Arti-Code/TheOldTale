@@ -124,7 +124,7 @@ a:active {
 
 .flex-item {
   background: rgba(0, 0, 0, 0.35);
-  padding: 5px;
+  padding: 0px;
   border: 1px solid darkslategrey;
   margin: 2px;
   line-height: 10px;
@@ -148,25 +148,9 @@ a:active {
     height: 60px;
 }
 
-.legs {
-    width: 80px;
-    height: 70px;
-    margin: 4px;
-}
-
-.arms {
-    width: 20px;
-    height: 80px
-}
-
-.foots {
-    width: 80px;
-    height: 40px
-}
-
 .part {
-    width: 50px;
-    height: 50px
+    width: 66px;
+    height: 66px
 }
 
 .human-bg

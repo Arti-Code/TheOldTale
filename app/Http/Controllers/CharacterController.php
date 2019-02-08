@@ -434,6 +434,12 @@ class CharacterController extends Controller
     {
         $character = Character::find(session('char_id'));
         $part = $request["bodyPart"];
+        $old_weared = Item::where("character_id", $character->id)->where("wearable", $part)->first();
+        if($old_weared)
+        {
+            $old_weared->wearable = null;
+            $old_weared->save();
+        }
         if(!empty($request["weared"]))
         {
             $weared = Item::find($request["weared"]);
@@ -450,9 +456,7 @@ class CharacterController extends Controller
         }
         else
         {
-            $old_weared = Item::where("character_id", $character->id)->where("wearable", $part)->first();
-            $old_weared->wearable = null;
-            $old_weared->save();
+            
         }
         return redirect()->route("character.equip")->with("success", "Zdjęto ekwipunek");
     }
