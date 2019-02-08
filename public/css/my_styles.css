@@ -115,25 +115,21 @@ a:active {
     display: -webkit-flex;
     display: flex;
     flex-direction: column;
-    width: 300px;
-    height: 450px;
+    width: 200px;
+    height: 3500px;
     background-repeat: no-repeat;
     background-size: auto;
     background-position: center;
-    -webkit-flex-flow: row wrap;
-    justify-content: center;
 }
 
 .flex-item {
-  background: lightgrey;
+  background: rgba(0, 0, 0, 0.35);
   padding: 5px;
-  
+  border: 1px solid darkslategrey;
   margin: 2px;
-  
-  line-height: 50px;
+  line-height: 10px;
   color: white;
-  font-weight: bold;
-  font-size: 1em;
+  font-size: 0.5em;
   text-align: center;
 }
 
@@ -169,6 +165,19 @@ a:active {
 }
 
 .part {
-    width: 80px;
-    height: 80px
+    width: 50px;
+    height: 50px
+}
+
+.human-bg
+{
+    padding: 0;
+    list-style: none;
+    background-image: url('../png/human.png');
+    width: 200px;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+    justify-content: center;
 }

@@ -391,7 +391,10 @@ class CharacterController extends Controller
         $items = Item::where('character_id', $character->id)->where('wearable', '<>', null)->get();
         $equiped["head"] = "";
         $equiped["body"] = "";
+        $equiped["legs"] = "";
+        $equiped["foots"] = "";
         $equiped["weapon"] = "";
+        $equiped["shield"] = "";
         if($items)
         {
             foreach($items as $item)
