@@ -36,6 +36,8 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
     Route::get('/character/weapon/equip/{id}', 'CharacterController@weaponEquip')->name('character.weapon.equip')->middleware('auth', 'char');
     Route::get('/character/other/{id}', 'CharacterController@other')->name('character.other')->middleware('auth', 'char');
     Route::get('/character/attack/{id}', 'CharacterController@attack')->name('character.attack')->middleware('auth', 'char');
+    Route::get('/character/equip/{part}', 'CharacterController@equipPart')->name('character.equip.part')->middleware('auth');
+    Route::post('/character/equip/update', 'CharacterController@equipUpdate')->name('character.equip.update')->middleware('auth');
     Route::get('/character/remove/{id}', 'CharacterController@remove')->name('character.remove')->middleware('auth');
 }
 

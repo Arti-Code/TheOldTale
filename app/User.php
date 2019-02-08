@@ -27,4 +27,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    static function DIC($word)
+    {
+        $data = file_get_contents(public_path('json/dictionary.json'));
+        $json = json_decode($data, true);
+        if(isset($json[$word]))
+            return $json[$word];
+        else
+            return $word;
+    }
 }

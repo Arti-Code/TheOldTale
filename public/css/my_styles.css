@@ -105,18 +105,23 @@ a:active {
 }
 
 .flex-container {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  
-  -webkit-flex-flow: row wrap;
-  justify-content: center;
+    padding: 0;
+    margin: auto;
+    list-style: none;
+    background-image: url('../png/human.png');
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 450px;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+    -webkit-flex-flow: row wrap;
+    justify-content: center;
 }
 
 .flex-item {
@@ -125,11 +130,16 @@ a:active {
   
   margin: 2px;
   
-  line-height: 150px;
+  line-height: 50px;
   color: white;
   font-weight: bold;
   font-size: 1em;
   text-align: center;
+}
+
+.flex-item img {
+    display: block;
+    margin: auto;
 }
 
 .head {
@@ -139,16 +149,26 @@ a:active {
 
 .body {
     width: 80px;
-    height: 100px;
+    height: 60px;
 }
 
-.leg {
-    width: 25px;
-    height: 100px;
+.legs {
+    width: 80px;
+    height: 70px;
     margin: 4px;
 }
 
-.arm {
+.arms {
     width: 20px;
-    height: 85px
+    height: 80px
+}
+
+.foots {
+    width: 80px;
+    height: 40px
+}
+
+.part {
+    width: 80px;
+    height: 80px
 }

@@ -1,0 +1,7 @@
+{
+    "head": ["fur hat"],
+    "body": ["leather skirt", "fur cloak"],
+    "legs": ["leather trousers"],
+    "foots": ["prim boots"],
+    "weapon": ["bone knife", "mace", "stone hammer", "stone axe", "stone knife", "spear"]
+}

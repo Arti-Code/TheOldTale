@@ -79,6 +79,16 @@ class Item extends Model
             return false;
     }
 
+    static function GET_EQUIPMENT($type)
+    {
+        $data = file_get_contents(public_path('json/equipment.json'));
+        $json = json_decode($data, true);
+        if(isset($json[$type]))
+            return $json[$type];
+        else
+            return false;
+    }
+
     static function GET_RES($type)
     {
         $data = file_get_contents(public_path('json/resources.json'));

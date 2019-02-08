@@ -387,6 +387,70 @@ class CharacterController extends Controller
 
     public function equip()
     {
-        return view("character.equip");
+        $character = Character::find(session('char_id'));
+        $items = Item::where('character_id', $character->id)->where('wearable', '<>', null)->get();
+        $equiped["head"] = "";
+        $equiped["body"] = "";
+        $equiped["weapon"] = "";
+        if($items)
+        {
+            foreach($items as $item)
+            {
+                if($item->wearable != null)
+                    $equiped[$item->wearable] = $item->type;
+            }
+        }
+        
+        return view("character.equip")->with(["equiped" => $equiped]);
+    }
+
+    public function equipPart($part)
+    {
+        $character = Character::find(session('char_id'));
+        $items = Item::where('character_id', $character->id)->get();
+        $wearable = [];
+        $weared = null;
+        if( $items )
+        {
+            $itemDef = Item::GET_EQUIPMENT($part);
+            foreach($items as $item)
+            {
+                if($item->wearable == $part)
+                    $weared = $item;
+                elseif(in_array($item->type, $itemDef))
+                {
+                    array_push($wearable, $item);
+                }
+            }
+            return view("character.equip.part")->with(["character" => $character, "weared" => $weared, "wearable" => $wearable, "part" => $part]);
+        }
+        
+    }
+
+    public function equipUpdate(Request $request)
+    {
+        $character = Character::find(session('char_id'));
+        $part = $request["bodyPart"];
+        if(!empty($request["weared"]))
+        {
+            $weared = Item::find($request["weared"]);
+            if($character->id == $weared->character_id)
+            {
+                $weared->wearable = $part;
+                $weared->save();
+                return redirect()->route("character.equip")->with("success", "Zmieniono ekwipunek");
+            }
+            else
+            {
+                return redirect()->route("character.equip")->with("danger", "Niewłaściwy przedmiot");
+            }
+        }
+        else
+        {
+            $old_weared = Item::where("character_id", $character->id)->where("wearable", $part)->first();
+            $old_weared->wearable = null;
+            $old_weared->save();
+        }
+        return redirect()->route("character.equip")->with("success", "Zdjęto ekwipunek");
     }
 }
