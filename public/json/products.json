@@ -1,16 +1,32 @@
 {
     "leather vest": {
         "turn": 10,
-        "res": {"leather": 10},
-        "tools": {"bone needle": 0},
+        "res": {"leather": 10, "bone needle": 2},
+        "tools": {"none": 0, "bone knife": 50},
+        "util": {"none": 0},
+        "return": 1,
+        "single": true
+    },
+    "leather robe": {
+        "turn": 12,
+        "res": {"leather": 15, "bone needle": 2},
+        "tools": {"none": 0, "bone knife": 50},
+        "util": {"none": 0},
+        "return": 1,
+        "single": true
+    },
+    "leather pants": {
+        "turn": 7,
+        "res": {"leather": 7, "bone needle": 1},
+        "tools": {"none": 0, "bone knife": 50},
         "util": {"none": 0},
         "return": 1,
         "single": true
     },
     "bone needle": {
-        "turn": 3,
+        "turn": 2,
         "res": {"bone": 2},
-        "tools": {"none": 0},
+        "tools": {"none": 0, "bone knife": 50},
         "util": {"none": 0},
         "return": 1,
         "single": true
@@ -24,7 +40,7 @@
         "single": true
     },
     "bone knife":{
-        "turn":20,
+        "turn":15,
         "res":{"wood":3, "bone":9, "leather":3},
         "tools": { "none": 0 },
         "util": {"none": 0},
