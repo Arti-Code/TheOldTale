@@ -1,8 +1,8 @@
 {
     "head": ["fur hat", "leather coif"],
-    "body": ["leather skirt", "fur cloak", "tunic"],
+    "body": ["leather vest"],
     "legs": ["leather pants", "prim. pants"],
-    "foots": ["prim boots"],
-    "weapon": ["bone knife", "mace", "stone hammer", "stone axe", "stone knife", "spear"],
+    "foots": ["primitiv boots"],
+    "weapon": ["bone knife", "mace", "stone hammer", "stone axe", "stone knife", "spear", "primitiv bow"],
     "shield": ["wooden shield"]
 }

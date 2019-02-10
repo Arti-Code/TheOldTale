@@ -8,6 +8,9 @@
     "sling":{
         "dmg":20, "skill":0
     },
+    "primitiv bow": {
+        "dmg": 20, "skill": 0
+    },
     "stone hammer":{
         "dmg":20, "skill":15
     },"stone axe":{

@@ -1,4 +1,20 @@
 {
+    "leather vest": {
+        "turn": 10,
+        "res": {"leather": 10},
+        "tools": {"bone needle": 0},
+        "util": {"none": 0},
+        "return": 1,
+        "single": true
+    },
+    "bone needle": {
+        "turn": 3,
+        "res": {"bone": 2},
+        "tools": {"none": 0},
+        "util": {"none": 0},
+        "return": 1,
+        "single": true
+    },
     "mace":{
         "turn": 6,
         "res": {"wood":9},
@@ -9,17 +25,21 @@
     },
     "bone knife":{
         "turn":20,
-        "res":{
-            "wood":3,
-            "bone":9,
-            "leather":3
-        },
+        "res":{"wood":3, "bone":9, "leather":3},
         "tools": { "none": 0 },
         "util": {"none": 0},
         "return": 1,
         "single": true
     },
-    "prim boots":{
+    "primitiv bow": {
+        "turn": 20,
+        "res": {"wood": 15, "leather": 10},
+        "tools": {"bone knife": 30},
+        "util": {"none": 0},
+        "return": 1,
+        "single": true
+    },
+    "primitiv boots":{
         "turn": 12,
         "res": {"leather": 15},
         "tools": {"bone knife": 0},

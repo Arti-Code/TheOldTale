@@ -10,16 +10,13 @@ use Illuminate\Support\Facades\Config;
 
 class ItemController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $character = Character::find(session('char_id'));
-        $items = Item::where('character_id', $character->id)->get();
-        if( !$items )   $items = null;
+        $items = Item::where('character_id', $character->id)->where('wearable', null)->get();
+        if( !$items )   
+            $items = null;
         return view('item.index')->with(['items' => $items]);
     }
 
@@ -29,42 +26,45 @@ class ItemController extends Controller
         $item = Item::find($id);
         if( $item->character_id == $character->id || $item->location_id == $character->location_id )
         {
-            if($item->character_id != null)
+            if($item->wearable == null)
             {
-                $charItem = $item;
-                $locItem = Item::where('type', $charItem->type)->where('location_id', $character->location_id)->first();
-                if( !$locItem )
+                if($item->character_id != null)
                 {
-                    $locItem = new Item;
-                    $locItem->id = null;
-                    $locItem->type = $charItem->type;
-                    $locItem->title = $charItem->type;
-                    $locItem->amount = 0;
-                    $locItem->character_id = null;
-                    $locItem->location_id = $character->location_id;
+                    $charItem = $item;
+                    $locItem = Item::where('type', $charItem->type)->where('location_id', $character->location_id)->first();
+                    if( !$locItem )
+                    {
+                        $locItem = new Item;
+                        $locItem->id = null;
+                        $locItem->type = $charItem->type;
+                        $locItem->title = $charItem->type;
+                        $locItem->amount = 0;
+                        $locItem->character_id = null;
+                        $locItem->location_id = $character->location_id;
+                    }
                 }
+                if($item->location_id != null)
+                {
+                    $utilStore = false;
+                    $locItem = $item;
+                    $charItem = Item::where('type', $locItem->type)->where('character_id', $character->id)->first();
+                    if( !$charItem )
+                    {
+                        $charItem = new Item;
+                        $locItem->id = null;
+                        $charItem->type = $locItem->type;
+                        $charItem->title = $locItem->type;
+                        $charItem->amount = 0;
+                        $charItem->character_id = $character->id;
+                        $charItem->location_id = null;
+                    }
+                }
+                return view('item.show')->with(['character' => $character, 'charItem' => $charItem, 'locItem' => $locItem]);
             }
-            if($item->location_id != null)
+            else
             {
-                $utilStore = false;
-                $locItem = $item;
-                $charItem = Item::where('type', $locItem->type)->where('character_id', $character->id)->first();
-                if( !$charItem )
-                {
-                    $charItem = new Item;
-                    $locItem->id = null;
-                    $charItem->type = $locItem->type;
-                    $charItem->title = $locItem->type;
-                    $charItem->amount = 0;
-                    $charItem->character_id = $character->id;
-                    $charItem->location_id = null;
-                }
+                return redirect()->route('item.index')->with('danger', 'Nie znaleziono przedmiotu');
             }
-            return view('item.show')->with(['character' => $character, 'charItem' => $charItem, 'locItem' => $locItem]);
-        }
-        else
-        {
-            return redirect()->route('item.index')->with('danger', 'Nie znaleziono przedmiotu');
         }
     }
 
@@ -103,19 +103,23 @@ class ItemController extends Controller
                 $locItem->amount = $request['loc_item_val'];
                 if( $charItem->amount > 0 )
                 {
-                    $charItem->save();
+                    if($charItem->wearable == null)
+                        $charItem->save();
                 }
                 else
                 {
-                    $charItem->delete();
+                    if($charItem->wearable == null)
+                        $charItem->delete();
                 }
                 if( $locItem->amount > 0 )
                 {
-                    $locItem->save();
+                    if($locItem->wearable == null)
+                        $locItem->save();
                 }
                 else
                 {
-                    $locItem->delete();
+                    if($locItem->wearable == null)
+                        $locItem->delete();
                 }
                 return redirect()->route('item.index')->with('success', 'Udało się');
             }
@@ -160,137 +164,4 @@ class ItemController extends Controller
         $item->save();
     }
 
-    static function AddItemToChar($char_id, $item_type, $quantity)
-    {
-        $item = Item::where('character_id', $char_id)->where('type', $item_type)->first();
-        if ($item) 
-        {
-            $item->amount = $item->amount + $quantity;
-        } 
-        else 
-        {
-            $item = new Item;
-            $item->type = $item_type;
-            $item->title = $item_type;
-            $item->amount = $quantity;
-            $item->character_id = $char_id;
-        }
-        $item->save();
-    }
-
-    static function RemoveItemFromChar($char_id, $item_type, $quantity)
-    {
-        $item = Item::where('character_id', $char_id)->where('type', $item_type)->first();
-        if ($item) 
-        {
-            if ( $item->amount >= $quantity )
-            {
-                $item->amount = $item->amount - $quantity;
-                if ($item->amount == 0)     
-                    $item->delete();
-                else 
-                    $item->save();
-                return true;
-            }
-            else 
-            {
-                return false;
-            }
-        } 
-        else 
-        {
-            return false;
-        }
-        
-    }
-
-    static function AddItemToLoc($loc_id, $item_type, $quantity)
-    {
-        $item = Item::where('location_id', $loc_id)->where('type', $item_type)->first();
-        if ($item) 
-        {
-            $item->amount = $item->amount + $quantity;
-        } 
-        else 
-        {
-            $item = new Item;
-            $item->type = $item_type;
-            $item->title = $item_type;
-            $item->amount = $quantity;
-            $item->character_id = null;
-            $item->util_id = null;
-            $item->location_id = $loc_id;
-        }
-        $item->save();
-    }
-
-    static function RemoveItemFromLoc($loc_id, $item_type, $quantity)
-    {
-        $item = Item::where('location_id', $loc_id)->where('type', $item_type)->first();
-        if ($item) 
-        {
-            if ( $item->amount >= $quantity )
-            {
-                $item->amount = $item->amount - $quantity;
-                if ($item->amount == 0)     
-                    $item->delete();
-                else 
-                    $item->save();
-                return true;
-            }
-            else 
-            {
-                return false;
-            }
-        } 
-        else 
-        {
-            return false;
-        }
-    }
-
-    static function AddItemToUtil($util_id, $item_type, $quantity)
-    {
-        $item = Item::where('util_id', $util_id)->where('type', $item_type)->first();
-        if ($item) 
-        {
-            $item->amount = $item->amount + $quantity;
-        } 
-        else 
-        {
-            $item = new Item;
-            $item->type = $item_type;
-            $item->title = $item_type;
-            $item->amount = $quantity;
-            $item->character_id = null;
-            $item->location_id = null;
-            $item->util_id = $util_id;
-        }
-        $item->save();
-    }
-
-    static function RemoveItemFromUtil($util_id, $item_type, $quantity)
-    {
-        $item = Item::where('util_id', $util_id)->where('type', $item_type)->first();
-        if ($item) 
-        {
-            if ( $item->amount >= $quantity )
-            {
-                $item->amount = $item->amount - $quantity;
-                if ($item->amount == 0)     
-                    $item->delete();
-                else 
-                    $item->save();
-                return true;
-            }
-            else 
-            {
-                return false;
-            }
-        } 
-        else 
-        {
-            return false;
-        } 
-    }
 }

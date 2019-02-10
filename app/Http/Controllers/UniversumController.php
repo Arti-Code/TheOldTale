@@ -12,7 +12,6 @@ use App\Item;
 use App\Util;
 use App\Resource;
 use App\Http\Controllers\ItemController;
-//use App\Http\Controllers\UtilController;
 use Illuminate\Http\Request;
 
 class UniversumController extends Controller
@@ -238,10 +237,8 @@ class UniversumController extends Controller
         {
             $h = round( ( $character->health - 50 ) / 10 );
             $s = round( ( $character->satiety - 50 ) / 5 );
-            if( $s < 0 )    
-                $s = $s * 2;
             if( $character->health < 70 )   
-                $v = rand(0, $h);
+                $v = rand(0, abs($h));
             else 
                 $v = 0;
             $character->health = $character->health + $h + $s - $v;
