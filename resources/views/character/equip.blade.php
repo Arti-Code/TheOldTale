@@ -6,7 +6,7 @@
 
     <div class="d-flex flex-column justify-content-center">
         @if(!empty($equiped["weapon"]))
-    <a href="{{route("character.equip.part", "weapon")}}"><div class="flex-item part mx-auto" name="weapon" id="weapon"><img src="{{asset('png/' . $equiped["weapon"] . '64.png')}}" /></div></a>
+            <a href="{{route("character.equip.part", "weapon")}}"><div class="flex-item part mx-auto" name="weapon" id="weapon"><img src="{{asset('png/' . $equiped["weapon"] . '64.png')}}" /></div></a>
         @else
             <a href="{{route("character.equip.part", "weapon")}}"><div class="flex-item part mx-auto" name="weapon" id="weapon"></div></a>
         @endif
@@ -44,6 +44,12 @@
         <a href="{{route("character.equip.part", "shield")}}"><div class="flex-item part mx-auto" name="shield" id="shield">{{$equiped["shield"]}}</div></a>
     </div>
 
-</div>
+    <div class="d-flex flex-column justify-content-start">
+        @if(!empty($equiped["tool"]))
+            <a href="{{route("character.equip.part", "tool")}}"><div class="flex-item part mx-auto" name="tool" id="tool"><img src="{{asset('png/' . $equiped["tool"] . '64.png')}}" /></div></a>
+        @else
+            <a href="{{route("character.equip.part", "tool")}}"><div class="flex-item part mx-auto" name="tool" id="tool"></div></a>
+        @endif
+    </div>
 
 @endsection

@@ -86,7 +86,7 @@
         <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Przedmioty</div>
     </div>
     <div class="card p-2 bg-light">
-        <a href="{{route('character.craft')}}"><img class="card-img-top" src="{{asset('png/craft.png')}}"></a>
+        <a href="{{route('crafting.category')}}"><img class="card-img-top" src="{{asset('png/craft.png')}}"></a>
         <div class="card-header p-0 bg-light border-0 text-center font-weight-bold">Wytwarzaj</div>
     </div>
 </div>

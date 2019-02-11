@@ -195,17 +195,17 @@ class CharacterController extends Controller
         }
     }
 
-    public function craft()
+    public function craft_list($categoty)
     {
         $character = Character::find(session('char_id'));
         $products_list = Item::GET_ALL_PRODUCTS();
         $products = [];
         foreach($products_list as $key => $value)
         {
-            if(array_key_exists("none", $value["util"]))
+            if(array_key_exists("none", $value["util"]) && in_array($categoty, $value["category"]) )
                 $products[$key] = $value;
         }
-        return view('character.craft')->with(["character" => $character, "products" => $products]);
+        return view('crafting.list')->with(["character" => $character, "products" => $products]);
     }
 
     public function fight()
@@ -394,6 +394,7 @@ class CharacterController extends Controller
         $equiped["legs"] = "";
         $equiped["foots"] = "";
         $equiped["weapon"] = "";
+        $equiped["tool"] = "";
         $equiped["shield"] = "";
         if($items)
         {
@@ -420,7 +421,7 @@ class CharacterController extends Controller
             {
                 if($item->wearable == $part)
                     $weared = $item;
-                elseif(in_array($item->type, $itemDef))
+                elseif(in_array($item->type, $itemDef) && $item->wearable == null )
                 {
                     array_push($wearable, $item);
                 }
@@ -428,6 +429,11 @@ class CharacterController extends Controller
             return view("character.equip.part")->with(["character" => $character, "weared" => $weared, "wearable" => $wearable, "part" => $part]);
         }
         
+    }
+
+    public function category()
+    {
+        return view('crafting.category');
     }
 
     public function equipUpdate(Request $request)
@@ -443,7 +449,7 @@ class CharacterController extends Controller
         if(!empty($request["weared"]))
         {
             $weared = Item::find($request["weared"]);
-            if($character->id == $weared->character_id)
+            if($character->id == $weared->character_id && $weared->wearable == null)
             {
                 $weared->wearable = $part;
                 $weared->save();

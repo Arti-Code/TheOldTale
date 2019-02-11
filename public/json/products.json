@@ -1,5 +1,6 @@
 {
     "leather vest": {
+        "category": ["clothes"],
         "turn": 10,
         "res": {"leather": 10, "bone needle": 2},
         "tools": {"none": 0, "bone knife": 50},
@@ -8,6 +9,7 @@
         "single": true
     },
     "leather robe": {
+        "category": ["clothes"],
         "turn": 12,
         "res": {"leather": 15, "bone needle": 2},
         "tools": {"none": 0, "bone knife": 50},
@@ -16,6 +18,7 @@
         "single": true
     },
     "leather pants": {
+        "category": ["clothes"],
         "turn": 7,
         "res": {"leather": 7, "bone needle": 1},
         "tools": {"none": 0, "bone knife": 50},
@@ -24,14 +27,16 @@
         "single": true
     },
     "bone needle": {
+        "category": ["tools"],
         "turn": 2,
         "res": {"bone": 2},
         "tools": {"none": 0, "bone knife": 50},
         "util": {"none": 0},
         "return": 1,
-        "single": true
+        "single": false
     },
     "mace":{
+        "category": ["weapons"],
         "turn": 6,
         "res": {"wood":9},
         "tools": { "none": 0 },
@@ -40,6 +45,7 @@
         "single": true
     },
     "bone knife":{
+        "category": ["weapons", "tools"],
         "turn":15,
         "res":{"wood":3, "bone":9, "leather":3},
         "tools": { "none": 0 },
@@ -48,6 +54,7 @@
         "single": true
     },
     "primitiv bow": {
+        "category": ["weapons", "tools"],
         "turn": 20,
         "res": {"wood": 15, "leather": 10},
         "tools": {"bone knife": 30},
@@ -56,6 +63,7 @@
         "single": true
     },
     "primitiv boots":{
+        "category": ["clothes"],
         "turn": 12,
         "res": {"leather": 15},
         "tools": {"bone knife": 0},
@@ -64,6 +72,7 @@
         "single": true
     },
     "sling":{
+        "category": ["weapons"],
         "turn":8,
         "res":{"wood":6,"leather":9},
         "tools": {"none": 0},
@@ -72,6 +81,7 @@
         "single":true
     },
     "stone hammer":{
+        "category": ["weapons", "tools"],
         "turn":20,
         "res":{"wood":12,"stone":12},
         "tools": {"none": 0},
@@ -80,6 +90,7 @@
         "single":true
     },
     "roasted meat":{
+        "category": ["food"],
         "turn":0,
         "res":{"meat":1},
         "tools": {"none": 0},
@@ -88,6 +99,7 @@
         "single":false
     },
     "roasted fish":{
+        "category": ["food"],
         "turn":0,
         "res":{"fish":1},
         "tools": {"none": 0},
@@ -96,6 +108,7 @@
         "single":false
     },
     "primitiv rod":{
+        "category": ["tools"],
         "turn":20,
         "res":{"wood":12,"bone":2},
         "tools": {"none": 0},

@@ -31,7 +31,6 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
     Route::get('/character/destroy/{id}', 'CharacterController@destroy')->name('character.destroy')->middleware('auth');
     Route::get('/character/eat/{id}', 'CharacterController@eat')->name('character.eat')->middleware('auth', 'char');
     Route::get('/character/select/{id}', 'CharacterController@select')->name('character.select')->middleware('auth');
-    Route::get('/character/craft', 'CharacterController@craft')->name('character.craft')->middleware('auth', 'char');
     Route::get('/character/fight', 'CharacterController@fight')->name('character.fight')->middleware('auth', 'char');
     Route::get('/character/weapon/equip/{id}', 'CharacterController@weaponEquip')->name('character.weapon.equip')->middleware('auth', 'char');
     Route::get('/character/other/{id}', 'CharacterController@other')->name('character.other')->middleware('auth', 'char');
@@ -40,6 +39,9 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
     Route::post('/character/equip/update', 'CharacterController@equipUpdate')->name('character.equip.update')->middleware('auth');
     Route::get('/character/remove/{id}', 'CharacterController@remove')->name('character.remove')->middleware('auth');
 }
+
+    Route::get('/crafting/list/{category}', 'CharacterController@craft_list')->name('crafting.list')->middleware('auth', 'char');
+    Route::get('/crafting/category', 'CharacterController@category')->name('crafting.category')->middleware('auth', 'char');
 
 {   //Location
     Route::get('/location/edit/{id}', 'NameController@edit')->name('name.edit')->middleware('auth', 'char');

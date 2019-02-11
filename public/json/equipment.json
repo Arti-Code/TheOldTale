@@ -4,5 +4,6 @@
     "legs": ["leather pants"],
     "foots": ["primitiv boots"],
     "weapon": ["bone knife", "mace", "stone hammer", "stone axe", "stone knife", "spear", "primitiv bow"],
+    "tool": ["bone knife", "stone hammer", "stone axe", "stone knife", "primitiv bow"],
     "shield": ["wooden shield"]
 }

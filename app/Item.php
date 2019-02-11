@@ -129,6 +129,21 @@ class Item extends Model
             return false;
     }
 
+    static function ENOUGH_RES($char_id, $loc_id, $res_type, $needed_amount)
+    {
+        $amount = 0;
+        $res = self::where('character_id', $char_id)->where('location_id', $loc_id)->where('type', $res_type)->where('wearable', null)->first();
+        if( $res )
+        {
+            if($res->amount >= $needed_amount)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
+
     static function ADD_ITEM($char_id, $loc_id, $item_type, $quantity)
     {
         $jsonItem = self::GET_PRODUCT($item_type);

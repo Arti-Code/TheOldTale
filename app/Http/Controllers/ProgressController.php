@@ -115,8 +115,11 @@ class ProgressController extends Controller
                 $inventory = []; 
                 foreach( $item['res'] as $k => $val )
                 {
-                    if( !Item::REMOVE_ITEM($character->id, null, $k, $val) )
+                    //if( Item::REMOVE_ITEM($character->id, null, $k, $val) == false )
+                    if( Item::ENOUGH_RES($character->id, null, $k, $val) == false )
+                    {
                         $enough_res = false;
+                    }    
                 }
                 unset($k);
                 unset($val);
@@ -137,6 +140,10 @@ class ProgressController extends Controller
                     }
                     if ( $util_valid )
                     {
+                        foreach( $item['res'] as $k => $val )
+                        {
+                            Item::REMOVE_ITEM($character->id, null, $k, $val); 
+                        }
                         if( $item['turn'] > 0 )
                         {
                             $p = new Progress;
