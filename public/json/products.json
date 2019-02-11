@@ -3,8 +3,9 @@
         "category": ["clothes"],
         "turn": 10,
         "res": {"leather": 10, "bone needle": 2},
-        "tools": {"none": 0, "bone knife": 50},
+        "tools": {"none": 0, "bone knife": 30, "stone knife": 30},
         "util": {"none": 0},
+        "difficult": 30,
         "return": 1,
         "single": true
     },
@@ -12,8 +13,9 @@
         "category": ["clothes"],
         "turn": 12,
         "res": {"leather": 15, "bone needle": 2},
-        "tools": {"none": 0, "bone knife": 50},
+        "tools": {"none": 0, "bone knife": 30, "stone knife": 30},
         "util": {"none": 0},
+        "difficult": 30,
         "return": 1,
         "single": true
     },
@@ -21,17 +23,19 @@
         "category": ["clothes"],
         "turn": 7,
         "res": {"leather": 7, "bone needle": 1},
-        "tools": {"none": 0, "bone knife": 50},
+        "tools": {"none": 0, "bone knife": 30, "stone knife": 30},
         "util": {"none": 0},
+        "difficult": 20,
         "return": 1,
         "single": true
     },
     "bone needle": {
         "category": ["tools"],
-        "turn": 2,
+        "turn": 1,
         "res": {"bone": 2},
-        "tools": {"none": 0, "bone knife": 50},
+        "tools": {"none": 0, "bone knife": 50, "stone knife": 50},
         "util": {"none": 0},
+        "difficult": 50,
         "return": 1,
         "single": false
     },
@@ -41,15 +45,27 @@
         "res": {"wood":9},
         "tools": { "none": 0 },
         "util": {"none": 0},
+        "difficult": 20,
         "return": 1,
         "single": true
     },
     "bone knife":{
         "category": ["weapons", "tools"],
-        "turn":15,
+        "turn":10,
         "res":{"wood":3, "bone":9, "leather":3},
         "tools": { "none": 0 },
         "util": {"none": 0},
+        "difficult": 30,
+        "return": 1,
+        "single": true
+    },
+    "stone knife":{
+        "category": ["weapons", "tools"],
+        "turn":10,
+        "res":{"wood":3, "stone":4, "leather":3},
+        "tools": { "none": 0 },
+        "util": {"none": 0},
+        "difficult": 30,
         "return": 1,
         "single": true
     },
@@ -57,8 +73,9 @@
         "category": ["weapons", "tools"],
         "turn": 20,
         "res": {"wood": 15, "leather": 10},
-        "tools": {"bone knife": 30},
+        "tools": {"none": 0, "bone knife": 30, "stone knife": 30},
         "util": {"none": 0},
+        "difficult": 60,
         "return": 1,
         "single": true
     },
@@ -66,8 +83,9 @@
         "category": ["clothes"],
         "turn": 12,
         "res": {"leather": 15},
-        "tools": {"bone knife": 0},
+        "tools": {"none": 0, "bone knife": 50, "stone knife": 50},
         "util": {"none": 0},
+        "difficult": 25,
         "return": 1,
         "single": true
     },
@@ -75,8 +93,9 @@
         "category": ["weapons"],
         "turn":8,
         "res":{"wood":6,"leather":9},
-        "tools": {"none": 0},
+        "tools": {"none": 0, "bone knife": 40, "stone knife": 40},
         "util": {"none": 0},
+        "difficult": 50,
         "return":1,
         "single":true
     },
@@ -84,8 +103,9 @@
         "category": ["weapons", "tools"],
         "turn":20,
         "res":{"wood":12,"stone":12},
-        "tools": {"none": 0},
+        "tools": {"none": 0, "bone knife": 25, "stone knife": 25},
         "util": {"none": 0},
+        "difficult": 50,
         "return":1,
         "single":true
     },
@@ -95,6 +115,7 @@
         "res":{"meat":1},
         "tools": {"none": 0},
         "util": {"campfire": 0},
+        "difficult": 0,
         "return":1,
         "single":false
     },
@@ -104,6 +125,7 @@
         "res":{"fish":1},
         "tools": {"none": 0},
         "util": {"campfire": 0},
+        "difficult": 0,
         "return":1,
         "single":false
     },
@@ -111,8 +133,9 @@
         "category": ["tools"],
         "turn":20,
         "res":{"wood":12,"bone":2},
-        "tools": {"none": 0},
+        "tools": {"none": 0, "bone knife": 40, "stone knife": 40},
         "util":{"none": 0},
+        "difficult": 40,
         "return":1,
         "single":true
     }

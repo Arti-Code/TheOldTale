@@ -5,7 +5,7 @@
     },
     "stone": 
     { 
-        "tools": {"none": 0, "stone pick": 25}
+        "tools": {"none": 0, "stone hammer": 25}
     },
     "fish": 
     {
@@ -20,6 +20,6 @@
         "tools": {"none": 0, "primitiv bow": 50 }
     },
     "deer": {
-        "tools": { "none": 0, "primitiv bow": 100 }
+        "tools": { "none": 0, "primitiv bow": 50 }
     }
 }

@@ -11,9 +11,11 @@
             <a href="{{route("character.equip.part", "weapon")}}"><div class="flex-item part mx-auto" name="weapon" id="weapon"></div></a>
         @endif
     </div>
-
-    <div class="d-flex flex-column human-bg justify-content-between">
-
+    @if($character->sex == "M")
+        <div class="d-flex flex-column male-bg justify-content-between">
+    @else
+        <div class="d-flex flex-column female-bg justify-content-between">
+    @endif
         @if(!empty($equiped["head"]))
             <a href="{{route("character.equip.part", "head")}}"><div class="flex-item part mx-auto" name="head" id="head"><img src="{{asset('png/' . $equiped["head"] . '64.png')}}" /></div></a>
         @else

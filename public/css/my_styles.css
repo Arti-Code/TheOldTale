@@ -153,11 +153,24 @@ a:active {
     height: 66px
 }
 
-.human-bg
+.male-bg
 {
     padding: 0;
     list-style: none;
-    background-image: url('../png/human.png');
+    background-image: url('../png/male.png');
+    width: 200px;
+    height: 400px;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+    justify-content: center;
+}
+
+.female-bg
+{
+    padding: 0;
+    list-style: none;
+    background-image: url('../png/female.png');
     width: 200px;
     height: 400px;
     background-repeat: no-repeat;
