@@ -94,3 +94,4 @@ Route::post('/resource/store', 'ResourceController@store')->name('resource.store
 
 Route::get('/util/campfire/{id}', 'UtilController@campfire')->name('util.campfire')->middleware('auth');
 Route::get('/util/cottage/{id}', 'UtilController@cottage')->name('util.cottage')->middleware('auth');
+Route::get('/util/primitiv hut/{id}', 'UtilController@cottage')->name('util.cottage')->middleware('auth');
