@@ -405,7 +405,7 @@ class CharacterController extends Controller
             }
         }
         
-        return view("character.equip")->with(["equiped" => $equiped]);
+        return view("character.equip")->with(["character" => $character, "equiped" => $equiped]);
     }
 
     public function equipPart($part)
