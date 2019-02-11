@@ -79,6 +79,16 @@
         "return": 1,
         "single": true
     },
+    "primitiv spear": {
+        "category": ["weapons"],
+        "turn": 10,
+        "res": {"wood": 15, "stone": 5},
+        "tools": {"none": 0, "bone knife": 40, "stone knife": 40},
+        "util": {"none": 0},
+        "difficult": 50,
+        "return": 1,
+        "single": true
+    },
     "primitiv boots":{
         "category": ["clothes"],
         "turn": 12,
@@ -106,6 +116,26 @@
         "tools": {"none": 0, "bone knife": 25, "stone knife": 25},
         "util": {"none": 0},
         "difficult": 50,
+        "return":1,
+        "single":true
+    },
+    "stone axe":{
+        "category": ["weapons", "tools"],
+        "turn":20,
+        "res":{"wood":12,"stone":12},
+        "tools": {"none": 0, "bone knife": 25, "stone knife": 25, "stone hammer": 40},
+        "util": {"none": 0},
+        "difficult": 60,
+        "return":1,
+        "single":true
+    },
+    "primitiv cage":{
+        "category": ["tool"],
+        "turn":4,
+        "res":{"wood": 5},
+        "tools": {"none": 0, "bone knife": 50, "stone knife": 50},
+        "util": {"none": 0},
+        "difficult": 0,
         "return":1,
         "single":true
     },
