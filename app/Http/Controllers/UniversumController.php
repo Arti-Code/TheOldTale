@@ -100,7 +100,8 @@ class UniversumController extends Controller
                         $this->calcBuild($character);
                     }
                 }
-                $character->fight = true;
+                if($character->fight < 6)
+                    $character->fight = $character->fight + 1;
                 $this->calcHappy($character);
                 $this->calcDeath($character);
                 if($character->happy > 100)

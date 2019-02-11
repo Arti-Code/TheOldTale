@@ -258,7 +258,7 @@ class CharacterController extends Controller
         $enemy = Character::find($id);
         if($enemy->location_id == $character->location_id)
         {
-            if( $character->fight = 1 )
+            if( $character->fight >= 6 )
             {
                 $character->fight = 0;
                 $msg = new Message;
@@ -332,7 +332,7 @@ class CharacterController extends Controller
             }
             else
             {
-                return redirect()->back()->with('danger', 'Atakowac możesz raz na turę');
+                return redirect()->back()->with('danger', 'Atakowac możesz co 6 godzin');
             }
         }
     }
