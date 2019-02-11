@@ -92,6 +92,6 @@ Route::get('/options/index', 'HomeController@options')->name('options.index')->m
 
 Route::post('/resource/store', 'ResourceController@store')->name('resource.store')->middleware('auth', 'char');
 
-Route::get('/util/campfire/{id}', 'UtilController@campfire')->name('util.campfire')->middleware('auth');
-Route::get('/util/cottage/{id}', 'UtilController@cottage')->name('util.cottage')->middleware('auth');
-Route::get('/util/primitiv hut/{id}', 'UtilController@cottage')->name('util.cottage')->middleware('auth');
+Route::get('/util/campfire/{id}', 'UtilController@campfire')->name('util.campfire')->middleware('auth', 'char');
+Route::get('/util/cottage/{id}', 'UtilController@cottage')->name('util.cottage')->middleware('auth', 'char');
+Route::get('/util/hut/{id}', 'UtilController@hut')->name('util.hut')->middleware('auth', 'char');
