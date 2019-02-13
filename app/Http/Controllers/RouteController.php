@@ -165,24 +165,10 @@ class RouteController extends Controller
         $character = Character::find(session('char_id'));
         $progress = Progress::find($character->progress_id);
         $route = Route::find($progress->route_id);
-        $start_name = Name::where('location_id', $route->location_id)->where('owner_id', $character->id)->first();
-        $finish_name = Name::where('location_id', $route->finish_id)->where('owner_id', $character->id)->first();
-        if(!$start_name)
-        {
-            $start_loc = Location::find($route->location_id);
-            $start_name = new Name;
-            $start_name->title = $start_loc->name;
-            $start_name->location_id = $route->location_id;
-        }
-        if(!$finish_name)
-        {
-            $finish_loc = Location::find($route->finish_id);
-            $finish_name = new Name;
-            $finish_name->title = $finish_loc->name;
-            $finish_name->location_id = $route->finish_id;
-        }
+        $start_loc = Location::find($route->location_id);
+        $finish_loc = Location::find($route->finish_id);
         $percent = round(($progress->turns / $progress->total_turns) * 100);
-        $travel = ['start_id' => $start_name->location_id, 'start_name' => $start_name->title, 'finish_id' => $finish_name->location_id, 'finish_name' => $finish_name->title, 'progress' => $percent];
+        $travel = ['start_id' => $route->location_id, 'start_name' => $start_loc->name, 'finish_id' => $route->finish_id, 'finish_name' => $finish_loc->name, 'progress' => $percent];
         return view('navigation.travel')->with($travel);
     }
 
